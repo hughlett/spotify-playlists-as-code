@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+  </head>
+  <body>
+    <script>
+      const queryString = window.location.search
+      const urlParams = new URLSearchParams(queryString)
+      const code = urlParams.get('code')
+      const state = urlParams.get('state')
+
+      fetch('/token?code=' + code + '&state=' + state).then(() => {
+        window.close()
+      })
+    </script>
+  </body>
+</html>
