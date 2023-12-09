@@ -17,5 +17,5 @@
     "outDir": "dist/",
     "declarationDir": "dist/types"
   },
-  "include": ["**/*.ts", "src/callback.html"]
+  "include": ["src/**/*.ts"]
 }
