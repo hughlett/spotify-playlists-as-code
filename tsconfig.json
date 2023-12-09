@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "checkJs": true,
+    "allowJs": true,
+    "declaration": true,
+    "declarationMap": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "outDir": "dist/",
+    "declarationDir": "dist/types"
+  },
+  "include": ["**/*.ts", "src/callback.html"]
+}
