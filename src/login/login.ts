@@ -4,9 +4,10 @@ import axios from 'axios'
 
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
-import { getRandomValues, randomBytes, subtle } from 'crypto'
+import { randomBytes } from 'crypto'
 import { stringify } from 'querystring'
 import { writeFileSync } from 'fs'
+import { generateRandomString, sha256, base64encode } from './pkce.js'
 
 const PORT = 5173
 const CLIENT_ID = `00bc6817f84c4065aa526dbb1fe66169`
@@ -14,28 +15,7 @@ const SCOPE = 'user-read-private user-read-email'
 const REDIRECT_URI = 'http://localhost:' + PORT + '/callback'
 const STATE = randomBytes(16).toString('hex')
 
-const generateRandomString = (length: number) => {
-  const possible =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  const values = getRandomValues(new Uint8Array(length))
-  return values.reduce((acc, x) => acc + possible[x % possible.length], '')
-}
-
 const codeVerifier = generateRandomString(64)
-
-const sha256 = async (plain: string) => {
-  const encoder = new TextEncoder()
-  const data = encoder.encode(plain)
-  return subtle.digest('SHA-256', data)
-}
-
-const base64encode = (input: ArrayBuffer) => {
-  return btoa(String.fromCharCode(...new Uint8Array(input)))
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-}
-
 const hashed = await sha256(codeVerifier)
 const codeChallenge = base64encode(hashed)
 
