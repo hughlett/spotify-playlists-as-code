@@ -130,3 +130,4 @@ dist
 .pnp.*
 
 refresh_token
+access_token
