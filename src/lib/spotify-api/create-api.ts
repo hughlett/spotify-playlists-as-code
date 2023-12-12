@@ -12,6 +12,8 @@ import {
 
 const CLIENT_ID = '00bc6817f84c4065aa526dbb1fe66169'
 
+// TODO: Refactor
+
 export async function createAPI() {
   if (!existsSync(refreshTokenPath)) {
     console.log('Login!')
