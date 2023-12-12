@@ -16,8 +16,8 @@ export async function sha256(plain: string) {
 }
 
 export function base64encode(input: ArrayBuffer) {
-  return btoa(String.fromCharCode(...new Uint8Array(input)))
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
+  return btoa(String.fromCodePoint(...new Uint8Array(input)))
+    .replaceAll('=', '')
+    .replaceAll('+', '-')
+    .replaceAll('/', '_')
 }
