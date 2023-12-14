@@ -6,6 +6,30 @@ import { fileURLToPath } from 'node:url'
 
 import { login } from '../login/login.js'
 
+export const refreshTokenPath = `${dirname(
+  dirname(dirname(dirname(fileURLToPath(import.meta.url)))),
+)}/refresh_token`
+
+export const accessTokenPath = `${dirname(
+  dirname(dirname(dirname(fileURLToPath(import.meta.url)))),
+)}/access_token`
+
+export function setRefreshToken(refreshToken: string) {
+  writeFileSync(refreshTokenPath, refreshToken)
+}
+
+export function setAccessToken(accessToken: string) {
+  writeFileSync(accessTokenPath, accessToken)
+}
+
+export function getRefreshToken() {
+  return readFileSync(refreshTokenPath).toString('utf8')
+}
+
+export function getAccessToken() {
+  return readFileSync(accessTokenPath).toString('utf8')
+}
+
 export function generateRefreshToken() {
   login()
 }
@@ -34,28 +58,4 @@ export async function generateAccessToken() {
   const newRefreshToken = response.data.refresh_token
   setAccessToken(accessToken)
   setRefreshToken(newRefreshToken)
-}
-
-export const refreshTokenPath = `${dirname(
-  dirname(dirname(dirname(fileURLToPath(import.meta.url)))),
-)}/refresh_token`
-
-export const accessTokenPath = `${dirname(
-  dirname(dirname(dirname(fileURLToPath(import.meta.url)))),
-)}/access_token`
-
-export function setRefreshToken(refreshToken: string) {
-  writeFileSync(refreshTokenPath, refreshToken)
-}
-
-export function setAccessToken(accessToken: string) {
-  writeFileSync(accessTokenPath, accessToken)
-}
-
-export function getRefreshToken() {
-  return readFileSync(refreshTokenPath).toString('utf8')
-}
-
-export function getAccessToken() {
-  return readFileSync(accessTokenPath).toString('utf8')
 }
