@@ -12,14 +12,14 @@ import { setAccessToken, setRefreshToken } from '../spotify-api/tokens.js'
 import { base64encode, generateRandomString, sha256 } from './pkce.js'
 
 const PORT = 5173
-const CLIENT_ID = `00bc6817f84c4065aa526dbb1fe66169`
-const SCOPE = 'user-read-private user-read-email'
-const REDIRECT_URI = 'http://localhost:' + PORT + '/callback'
-const STATE = randomBytes(16).toString('hex')
+const client_id = `00bc6817f84c4065aa526dbb1fe66169`
+const scope = 'playlist-read-private user-library-read'
+const redirect_uri = 'http://localhost:' + PORT + '/callback'
+const state = randomBytes(16).toString('hex')
 
-const codeVerifier = generateRandomString(64)
-const hashed = await sha256(codeVerifier)
-const codeChallenge = base64encode(hashed)
+const code_verifier = generateRandomString(64)
+const hashed = await sha256(code_verifier)
+const code_challenge = base64encode(hashed)
 
 const app = express()
 
@@ -40,11 +40,11 @@ app.get('/token', async (req, res) => {
   res.sendStatus(200)
 
   const data = new URLSearchParams({
-    client_id: CLIENT_ID,
+    client_id,
     code: `${req.query.code}`,
-    code_verifier: codeVerifier,
+    code_verifier,
     grant_type: 'authorization_code',
-    redirect_uri: REDIRECT_URI,
+    redirect_uri,
   })
 
   const config = {
@@ -74,13 +74,13 @@ export function login() {
     const URL =
       'https://accounts.spotify.com/authorize?' +
       stringify({
-        SCOPE,
-        client_id: CLIENT_ID,
-        code_challenge: codeChallenge,
+        client_id,
+        code_challenge,
         code_challenge_method: 'S256',
-        redirect_uri: REDIRECT_URI,
+        redirect_uri,
         response_type: 'code',
-        state: STATE,
+        scope,
+        state,
       })
 
     open(URL)
