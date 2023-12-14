@@ -6,10 +6,8 @@ import { createAPI } from '../spotify-api/create-api.js'
 async function getAllPlaylists() {
   const api = await createAPI()
 
-  let playlists: SimplifiedPlaylist[] = []
-
   let page = await api.currentUser.playlists.playlists(50)
-  playlists = [...playlists, ...page.items]
+  let playlists: SimplifiedPlaylist[] = page.items
 
   const accessToken = await api.getAccessToken()
 
@@ -28,6 +26,7 @@ async function getAllPlaylists() {
 
     // eslint-disable-next-line no-await-in-loop
     const response = await axios(config)
+
     page = response.data
     playlists = [...playlists, ...page.items]
   }
