@@ -16,15 +16,13 @@ async function getAllPlaylists() {
     return playlists
   }
 
+  const profile = await api.currentUser.profile()
   const { total } = page
-
   const urls = []
 
   let offset = 50
   while (offset < total) {
-    urls.push(
-      `https://api.spotify.com/v1/users/drewh./playlists?offset=${offset}&limit=50`,
-    )
+    urls.push(`${profile.href}/playlists?offset=${offset}&limit=50`)
     offset += 50
   }
 
