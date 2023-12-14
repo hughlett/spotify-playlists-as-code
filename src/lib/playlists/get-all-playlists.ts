@@ -1,4 +1,3 @@
-import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk'
 import axios from 'axios'
 
 import { createAPI } from '../spotify-api/create-api.js'
@@ -11,7 +10,7 @@ async function getAllPlaylists() {
   const api = await createAPI()
 
   let page = await api.currentUser.playlists.playlists(50)
-  let playlists: SimplifiedPlaylist[] = page.items
+  let playlists = page.items
 
   const accessToken = await api.getAccessToken()
 
