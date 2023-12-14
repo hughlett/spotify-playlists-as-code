@@ -3,6 +3,10 @@ import axios from 'axios'
 
 import { createAPI } from '../spotify-api/create-api.js'
 
+/**
+ * Retrieves all of the user's playlists.
+ * @returns All of the users playlists.
+ */
 async function getAllPlaylists() {
   const api = await createAPI()
 
