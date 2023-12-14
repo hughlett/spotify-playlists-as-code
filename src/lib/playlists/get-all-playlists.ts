@@ -9,8 +9,24 @@ import { createAPI } from '../spotify-api/create-api.js'
 async function getAllPlaylists() {
   const api = await createAPI()
 
-  let page = await api.currentUser.playlists.playlists(50)
+  const page = await api.currentUser.playlists.playlists(50)
   let playlists = page.items
+
+  if (!page.next) {
+    return playlists
+  }
+
+  const { total } = page
+
+  const urls = []
+
+  let offset = 50
+  while (offset < total) {
+    urls.push(
+      `https://api.spotify.com/v1/users/drewh./playlists?offset=${offset}&limit=50`,
+    )
+    offset += 50
+  }
 
   const accessToken = await api.getAccessToken()
 
@@ -18,20 +34,22 @@ async function getAllPlaylists() {
     throw new Error('Not logged in.')
   }
 
-  while (page.next) {
+  const requests = []
+
+  for (const url of urls) {
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken.access_token}`,
       },
       method: 'GET',
-      url: page.next,
+      url,
     }
+    requests.push(axios(config))
+  }
 
-    // eslint-disable-next-line no-await-in-loop
-    const response = await axios(config)
-
-    page = response.data
-    playlists = [...playlists, ...page.items]
+  const responses = await Promise.all(requests)
+  for (const response of responses) {
+    playlists = [...playlists, ...response.data.items]
   }
 
   return playlists
