@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Presets, SingleBar } from 'cli-progress'
 
 import { createAPI } from '../spotify-api/create-api.js'
 
@@ -41,11 +42,18 @@ async function getLikedTracks() {
     requests.push(axios(config))
   }
 
-  const responses = await Promise.all(requests)
-  for (const response of responses) {
-    tracks = [...tracks, ...response.data.items]
-  }
+  const progressBar = new SingleBar({}, Presets.shades_classic)
+  progressBar.start(total, tracks.length)
 
+  await Promise.all(
+    requests.map(async (request) => {
+      const response = await request
+      tracks = [...tracks, ...response.data.items]
+      progressBar.increment(response.data.items.length)
+    }),
+  )
+
+  progressBar.stop()
   return tracks
 }
 
