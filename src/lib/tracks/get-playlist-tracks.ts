@@ -7,27 +7,15 @@ import { createAPI } from '../spotify-api/create-api.js'
 async function getPlaylistTracks(id: string) {
   const spotify = await createAPI()
 
-  //   TODO: Refactor and type
+  const pagePromise = spotify.playlists.getPlaylist(id)
+  const profilePromise = spotify.currentUser.profile()
+  const accessTokenPromise = spotify.getAccessToken()
 
-  const asyncFunctions = []
-  asyncFunctions.push(
-    spotify.playlists.getPlaylist(id),
-    spotify.currentUser.profile(),
-    spotify.getAccessToken(),
-  )
+  const page = await pagePromise
+  const profile = await profilePromise
+  const accessToken = await accessTokenPromise
 
-  const values = await Promise.all(asyncFunctions)
-
-  const page = values[0].tracks
-  const profile = values[1]
-  const accessToken = values[2]
-
-  let tracks: PlaylistedTrack[] = []
-  const { total } = page
-
-  const progressBar = new SingleBar({}, Presets.shades_classic)
-  progressBar.start(total, 0)
-
+  const { total } = page.tracks
   const urls = []
 
   let offset = 0
@@ -43,6 +31,11 @@ async function getPlaylistTracks(id: string) {
   }
 
   const requests = []
+
+  let tracks: PlaylistedTrack[] = []
+
+  const progressBar = new SingleBar({}, Presets.shades_classic)
+  progressBar.start(total, 0)
 
   for (const url of urls) {
     const config = {
