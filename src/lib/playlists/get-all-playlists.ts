@@ -8,16 +8,16 @@ import { createAPI } from '../spotify-api/create-api.js'
  * @returns All of the users playlists.
  */
 async function getAllPlaylists() {
-  const api = await createAPI()
+  const spotify = await createAPI()
 
-  const page = await api.currentUser.playlists.playlists(50)
+  const page = await spotify.currentUser.playlists.playlists(50)
   let playlists = page.items
 
   if (!page.next) {
     return playlists
   }
 
-  const profile = await api.currentUser.profile()
+  const profile = await spotify.currentUser.profile()
   const { total } = page
   const urls = []
 
@@ -27,7 +27,7 @@ async function getAllPlaylists() {
     offset += 50
   }
 
-  const accessToken = await api.getAccessToken()
+  const accessToken = await spotify.getAccessToken()
 
   if (!accessToken) {
     throw new Error('Not logged in.')

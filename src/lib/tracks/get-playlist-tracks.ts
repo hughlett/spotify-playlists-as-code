@@ -5,15 +5,15 @@ import { Presets, SingleBar } from 'cli-progress'
 import { createAPI } from '../spotify-api/create-api.js'
 
 async function getPlaylistTracks(id: string) {
-  const api = await createAPI()
+  const spotify = await createAPI()
 
   //   TODO: Refactor and type
 
   const asyncFunctions = []
   asyncFunctions.push(
-    api.playlists.getPlaylist(id),
-    api.currentUser.profile(),
-    api.getAccessToken(),
+    spotify.playlists.getPlaylist(id),
+    spotify.currentUser.profile(),
+    spotify.getAccessToken(),
   )
 
   const values = await Promise.all(asyncFunctions)

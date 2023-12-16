@@ -12,8 +12,8 @@ export default class WhoAmI extends Command {
   static flags = {}
 
   async run(): Promise<void> {
-    const api = await createAPI()
-    const result = await api.currentUser.profile()
+    const spotify = await createAPI()
+    const result = await spotify.currentUser.profile()
     console.log(result.display_name)
   }
 }

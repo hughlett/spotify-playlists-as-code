@@ -4,16 +4,16 @@ import { Presets, SingleBar } from 'cli-progress'
 import { createAPI } from '../spotify-api/create-api.js'
 
 async function getLikedTracks() {
-  const api = await createAPI()
+  const spotify = await createAPI()
 
-  const page = await api.currentUser.tracks.savedTracks(50)
+  const page = await spotify.currentUser.tracks.savedTracks(50)
   let tracks = page.items
 
   if (!page.next) {
     return tracks
   }
 
-  const profile = await api.currentUser.profile()
+  const profile = await spotify.currentUser.profile()
   const { total } = page
   const urls = []
 
@@ -23,7 +23,7 @@ async function getLikedTracks() {
     offset += 50
   }
 
-  const accessToken = await api.getAccessToken()
+  const accessToken = await spotify.getAccessToken()
 
   if (!accessToken) {
     throw new Error('Not logged in.')
