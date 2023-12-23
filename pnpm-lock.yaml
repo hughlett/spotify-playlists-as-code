@@ -16,7 +16,7 @@ dependencies:
     version: 5.2.20(@types/node@20.10.4)(typescript@5.3.3)
   '@oclif/plugin-plugins':
     specifier: ^4
-    version: 4.1.10(typescript@5.3.3)
+    version: 4.1.11(typescript@5.3.3)
   '@spotify/web-api-ts-sdk':
     specifier: ^1.1.2
     version: 1.1.2
@@ -767,14 +767,14 @@ packages:
       - typescript
     dev: true
 
-  /@oclif/plugin-plugins@4.1.10(typescript@5.3.3):
-    resolution: {integrity: sha512-+tb9ME7J0Uje/XWxh60OBqkuysIValn+O70AAodWbHDTkQmmW+g50uEuyQUQW5iPKMeiZBVg9p+AhpT8d9R9jA==}
+  /@oclif/plugin-plugins@4.1.11(typescript@5.3.3):
+    resolution: {integrity: sha512-YjyHl7dIv7UFSm+9q2/0BBwnOzYJxqtvt+PvvA/F03IqdXsSaF0KdXj9vbH4fSBGv4h4pzclnYq358ti5RdmRg==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@oclif/core': 3.15.0(typescript@5.3.3)
       chalk: 5.3.0
       debug: 4.3.4(supports-color@8.1.1)
-      npm: 10.2.3
+      npm: 10.2.5
       npm-run-path: 4.0.1
       semver: 7.5.4
       shelljs: 0.8.5
@@ -4929,89 +4929,10 @@ packages:
       path-key: 4.0.0
     dev: false
 
-  /npm@10.2.3:
-    resolution: {integrity: sha512-GbUui/rHTl0mW8HhJSn4A0Xg89yCR3I9otgJT1i0z1QBPOVlgbh6rlcUTpHT8Gut9O1SJjWRUU0nEcAymhG2tQ==}
-    engines: {node: ^18.17.0 || >=20.5.0}
-    hasBin: true
-    dev: false
-    bundledDependencies:
-      - '@isaacs/string-locale-compare'
-      - '@npmcli/arborist'
-      - '@npmcli/config'
-      - '@npmcli/fs'
-      - '@npmcli/map-workspaces'
-      - '@npmcli/package-json'
-      - '@npmcli/promise-spawn'
-      - '@npmcli/run-script'
-      - '@sigstore/tuf'
-      - abbrev
-      - archy
-      - cacache
-      - chalk
-      - ci-info
-      - cli-columns
-      - cli-table3
-      - columnify
-      - fastest-levenshtein
-      - fs-minipass
-      - glob
-      - graceful-fs
-      - hosted-git-info
-      - ini
-      - init-package-json
-      - is-cidr
-      - json-parse-even-better-errors
-      - libnpmaccess
-      - libnpmdiff
-      - libnpmexec
-      - libnpmfund
-      - libnpmhook
-      - libnpmorg
-      - libnpmpack
-      - libnpmpublish
-      - libnpmsearch
-      - libnpmteam
-      - libnpmversion
-      - make-fetch-happen
-      - minimatch
-      - minipass
-      - minipass-pipeline
-      - ms
-      - node-gyp
-      - nopt
-      - normalize-package-data
-      - npm-audit-report
-      - npm-install-checks
-      - npm-package-arg
-      - npm-pick-manifest
-      - npm-profile
-      - npm-registry-fetch
-      - npm-user-validate
-      - npmlog
-      - p-map
-      - pacote
-      - parse-conflict-json
-      - proc-log
-      - qrcode-terminal
-      - read
-      - semver
-      - spdx-expression-parse
-      - ssri
-      - strip-ansi
-      - supports-color
-      - tar
-      - text-table
-      - tiny-relative-date
-      - treeverse
-      - validate-npm-package-name
-      - which
-      - write-file-atomic
-
   /npm@10.2.5:
     resolution: {integrity: sha512-lXdZ7titEN8CH5YJk9C/aYRU9JeDxQ4d8rwIIDsvH3SMjLjHTukB2CFstMiB30zXs4vCrPN2WH6cDq1yHBeJAw==}
     engines: {node: ^18.17.0 || >=20.5.0}
     hasBin: true
-    dev: true
     bundledDependencies:
       - '@isaacs/string-locale-compare'
       - '@npmcli/arborist'
