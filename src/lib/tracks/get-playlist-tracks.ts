@@ -7,46 +7,39 @@ import { createAPI } from '../spotify-api/create-api.js'
 async function getPlaylistTracks(id: string) {
   const spotify = await createAPI()
 
-  const pagePromise = spotify.playlists.getPlaylist(id)
-  const profilePromise = spotify.currentUser.profile()
-  const accessTokenPromise = spotify.getAccessToken()
+  const page = await spotify.playlists.getPlaylist(id)
+  const profile = await spotify.currentUser.profile()
 
-  const page = await pagePromise
-  const profile = await profilePromise
-  const accessToken = await accessTokenPromise
-
+  const MAX_ITEMS = 50
   const { total } = page.tracks
-  const urls = []
 
-  let offset = 0
-  while (offset < total) {
-    urls.push(
-      `${profile.href}/playlists/${id}/tracks?offset=${offset}&limit=50`,
-    )
-    offset += 50
-  }
+  const urls = Array.from({ length: Math.floor(total / MAX_ITEMS) + 1 }).map(
+    (_value, index) =>
+      `${profile.href}/playlists/${id}/tracks?offset=${
+        index * MAX_ITEMS
+      }&limit=50`,
+  )
+
+  const accessToken = await spotify.getAccessToken()
 
   if (!accessToken) {
     throw new Error('Not logged in.')
   }
 
-  const requests = []
-
-  let tracks: PlaylistedTrack[] = []
-
-  const progressBar = new SingleBar({}, Presets.shades_classic)
-  progressBar.start(total, 0)
-
-  for (const url of urls) {
-    const config = {
+  const requests = urls.map((url) =>
+    axios({
       headers: {
         Authorization: `Bearer ${accessToken.access_token}`,
       },
       method: 'GET',
       url,
-    }
-    requests.push(axios(config))
-  }
+    }),
+  )
+
+  let tracks: PlaylistedTrack[] = []
+
+  const progressBar = new SingleBar({}, Presets.shades_classic)
+  progressBar.start(total, 0)
 
   await Promise.all(
     requests.map(async (request) => {
