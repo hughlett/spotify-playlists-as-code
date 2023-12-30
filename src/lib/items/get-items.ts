@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { Presets, SingleBar } from 'cli-progress'
 
 import { createAPI } from '../spotify-api/create-api.js'
@@ -12,12 +11,11 @@ async function getItems(urls: string[], total: number) {
   }
 
   const requests = urls.map((url) =>
-    axios({
+    fetch(url, {
       headers: {
         Authorization: `Bearer ${accessToken.access_token}`,
       },
       method: 'GET',
-      url,
     }),
   )
 
@@ -29,8 +27,9 @@ async function getItems(urls: string[], total: number) {
   await Promise.all(
     requests.map(async (request) => {
       const response = await request
-      items = [...items, ...response.data.items]
-      progressBar.increment(response.data.items.length)
+      const body = await response.json()
+      items = [...items, ...body.items]
+      progressBar.increment(body.items.length)
     }),
   )
 

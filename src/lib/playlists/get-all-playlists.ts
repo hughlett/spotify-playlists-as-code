@@ -1,3 +1,5 @@
+import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk'
+
 import getItems from '../items/get-items.js'
 import { createAPI } from '../spotify-api/create-api.js'
 
@@ -5,7 +7,7 @@ import { createAPI } from '../spotify-api/create-api.js'
  * Retrieves all of the user's playlists.
  * @returns All of the users playlists.
  */
-async function getAllPlaylists() {
+async function getAllPlaylists(): Promise<SimplifiedPlaylist[]> {
   const spotify = await createAPI()
   const MAX_LIMIT = 50
 

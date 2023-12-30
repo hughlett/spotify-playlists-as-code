@@ -1,9 +1,9 @@
-import { Playlist } from '@spotify/web-api-ts-sdk'
+import { PlaylistedTrack } from '@spotify/web-api-ts-sdk'
 
 import getItems from '../items/get-items.js'
 import { createAPI } from '../spotify-api/create-api.js'
 
-async function getPlaylistTracks(id: string): Promise<Playlist[]> {
+async function getPlaylistTracks(id: string): Promise<PlaylistedTrack[]> {
   const spotify = await createAPI()
   const MAX_LIMIT = 50
 

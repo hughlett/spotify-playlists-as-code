@@ -1,7 +1,9 @@
+import { SavedTrack } from '@spotify/web-api-ts-sdk'
+
 import getItems from '../items/get-items.js'
 import { createAPI } from '../spotify-api/create-api.js'
 
-async function getLikedTracks() {
+async function getLikedTracks(): Promise<SavedTrack[]> {
   const spotify = await createAPI()
   const MAX_LIMIT = 50
 
