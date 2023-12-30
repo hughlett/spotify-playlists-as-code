@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import axios from 'axios'
 import express from 'express'
 import { randomBytes } from 'node:crypto'
 import { Server } from 'node:http'
@@ -39,7 +38,7 @@ app.get('/callback', (req, res) => {
 app.get('/token', async (req, res) => {
   res.sendStatus(200)
 
-  const data = new URLSearchParams({
+  const body = new URLSearchParams({
     client_id,
     code: `${req.query.code}`,
     code_verifier,
@@ -47,19 +46,17 @@ app.get('/token', async (req, res) => {
     redirect_uri,
   })
 
-  const config = {
-    data,
+  fetch('https://accounts.spotify.com/api/token', {
+    body,
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
     },
     method: 'post',
-    url: 'https://accounts.spotify.com/api/token',
-  }
-
-  axios(config)
+  })
     .then(async (response) => {
-      setRefreshToken(response.data.refresh_token)
-      setAccessToken(response.data.access_token)
+      const body = await response.json()
+      setRefreshToken(body.refresh_token)
+      setAccessToken(body.access_token)
     })
     .catch(() => {
       console.log('Could not login')

@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import axios from 'axios'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -38,24 +37,22 @@ export async function generateAccessToken() {
   const CLIENT_ID = '00bc6817f84c4065aa526dbb1fe66169'
   const refreshToken = getRefreshToken()
 
-  const data = new URLSearchParams({
-    client_id: CLIENT_ID,
-    grant_type: 'refresh_token',
-    refresh_token: refreshToken,
-  })
-
-  const config = {
-    data,
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    body: new URLSearchParams({
+      client_id: CLIENT_ID,
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    }),
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
     },
     method: 'post',
-    url: 'https://accounts.spotify.com/api/token',
-  }
+  })
 
-  const response = await axios(config)
-  const accessToken = response.data.access_token
-  const newRefreshToken = response.data.refresh_token
+  const body = await response.json()
+
+  const accessToken = body.access_token
+  const newRefreshToken = body.refresh_token
   setAccessToken(accessToken)
   setRefreshToken(newRefreshToken)
 }
