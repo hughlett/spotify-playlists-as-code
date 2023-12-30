@@ -1,10 +1,9 @@
-import { PlaylistedTrack } from '@spotify/web-api-ts-sdk'
-import axios from 'axios'
-import { Presets, SingleBar } from 'cli-progress'
+import { Playlist } from '@spotify/web-api-ts-sdk'
 
+import getItems from '../items/get-items.js'
 import { createAPI } from '../spotify-api/create-api.js'
 
-async function getPlaylistTracks(id: string) {
+async function getPlaylistTracks(id: string): Promise<Playlist[]> {
   const spotify = await createAPI()
 
   const page = await spotify.playlists.getPlaylist(id)
@@ -20,37 +19,9 @@ async function getPlaylistTracks(id: string) {
       }&limit=50`,
   )
 
-  const accessToken = await spotify.getAccessToken()
+  const items = await getItems(urls, total)
 
-  if (!accessToken) {
-    throw new Error('Not logged in.')
-  }
-
-  const requests = urls.map((url) =>
-    axios({
-      headers: {
-        Authorization: `Bearer ${accessToken.access_token}`,
-      },
-      method: 'GET',
-      url,
-    }),
-  )
-
-  let tracks: PlaylistedTrack[] = []
-
-  const progressBar = new SingleBar({}, Presets.shades_classic)
-  progressBar.start(total, 0)
-
-  await Promise.all(
-    requests.map(async (request) => {
-      const response = await request
-      tracks = [...tracks, ...response.data.items]
-      progressBar.increment(response.data.items.length)
-    }),
-  )
-
-  progressBar.stop()
-  return tracks
+  return items
 }
 
 export default getPlaylistTracks
