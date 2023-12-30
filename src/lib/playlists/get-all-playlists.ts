@@ -7,16 +7,16 @@ import { createAPI } from '../spotify-api/create-api.js'
  */
 async function getAllPlaylists() {
   const spotify = await createAPI()
+  const MAX_LIMIT = 50
 
-  const page = await spotify.currentUser.playlists.playlists(50)
-
-  const profile = await spotify.currentUser.profile()
-  const MAX_ITEMS = 50
+  const page = await spotify.currentUser.playlists.playlists(MAX_LIMIT)
   const { total } = page
 
-  const urls = Array.from({ length: Math.floor(total / MAX_ITEMS) + 1 }).map(
+  const profile = await spotify.currentUser.profile()
+
+  const urls = Array.from({ length: Math.floor(total / MAX_LIMIT) + 1 }).map(
     (_value, index) =>
-      `${profile.href}/playlists?offset=${index * MAX_ITEMS}&limit=50`,
+      `${profile.href}/playlists?offset=${index * MAX_LIMIT}&limit=50`,
   )
 
   const items = await getItems(urls, total)

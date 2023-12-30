@@ -3,16 +3,16 @@ import { createAPI } from '../spotify-api/create-api.js'
 
 async function getLikedTracks() {
   const spotify = await createAPI()
+  const MAX_LIMIT = 50
 
-  const page = await spotify.currentUser.tracks.savedTracks(50)
-  const profile = await spotify.currentUser.profile()
-
-  const MAX_ITEMS = 50
+  const page = await spotify.currentUser.tracks.savedTracks(MAX_LIMIT)
   const { total } = page
 
-  const urls = Array.from({ length: Math.floor(total / MAX_ITEMS) + 1 }).map(
+  const profile = await spotify.currentUser.profile()
+
+  const urls = Array.from({ length: Math.floor(total / MAX_LIMIT) + 1 }).map(
     (_value, index) =>
-      `${profile.href}/tracks?offset=${index * MAX_ITEMS}&limit=50`,
+      `${profile.href}/tracks?offset=${index * MAX_LIMIT}&limit=50`,
   )
 
   const items = await getItems(urls, total)
