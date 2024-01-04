@@ -16,7 +16,7 @@ dependencies:
     version: 5.2.20(@types/node@20.10.4)(typescript@5.3.3)
   '@oclif/plugin-plugins':
     specifier: ^4
-    version: 4.1.10(typescript@5.3.3)
+    version: 4.1.14(typescript@5.3.3)
   '@spotify/web-api-ts-sdk':
     specifier: ^1.1.2
     version: 1.1.2
@@ -767,8 +767,8 @@ packages:
       - typescript
     dev: true
 
-  /@oclif/plugin-plugins@4.1.10(typescript@5.3.3):
-    resolution: {integrity: sha512-+tb9ME7J0Uje/XWxh60OBqkuysIValn+O70AAodWbHDTkQmmW+g50uEuyQUQW5iPKMeiZBVg9p+AhpT8d9R9jA==}
+  /@oclif/plugin-plugins@4.1.14(typescript@5.3.3):
+    resolution: {integrity: sha512-wx8eY/ze9ypXsmITI2hM564bmTlChidW3gsAUeyyVHPAldmzmic/Vh6nXPHF10nOvvl0RXwOpjyA/IgrTyyVvQ==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@oclif/core': 3.15.0(typescript@5.3.3)
