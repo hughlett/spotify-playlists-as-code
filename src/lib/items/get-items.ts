@@ -1,8 +1,8 @@
-import { Presets, SingleBar } from 'cli-progress'
+import { SingleBar } from 'cli-progress'
 
 import { createAPI } from '../spotify-api/create-api.js'
 
-async function getItems(urls: string[], total: number) {
+async function getItems(urls: string[], total: number, progressBar: SingleBar) {
   const spotify = await createAPI()
   const accessToken = await spotify.getAccessToken()
 
@@ -21,7 +21,6 @@ async function getItems(urls: string[], total: number) {
 
   let items: any[] = []
 
-  const progressBar = new SingleBar({}, Presets.shades_classic)
   progressBar.start(total, 0)
 
   await Promise.all(
