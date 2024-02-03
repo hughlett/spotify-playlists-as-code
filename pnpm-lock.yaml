@@ -16,7 +16,7 @@ dependencies:
     version: 5.2.20(@types/node@20.10.4)(typescript@5.3.3)
   '@oclif/plugin-plugins':
     specifier: ^4
-    version: 4.1.10(typescript@5.3.3)
+    version: 4.2.1(typescript@5.3.3)
   '@spotify/web-api-ts-sdk':
     specifier: ^1.1.2
     version: 1.1.2
@@ -767,14 +767,14 @@ packages:
       - typescript
     dev: true
 
-  /@oclif/plugin-plugins@4.1.10(typescript@5.3.3):
-    resolution: {integrity: sha512-+tb9ME7J0Uje/XWxh60OBqkuysIValn+O70AAodWbHDTkQmmW+g50uEuyQUQW5iPKMeiZBVg9p+AhpT8d9R9jA==}
+  /@oclif/plugin-plugins@4.2.1(typescript@5.3.3):
+    resolution: {integrity: sha512-S+Pq5WivaIwTQiZ+3jqz5Vv9sB5DDeA/iVyUEFt824TwlVo0uK58o2/W9Vs/S/2Bwkpl5Tv+Iu0SErdv3KQ7/g==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@oclif/core': 3.15.0(typescript@5.3.3)
       chalk: 5.3.0
       debug: 4.3.4(supports-color@8.1.1)
-      npm: 10.2.3
+      npm: 10.2.4
       npm-run-path: 4.0.1
       semver: 7.5.4
       shelljs: 0.8.5
@@ -4884,8 +4884,8 @@ packages:
       path-key: 4.0.0
     dev: false
 
-  /npm@10.2.3:
-    resolution: {integrity: sha512-GbUui/rHTl0mW8HhJSn4A0Xg89yCR3I9otgJT1i0z1QBPOVlgbh6rlcUTpHT8Gut9O1SJjWRUU0nEcAymhG2tQ==}
+  /npm@10.2.4:
+    resolution: {integrity: sha512-umEuYneVEYO9KoEEI8n2sSGmNQeqco/3BSeacRlqIkCzw4E7XGtYSWMeJobxzr6hZ2n9cM+u5TsMTcC5bAgoWA==}
     engines: {node: ^18.17.0 || >=20.5.0}
     hasBin: true
     dev: false
