@@ -16,7 +16,7 @@ dependencies:
     version: 5.2.20(@types/node@20.10.4)(typescript@5.3.3)
   '@oclif/plugin-plugins':
     specifier: ^4
-    version: 4.1.10(typescript@5.3.3)
+    version: 4.3.2
   '@spotify/web-api-ts-sdk':
     specifier: ^1.1.2
     version: 1.1.2
@@ -478,7 +478,7 @@ packages:
       read-package-json-fast: 2.0.3
       readdir-scoped-modules: 1.1.0
       rimraf: 3.0.2
-      semver: 7.5.4
+      semver: 7.6.0
       ssri: 8.0.1
       treeverse: 1.0.4
       walk-up-path: 1.0.0
@@ -491,7 +491,7 @@ packages:
     resolution: {integrity: sha512-8KG5RD0GVP4ydEzRn/I4BNDuxDtqVbOdm8675T49OIG/NGhaK0pjPX7ZcDlvKYbA+ulvVK3ztfcF4uBdOxuJbQ==}
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /@npmcli/fs@2.1.2:
@@ -499,14 +499,14 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /@npmcli/fs@3.1.0:
     resolution: {integrity: sha512-7kZUAaLscfgbwBQRbvdMYaZOWyMEcPTH/tJjnyAWJ/dvvs9Ef+CERx/qJb9GExJpl1qipaDGn7KqHnFGGixd0w==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /@npmcli/git@2.1.0:
@@ -518,7 +518,7 @@ packages:
       npm-pick-manifest: 6.1.1
       promise-inflight: 1.0.1
       promise-retry: 2.0.1
-      semver: 7.5.4
+      semver: 7.6.0
       which: 2.0.2
     transitivePeerDependencies:
       - bluebird
@@ -534,7 +534,7 @@ packages:
       proc-log: 3.0.0
       promise-inflight: 1.0.1
       promise-retry: 2.0.1
-      semver: 7.5.4
+      semver: 7.6.0
       which: 3.0.1
     transitivePeerDependencies:
       - bluebird
@@ -575,7 +575,7 @@ packages:
       cacache: 15.3.0
       json-parse-even-better-errors: 2.3.1
       pacote: 12.0.3
-      semver: 7.5.4
+      semver: 7.6.0
     transitivePeerDependencies:
       - bluebird
       - supports-color
@@ -729,6 +729,39 @@ packages:
     transitivePeerDependencies:
       - typescript
 
+  /@oclif/core@3.23.0:
+    resolution: {integrity: sha512-giQ/8Ft8yXWg4IyPVtynPb7ihoQsa3A/1Q53UIJIhh+8k+EedE3lJ01yn6sq6Ha35IGqsG1WhkeHzlJIuldEaw==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@types/cli-progress': 3.11.5
+      ansi-escapes: 4.3.2
+      ansi-styles: 4.3.0
+      cardinal: 2.1.1
+      chalk: 4.1.2
+      clean-stack: 3.0.1
+      cli-progress: 3.12.0
+      color: 4.2.3
+      debug: 4.3.4(supports-color@8.1.1)
+      ejs: 3.1.9
+      get-package-type: 0.1.0
+      globby: 11.1.0
+      hyperlinker: 1.0.0
+      indent-string: 4.0.0
+      is-wsl: 2.2.0
+      js-yaml: 3.14.1
+      minimatch: 9.0.3
+      natural-orderby: 2.0.3
+      object-treeify: 1.1.33
+      password-prompt: 1.1.3
+      slice-ansi: 4.0.0
+      string-width: 4.2.3
+      strip-ansi: 6.0.1
+      supports-color: 8.1.1
+      supports-hyperlinks: 2.3.0
+      widest-line: 3.1.0
+      wordwrap: 1.0.0
+      wrap-ansi: 7.0.0
+
   /@oclif/plugin-autocomplete@3.0.3(typescript@5.3.3):
     resolution: {integrity: sha512-Kr2z1SON4bAUzO5EXDvYhLoQMSAmaeuTxqilNokdfSKNsSwWT8g+gzzs5F2jvaW/jRID6thxIamq7h+DmRVf3Q==}
     engines: {node: '>=18.0.0'}
@@ -767,36 +800,34 @@ packages:
       - typescript
     dev: true
 
-  /@oclif/plugin-plugins@4.1.10(typescript@5.3.3):
-    resolution: {integrity: sha512-+tb9ME7J0Uje/XWxh60OBqkuysIValn+O70AAodWbHDTkQmmW+g50uEuyQUQW5iPKMeiZBVg9p+AhpT8d9R9jA==}
+  /@oclif/plugin-plugins@4.3.2:
+    resolution: {integrity: sha512-PqnjKJPLJOLULLaT1Na9XhjY7MgVFxKcGRj0Pw5aRPXP1MADIwKDPUTdPzRHlGnnvEZc5eDX8TPOFoW7sx1vow==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@oclif/core': 3.15.0(typescript@5.3.3)
+      '@oclif/core': 3.23.0
       chalk: 5.3.0
       debug: 4.3.4(supports-color@8.1.1)
-      npm: 10.2.3
+      npm: 10.2.4
       npm-run-path: 4.0.1
-      semver: 7.5.4
+      semver: 7.6.0
       shelljs: 0.8.5
       validate-npm-package-name: 5.0.0
       yarn: 1.22.21
     transitivePeerDependencies:
       - supports-color
-      - typescript
     dev: false
 
-  /@oclif/plugin-warn-if-update-available@3.0.6(typescript@5.3.3):
+  /@oclif/plugin-warn-if-update-available@3.0.6:
     resolution: {integrity: sha512-wPJnHhw+DMLdqcgf6TSXKfiC6J14SKBNtX3qu68ycJ+A7S2Jn/3vX0BVUbKD2o7VKNnk2R+KH1hTuJF2GZjzJQ==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@oclif/core': 3.15.0(typescript@5.3.3)
+      '@oclif/core': 3.23.0
       chalk: 5.3.0
       debug: 4.3.4(supports-color@8.1.1)
       http-call: 5.3.0
       lodash.template: 4.5.0
     transitivePeerDependencies:
       - supports-color
-      - typescript
     dev: true
 
   /@oclif/prettier-config@0.2.1:
@@ -1298,7 +1329,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.4
+      semver: 7.6.0
       ts-api-utils: 1.0.3(typescript@5.3.3)
       typescript: 5.3.3
     transitivePeerDependencies:
@@ -1318,7 +1349,7 @@ packages:
       '@typescript-eslint/types': 6.14.0
       '@typescript-eslint/typescript-estree': 6.14.0(typescript@5.3.3)
       eslint: 8.55.0
-      semver: 7.5.4
+      semver: 7.6.0
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -1736,7 +1767,7 @@ packages:
   /builtins@5.0.1:
     resolution: {integrity: sha512-qwVpFEHNfhYJIzNRBvd2C1kyo6jz3ZSMPyyuR47OPdiKWlbYnZNyDWuyR175qDnAJLiCo5fBBqPb3RiXgWlkOQ==}
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.0
 
   /bundle-name@3.0.0:
     resolution: {integrity: sha512-PKA4BeSvBpQKQ8iPOGCSiell+N8P+Tf1DlwqmYhpe2gAhKPHn8EYOxVT+ShuGmhg8lN8XiSlS80yiExKXrURlw==}
@@ -2792,7 +2823,7 @@ packages:
       read-pkg-up: 7.0.1
       regexp-tree: 0.1.27
       regjsparser: 0.10.0
-      semver: 7.5.4
+      semver: 7.6.0
       strip-indent: 3.0.0
     dev: true
 
@@ -4416,7 +4447,6 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       brace-expansion: 2.0.1
-    dev: true
 
   /minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
@@ -4660,7 +4690,7 @@ packages:
       nopt: 5.0.0
       npmlog: 6.0.2
       rimraf: 3.0.2
-      semver: 7.5.4
+      semver: 7.6.0
       tar: 6.2.0
       which: 2.0.2
     transitivePeerDependencies:
@@ -4681,7 +4711,7 @@ packages:
       nopt: 6.0.0
       npmlog: 6.0.2
       rimraf: 3.0.2
-      semver: 7.5.4
+      semver: 7.6.0
       tar: 6.2.0
       which: 2.0.2
     transitivePeerDependencies:
@@ -4720,7 +4750,7 @@ packages:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.13.1
-      semver: 7.5.4
+      semver: 7.6.0
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -4730,7 +4760,7 @@ packages:
     dependencies:
       hosted-git-info: 6.1.1
       is-core-module: 2.13.1
-      semver: 7.5.4
+      semver: 7.6.0
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -4761,14 +4791,14 @@ packages:
     resolution: {integrity: sha512-09OmyDkNLYwqKPOnbI8exiOZU2GVVmQp7tgez2BPi5OZC8M82elDAps7sxC4l//uSUtotWqoEIDwjRvWH4qz8w==}
     engines: {node: '>=10'}
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /npm-install-checks@6.3.0:
     resolution: {integrity: sha512-W29RiK/xtpCGqn6f3ixfRYGk+zRyr+Ew9F2E20BfXxT5/euLdA/Nm7fO7OeTGuAmTs30cpgInyJ0cYe708YTZw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /npm-normalize-package-bin@1.0.1:
@@ -4791,7 +4821,7 @@ packages:
     dependencies:
       hosted-git-info: 6.1.1
       proc-log: 3.0.0
-      semver: 7.5.4
+      semver: 7.6.0
       validate-npm-package-name: 5.0.0
     dev: true
 
@@ -4800,7 +4830,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       hosted-git-info: 4.1.0
-      semver: 7.5.4
+      semver: 7.6.0
       validate-npm-package-name: 3.0.0
     dev: true
 
@@ -4828,7 +4858,7 @@ packages:
       npm-install-checks: 4.0.0
       npm-normalize-package-bin: 1.0.1
       npm-package-arg: 8.1.5
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /npm-pick-manifest@8.0.2:
@@ -4838,7 +4868,7 @@ packages:
       npm-install-checks: 6.3.0
       npm-normalize-package-bin: 3.0.1
       npm-package-arg: 10.1.0
-      semver: 7.5.4
+      semver: 7.6.0
     dev: true
 
   /npm-registry-fetch@12.0.2:
@@ -4884,8 +4914,8 @@ packages:
       path-key: 4.0.0
     dev: false
 
-  /npm@10.2.3:
-    resolution: {integrity: sha512-GbUui/rHTl0mW8HhJSn4A0Xg89yCR3I9otgJT1i0z1QBPOVlgbh6rlcUTpHT8Gut9O1SJjWRUU0nEcAymhG2tQ==}
+  /npm@10.2.4:
+    resolution: {integrity: sha512-umEuYneVEYO9KoEEI8n2sSGmNQeqco/3BSeacRlqIkCzw4E7XGtYSWMeJobxzr6hZ2n9cM+u5TsMTcC5bAgoWA==}
     engines: {node: ^18.17.0 || >=20.5.0}
     hasBin: true
     dev: false
@@ -5121,7 +5151,7 @@ packages:
       '@oclif/core': 3.15.0(typescript@5.3.3)
       '@oclif/plugin-help': 5.2.20(@types/node@20.10.4)(typescript@5.3.3)
       '@oclif/plugin-not-found': 2.4.3(@types/node@20.10.4)(typescript@5.3.3)
-      '@oclif/plugin-warn-if-update-available': 3.0.6(typescript@5.3.3)
+      '@oclif/plugin-warn-if-update-available': 3.0.6
       async-retry: 1.3.3
       aws-sdk: 2.1520.0
       change-case: 4.1.2
@@ -5912,6 +5942,14 @@ packages:
 
   /semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: 6.0.0
+    dev: true
+
+  /semver@7.6.0:
+    resolution: {integrity: sha512-EnwXhrlwXMk9gKu5/flx5sv/an57AkRplG3hTK68W7FRDN+k+OWBj65M7719OkA82XLBxrcX0KSHj+X5COhOVg==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -6951,7 +6989,7 @@ packages:
       preferred-pm: 3.1.2
       pretty-bytes: 5.6.0
       readable-stream: 4.4.2
-      semver: 7.5.4
+      semver: 7.6.0
       slash: 3.0.0
       strip-ansi: 6.0.1
       text-table: 0.2.0
@@ -6982,7 +7020,7 @@ packages:
       pacote: 15.2.0
       read-pkg-up: 7.0.1
       run-async: 2.4.1
-      semver: 7.5.4
+      semver: 7.6.0
       shelljs: 0.8.5
       sort-keys: 4.2.0
       text-table: 0.2.0
