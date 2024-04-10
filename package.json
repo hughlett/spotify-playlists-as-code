@@ -5,14 +5,8 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "shx rm -rf dist && tsc -b",
-    "lint": "eslint . --ext .ts",
-    "postpack": "shx rm -f oclif.manifest.json",
-    "posttest": "npm run lint",
-    "prepack": "npm run build && oclif manifest && oclif readme",
-    "prepare": "npm run build",
-    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme && git add README.md"
+    "build": "tsc",
+    "lint": "eslint . --ext .ts"
   },
   "repository": {
     "type": "git",
@@ -25,26 +19,14 @@
   },
   "homepage": "https://github.com/hughlett/spotify-playlists-as-code#readme",
   "devDependencies": {
-    "@oclif/prettier-config": "^0.2.1",
-    "@oclif/test": "^3",
-    "@types/chai": "^4",
     "@types/cli-progress": "^3.11.5",
     "@types/express": "^4.17.21",
-    "@types/mocha": "^10",
     "@types/node": "^20.10.3",
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
-    "chai": "^4",
     "eslint": "^8.55.0",
-    "eslint-config-oclif": "^5",
-    "eslint-config-oclif-typescript": "^3",
     "eslint-config-prettier": "^9.1.0",
-    "mocha": "^10",
-    "npm": "^10.2.5",
-    "oclif": "^4.0.4",
     "prettier": "^3.1.0",
-    "shx": "^0.3.4",
-    "ts-node": "^10.9.1",
     "tsx": "^4.6.2",
     "typescript": "^5.3.2"
   },
@@ -52,38 +34,16 @@
     "node": ">=20.0.0"
   },
   "files": [
-    "/bin",
     "/dist",
-    "/oclif.manifest.json",
     "/public"
   ],
   "dependencies": {
-    "@oclif/core": "^3",
-    "@oclif/plugin-autocomplete": "^3.0.3",
-    "@oclif/plugin-help": "^5",
-    "@oclif/plugin-plugins": "^4",
     "@spotify/web-api-ts-sdk": "^1.1.2",
     "chalk": "^5.3.0",
     "cli-progress": "^3.12.0",
     "express": "^4.18.2",
     "open": "^9.1.0",
     "yaml": "^2.3.4"
-  },
-  "oclif": {
-    "bin": "mynewcli",
-    "dirname": "mynewcli",
-    "commands": "./dist/commands",
-    "plugins": [
-      "@oclif/plugin-help",
-      "@oclif/plugin-plugins",
-      "@oclif/plugin-autocomplete"
-    ],
-    "topicSeparator": " ",
-    "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
-      }
-    }
   },
   "types": "dist/index.d.ts",
   "exports": "./lib/index.js"

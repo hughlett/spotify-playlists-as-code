@@ -5,11 +5,9 @@
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
-    "target": "es2022",
-    "moduleResolution": "NodeNext"
+    "target": "ES2022",
+    "moduleResolution": "NodeNext",
+    "skipLibCheck": true
   },
-  "include": ["./src/**/*"],
-  "ts-node": {
-    "esm": true
-  }
+  "include": ["src/*.ts"]
 }
