@@ -10,9 +10,9 @@
   2.  Doesn't include artist features.
   3.  Tedious.
 - Can automate creation of playlists for a specific artist or group from Liked Songs.
-- Needs to be some kind of cut-off for who to make a playlist for and not, don't want a playlist for an artist with only one liked song. (Cutoff for me ~5 songs).
 - (Maybe have a playlist of every Liked Song that isn't a part of the user's playlist?)
 - Manually curate and maintain a list of artists to have playlists for.
+- Specifying artists is better than grabbing every artist from Liked Songs and making a cutoff because it would create too many playlists (artists with pen names, groups, etc.)
 - Ok but how do I keep these automated playlists separate from my curated playlists? Ideally we could hide these automated playlists to a folder but [the Spotify web API doesn't provide an interface for folder management](https://developer.spotify.com/documentation/web-api/concepts/playlists#folders).
 - Best I can do is make the curated playlists stand out from the automated playlists. Preface each curated playlist with an emoji and use all lowercase (could use all uppercase instead). Use a custom playlist image cover.
 - Still have to scroll on smaller displays to find a certain playlist (I'm at 85 total playlists right now) but if I know the name of the playlist I'll just ask voice assistant to play it directly.
@@ -21,3 +21,13 @@
 - Automated playlists should maintain themselves and add/remove songs as the songs are added/removed from Liked Songs.
 - Edge case if artist changes name on Spotify then script will break.
 - Future could generate themed playlist cover art.
+
+## Requirements
+
+- User can create a playlist of a set of artists from the user's liked songs.
+  - The default name of the playlist should be the name(s) of the artists.
+  - The user can specify the name of the playlist.
+  - The minimum number of artists for a playlist is one.
+- Users can update the configuration for an existing playlist.
+  - The user can add or remove an artist from a playlist.
+- Playlists should automatically add or remove a song based on if the song exists in the user's Liked Songs.
