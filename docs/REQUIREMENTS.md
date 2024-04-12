@@ -26,7 +26,5 @@
 
 - The user can create a playlist of a set of artists from the user's liked songs.
   - The default name of the playlist should be the name(s) of the artists. If the combination of names is longer than 100 characters then the name should be the name of the first artist followed by "and more". The user can specify the name of the playlist. Assume that the user's playlist names are unique.
-- The user can update the configuration for an existing playlist.
-  - The user can add or remove an artist from a playlist.
 - Playlists should automatically add or remove a song based on if the song exists in the user's Liked Songs.
-- Only the playlists given by the user should ever be modified.
+- The user can delete managed playlists.
