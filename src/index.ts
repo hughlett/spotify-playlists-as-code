@@ -1,4 +1,4 @@
-import { Playlist, PlaylistedTrack, TrackItem } from '@spotify/web-api-ts-sdk'
+import { PlaylistedTrack, TrackItem } from '@spotify/web-api-ts-sdk'
 import getAllPlaylists from './lib/playlists/get-all-user-playlists.js'
 import { createAPI } from './lib/spotify-api/create-api.js'
 import getLikedTracks from './lib/tracks/get-user-liked-tracks.js'
@@ -37,6 +37,18 @@ async function playlistAlreadyExists(playlistName: string) {
   return false
 }
 
+function playlistContainsTrack(
+  playlist: PlaylistedTrack<TrackItem>[],
+  trackID: string,
+) {
+  for (const track of playlist) {
+    if (track.track.id === trackID) {
+      return true
+    }
+  }
+  return false
+}
+
 function isLikedTrack(track: PlaylistedTrack<TrackItem>) {
   for (const likedTrack of userLikedTracks) {
     if (likedTrack.track.uri === track.track.uri) {
@@ -64,9 +76,10 @@ for (const managedPlaylist of managedPlaylists) {
     console.log(chalk.green(`Created playist ${managedPlaylistName}`))
   }
 
+  const tracks = await getPlaylistTracks(playlist.id)
+
   // Remove any unliked songs from the playlist.
 
-  const tracks = await getPlaylistTracks(playlist.id)
   const URIsToRemove: Array<{
     uri: string
   }> = []
@@ -78,13 +91,44 @@ for (const managedPlaylist of managedPlaylists) {
     }
   }
 
-  await spotify.playlists.removeItemsFromPlaylist(playlist.id, {
-    tracks: URIsToRemove,
-  })
+  if (URIsToRemove.length > 0) {
+    await spotify.playlists.removeItemsFromPlaylist(playlist.id, {
+      tracks: URIsToRemove,
+    })
 
-  for (const removedTrack of removedTracks) {
-    console.log(
-      chalk.red(`Removed ${removedTrack.track.name} from ${playlist.name}`),
-    )
+    for (const removedTrack of removedTracks) {
+      console.log(
+        chalk.red(`Removed ${removedTrack.track.name} from ${playlist.name}`),
+      )
+    }
+  }
+
+  // Search for and add any liked songs that match the playlist criteria that aren't already present.
+
+  const URIsToAdd = []
+  const addedTracks = []
+
+  for (const likedTrack of userLikedTracks) {
+    // Does the song already exist on the playlist?
+    if (playlistContainsTrack(tracks, likedTrack.track.id)) {
+      continue
+    }
+
+    // Does the song belong on the playlist?
+    for (const artist of likedTrack.track.artists) {
+      if (managedPlaylist.artists.includes(artist.name)) {
+        URIsToAdd.push(likedTrack.track.uri)
+        addedTracks.push(likedTrack)
+      }
+    }
+  }
+
+  if (URIsToAdd.length > 0) {
+    for (const addedTrack of addedTracks) {
+      console.log(
+        chalk.green(`Added ${addedTrack.track.name} to ${playlist.name}`),
+      )
+    }
+    await spotify.playlists.addItemsToPlaylist(playlist.id, URIsToAdd)
   }
 }
