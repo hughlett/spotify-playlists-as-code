@@ -1,4 +1,8 @@
-import { PlaylistedTrack, TrackItem } from '@spotify/web-api-ts-sdk'
+import {
+  PlaylistedTrack,
+  SimplifiedArtist,
+  TrackItem,
+} from '@spotify/web-api-ts-sdk'
 import getAllPlaylists from './lib/playlists/get-all-user-playlists.js'
 import { createAPI } from './lib/spotify-api/create-api.js'
 import getLikedTracks from './lib/tracks/get-user-liked-tracks.js'
@@ -20,6 +24,128 @@ const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['A$AP Rocky'] },
   { artists: ['Gorillaz'] },
   { artists: ['21 Savage'] },
+  { artists: ['Young Thug'] },
+  {
+    artists: [
+      'Three 6 Mafia',
+      'Juicy J',
+      'Project Pat',
+      'DJ Paul',
+      'Lord Infamous',
+    ],
+    name: 'Three 6 Mafia',
+  },
+  { artists: ['Kendrick Lamar'] },
+  { artists: ['A Tribe Called Quest', 'Q-Tip'], name: 'A Tribe Called Quest' },
+  { artists: ['Wiz Khalifa'] },
+  { artists: ['Bob Marley & The Wailers', 'The Wailers'], name: 'Bob Marley' },
+  { artists: ['Drake'] },
+  { artists: ['Snoop Dogg'] },
+  { artists: ['Anderson .Paak'] },
+  { artists: ['Westside Gunn'] },
+  { artists: ['Future'] },
+  { artists: ['Slum Village'] },
+  { artists: ['Coolio'] },
+  { artists: ['Childish Gambino'], name: 'Gambino' },
+  { artists: ['Jay-Z'] },
+  { artists: ['2 Chainz'] },
+  { artists: ['Kodak Black'], name: 'Kodak' },
+  { artists: ['Playboi Carti'], name: 'Carti' },
+  { artists: ['Outkast', 'André 3000', 'Big Boi'], name: 'Outkast' },
+  { artists: ['Freddie Gibbs'] },
+  { artists: ['Lil Wayne', 'Lil Waye'] },
+  {
+    artists: [
+      'A$AP Mob',
+      'A$AP Rocky',
+      'A$AP Ferg',
+      'A$AP Twelvyy',
+      'A$AP NAST',
+      'A$AP ANT',
+    ],
+    name: 'A$AP Mob',
+  },
+  { artists: ['Macabre Plaza'] },
+  { artists: ['Aphex Twin'] },
+  { artists: ['Kool & The Gang'] },
+  { artists: ['Isaac Hayes'] },
+  { artists: ['Common'] },
+  { artists: ['Ms. Lauryn Hill', 'Fugees'], name: 'Fugees' },
+  { artists: ['Wee'] },
+  { artists: ['The Weeknd'] },
+  { artists: ['Vince Guaraldi'] },
+  { artists: ['Tom Petty'] },
+  { artists: ['T-Dre'] },
+  { artists: ['Tame Impala'] },
+  { artists: ['Stevie Wonder'] },
+  { artists: ['Stevie Ray Vaughan'] },
+  { artists: ['Steely Dan'] },
+  { artists: ['Santana'] },
+  { artists: ['Rush'] },
+  { artists: ['The Rolling Stones'] },
+  { artists: ['Rick Ross'] },
+  { artists: ['Ramones'] },
+  { artists: ['Pusha T'] },
+  { artists: ['Post Malone'] },
+  { artists: ['Simon & Garfunkel', 'Paul Simon'], name: 'Simon & Garfunkel' },
+  { artists: ['N.E.R.D'] },
+  { artists: ['Nas'] },
+  { artists: ['MF DOOM', 'King Geedorah', 'Doom'], name: 'DOOM' },
+  { artists: ['MED'] },
+  { artists: ['Led Zeppelin'] },
+  { artists: ['J Dilla', 'Jay Dee'], name: 'J Dilla' },
+  { artists: ['Joey Bada$$'] },
+  {
+    artists: [
+      'Wu-Tang Clan',
+      'GZA',
+      'Method Man',
+      'RZA',
+      'Ghostface Killah',
+      'Prince Rakeem',
+      'Inspectah Deck',
+      'Raekwon',
+      `Ol' Dirty Bastard`,
+      'Masta Killa',
+    ],
+    name: 'Wu-Tang Clan',
+  },
+  { artists: ['Funkadelic'] },
+  { artists: ['Dr. Dre'] },
+  { artists: ['Madlib', 'Quasimoto'], name: 'Madlib' },
+  { artists: ['Dorothy Ashby'] },
+  { artists: ['The Band'] },
+  { artists: ['America'] },
+  { artists: ['Frank Ocean'] },
+  { artists: ['Lil Uzi Vert'], name: 'Uzi' },
+  { artists: ['Fleetwood Mac'] },
+  { artists: ['Gucci Mane'] },
+  { artists: ['Grateful Dead'] },
+  { artists: ['Jimi Hendrix'] },
+  { artists: ['Eminem'] },
+  { artists: ['Richie Havens'] },
+  {
+    artists: ['Pink Floyd', 'David Gilmour', 'Roger Waters'],
+    name: 'Pink Floyd',
+  },
+  { artists: ['Daft Punk'] },
+  { artists: ['Cortex'] },
+  { artists: ['Creedence Clearwater Revival'], name: 'Creedence' },
+  { artists: ['The Clash'] },
+  { artists: ['Black Sabbath'] },
+  { artists: ['Tyler, The Creator'], name: 'Tyler' },
+  { artists: ['Kanye West'], name: 'Kanye' },
+  {
+    artists: [
+      'The Beatles',
+      'George Harrison',
+      'Paul McCartney',
+      'John Lennon',
+    ],
+    name: 'The Beatles',
+  },
+  { artists: ['The Beach Boys'] },
+  { artists: ['Travis Scott'] },
   { artists: ['Chance the Rapper'], name: 'Chance' },
   { artists: ['UGK', 'Pimp C', 'Bun B'], name: 'UGK' },
 ]
@@ -58,6 +184,17 @@ function isLikedTrack(track: PlaylistedTrack<TrackItem>) {
   return false
 }
 
+function songMeetsCriteria(
+  songArtists: SimplifiedArtist[],
+  playlistArtists: string[],
+) {
+  for (const artist of songArtists) {
+    if (playlistArtists.includes(artist.name)) {
+      return true
+    }
+  }
+}
+
 for (const managedPlaylist of managedPlaylists) {
   const managedPlaylistName = managedPlaylist.name || managedPlaylist.artists[0]
 
@@ -85,10 +222,12 @@ for (const managedPlaylist of managedPlaylists) {
   }> = []
   const removedTracks = []
   for (const track of tracks) {
-    if (!isLikedTrack(track)) {
-      URIsToRemove.push({ uri: track.track.uri })
-      removedTracks.push(track)
+    if (track.is_local || isLikedTrack(track)) {
+      continue
     }
+
+    URIsToRemove.push({ uri: track.track.uri })
+    removedTracks.push(track)
   }
 
   if (URIsToRemove.length > 0) {
@@ -105,22 +244,20 @@ for (const managedPlaylist of managedPlaylists) {
 
   // Search for and add any liked songs that match the playlist criteria that aren't already present.
 
-  const URIsToAdd = []
+  const URIsToAdd: string[] = []
   const addedTracks = []
 
   for (const likedTrack of userLikedTracks) {
-    // Does the song already exist on the playlist?
-    if (playlistContainsTrack(tracks, likedTrack.track.id)) {
+    if (
+      playlistContainsTrack(tracks, likedTrack.track.id) ||
+      URIsToAdd.includes(likedTrack.track.uri) ||
+      !songMeetsCriteria(likedTrack.track.artists, managedPlaylist.artists)
+    ) {
       continue
     }
 
-    // Does the song belong on the playlist?
-    for (const artist of likedTrack.track.artists) {
-      if (managedPlaylist.artists.includes(artist.name)) {
-        URIsToAdd.push(likedTrack.track.uri)
-        addedTracks.push(likedTrack)
-      }
-    }
+    URIsToAdd.push(likedTrack.track.uri)
+    addedTracks.push(likedTrack)
   }
 
   if (URIsToAdd.length > 0) {
