@@ -150,7 +150,7 @@ const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['UGK', 'Pimp C', 'Bun B'], name: 'UGK' },
 ]
 
-async function playlistAlreadyExists(playlistName: string) {
+function playlistAlreadyExists(playlistName: string) {
   for (const userPlaylist of userPlaylists) {
     if (
       userPlaylist.owner.uri === user.uri &&
