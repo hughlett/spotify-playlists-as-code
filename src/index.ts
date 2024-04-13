@@ -17,11 +17,11 @@ type ManagedPlaylist = {
 
 const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Mac Miller'] },
-  // { artists: ['A$AP Rocky'] },
-  // { artists: ['Gorillaz'] },
-  // { artists: ['21 Savage'] },
-  // { artists: ['Chance the Rapper'], name: 'Chance' },
-  // { artists: ['UGK', 'Pimp C', 'Bun B'], name: 'UGK' },
+  { artists: ['A$AP Rocky'] },
+  { artists: ['Gorillaz'] },
+  { artists: ['21 Savage'] },
+  { artists: ['Chance the Rapper'], name: 'Chance' },
+  { artists: ['UGK', 'Pimp C', 'Bun B'], name: 'UGK' },
 ]
 
 async function playlistAlreadyExists(playlistName: string) {
@@ -67,9 +67,24 @@ for (const managedPlaylist of managedPlaylists) {
   // Remove any unliked songs from the playlist.
 
   const tracks = await getPlaylistTracks(playlist.id)
+  const URIsToRemove: Array<{
+    uri: string
+  }> = []
+  const removedTracks = []
   for (const track of tracks) {
     if (!isLikedTrack(track)) {
-      console.log(`${track.track.name} is not a liked track`)
+      URIsToRemove.push({ uri: track.track.uri })
+      removedTracks.push(track)
     }
+  }
+
+  await spotify.playlists.removeItemsFromPlaylist(playlist.id, {
+    tracks: URIsToRemove,
+  })
+
+  for (const removedTrack of removedTracks) {
+    console.log(
+      chalk.red(`Removed ${removedTrack.track.name} from ${playlist.name}`),
+    )
   }
 }
