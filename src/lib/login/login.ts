@@ -12,7 +12,8 @@ import { base64encode, generateRandomString, sha256 } from './pkce.js'
 
 const PORT = 5173
 const client_id = `00bc6817f84c4065aa526dbb1fe66169`
-const scope = 'playlist-read-private user-library-read'
+const scope =
+  'user-library-read playlist-read-private playlist-modify-public playlist-modify-private'
 const redirect_uri = 'http://localhost:' + PORT + '/callback'
 const state = randomBytes(16).toString('hex')
 
