@@ -1,4 +1,4 @@
-import { createAPI } from '../../lib/spotify-api/create-api.js'
+import { createAPI } from '../spotify-api/create-api.js'
 
 const spotify = await createAPI()
 const result = await spotify.currentUser.profile()
