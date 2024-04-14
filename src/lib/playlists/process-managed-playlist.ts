@@ -2,6 +2,7 @@ import {
   PlaylistedTrack,
   SavedTrack,
   SimplifiedArtist,
+  SimplifiedPlaylist,
   TrackItem,
 } from '@spotify/web-api-ts-sdk'
 import getAllPlaylists from './get-all-user-playlists.js'
@@ -20,6 +21,37 @@ const user = await spotify.currentUser.profile()
 const userPlaylists = await getAllPlaylists()
 const userLikedTracks = await getLikedTracks()
 
+/**
+ * Process an array of managed playlists.
+ * @param managedPlaylists Managed playlists to process.
+ */
+export async function processManagedPlaylists(
+  managedPlaylists: ManagedPlaylist[],
+) {
+  // Divide the array into arrays of size BATCH_SIZE
+  const BATCH_SIZE = 5
+  const managedPlaylistsArrays = [
+    ...Array(Math.ceil(managedPlaylists.length / BATCH_SIZE)),
+  ].map((_) => managedPlaylists.splice(0, BATCH_SIZE))
+
+  // Process each batch of managed playlists
+  for (const array of managedPlaylistsArrays) {
+    const promises = array.map((managedPlaylist) => {
+      return processManagedPlaylist(managedPlaylist)
+    })
+
+    await Promise.all(
+      promises.map(async (promise) => {
+        await promise
+      }),
+    )
+  }
+}
+
+/**
+ * Process a managed playlist.
+ * @param managedPlaylist Managed playlist to process.
+ */
 async function processManagedPlaylist(managedPlaylist: ManagedPlaylist) {
   // Get the name of the managed playlist
   const managedPlaylistName = getManagedPlaylistName(managedPlaylist)
@@ -32,30 +64,11 @@ async function processManagedPlaylist(managedPlaylist: ManagedPlaylist) {
   // Get the managed playlist's tracks.
   const tracks = await getPlaylistTracks(playlist.id)
 
-  // Find any unliked songs that exist in the managed playlist.
+  // Find any unliked songs that exist in the managed playlist and remove them.
   const removedTracks: PlaylistedTrack<TrackItem>[] = tracks.filter((track) => {
     return !track.is_local && !isLikedTrack(track)
   })
-
-  const URIsToRemove: Array<{
-    uri: string
-  }> = removedTracks.map((track) => {
-    return {
-      uri: track.track.uri,
-    }
-  })
-
-  if (URIsToRemove.length > 0) {
-    await spotify.playlists.removeItemsFromPlaylist(playlist.id, {
-      tracks: URIsToRemove,
-    })
-
-    removedTracks.map((removedTrack) => {
-      console.log(
-        chalk.red(`Removed ${removedTrack.track.name} from ${playlist.name}`),
-      )
-    })
-  }
+  await removeTracks(removedTracks, playlist)
 
   // Search for and add any liked songs that match the playlist criteria that aren't already present.
   const addedTracks: SavedTrack[] = userLikedTracks.filter((userLikedTrack) => {
@@ -64,47 +77,67 @@ async function processManagedPlaylist(managedPlaylist: ManagedPlaylist) {
       songMeetsCriteria(userLikedTrack.track.artists, managedPlaylist.artists)
     )
   })
+  addTracks(addedTracks, playlist)
+}
 
+async function addTracks(
+  addedTracks: SavedTrack[],
+  playlist: SimplifiedPlaylist,
+) {
   const URIsToAdd: string[] = addedTracks.map((track) => {
     return track.track.uri
   })
 
-  if (URIsToAdd.length > 0) {
-    await spotify.playlists.addItemsToPlaylist(playlist.id, URIsToAdd)
-
-    addedTracks.map((addedTrack) => {
-      console.log(
-        chalk.green(`Added ${addedTrack.track.name} to ${playlist.name}`),
-      )
-    })
-  }
-}
-
-/**
- *
- * @param managedPlaylists
- * @returns
- */
-export async function processManagedPlaylists(
-  managedPlaylists: ManagedPlaylist[],
-): Promise<boolean> {
-  const arrays = [...Array(Math.ceil(managedPlaylists.length / 5))].map((_) =>
-    managedPlaylists.splice(0, 5),
+  const URIsToAddArrays = [...Array(Math.ceil(URIsToAdd.length / 100))].map(
+    (_) => URIsToAdd.splice(0, 100),
   )
 
-  for (const array of arrays) {
-    const promises = array.map((managedPlaylist) => {
-      return processManagedPlaylist(managedPlaylist)
+  const promises = URIsToAddArrays.map(async (URIsToAddArray) => {
+    URIsToAddArray.map((uri) => {
+      console.log(chalk.red(`Added ${uri} to ${playlist.name}`))
     })
 
-    await Promise.all(
-      promises.map(async (promise) => {
-        await promise
-      }),
-    )
-  }
+    await spotify.playlists.addItemsToPlaylist(playlist.id, URIsToAddArray)
+  })
 
-  return true
+  await Promise.all(
+    promises.map(async (promise) => {
+      await promise
+    }),
+  )
+}
+
+async function removeTracks(
+  removedTracks: PlaylistedTrack<TrackItem>[],
+  playlist: SimplifiedPlaylist,
+) {
+  const URIsToRemove: Array<{
+    uri: string
+  }> = removedTracks.map((track) => {
+    return {
+      uri: track.track.uri,
+    }
+  })
+
+  const URIsToRemoveArrays = [
+    ...Array(Math.ceil(URIsToRemove.length / 100)),
+  ].map((_) => URIsToRemove.splice(0, 100))
+
+  const promises = URIsToRemoveArrays.map(async (URIsToRemoveArray) => {
+    URIsToRemoveArray.map((uri) => {
+      console.log(chalk.red(`Removed ${uri.uri} from ${playlist.name}`))
+    })
+
+    await spotify.playlists.removeItemsFromPlaylist(playlist.id, {
+      tracks: URIsToRemove,
+    })
+  })
+
+  await Promise.all(
+    promises.map(async (promise) => {
+      await promise
+    }),
+  )
 }
 
 /**
