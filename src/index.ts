@@ -3,6 +3,9 @@ import {
   processManagedPlaylists,
 } from './lib/playlists/process-managed-playlist.js'
 
+import { processDanglingTracks } from './lib/playlists/process-dangling-tracks.js'
+import { login } from './lib/login/login.js'
+
 const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Mac Miller'] },
   { artists: ['A$AP Rocky'] },
@@ -66,6 +69,10 @@ const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Black Sabbath'] },
   { artists: ['The Beach Boys'] },
   { artists: ['Travis Scott'] },
+  { artists: ['The Pharcyde'] },
+  { artists: ['Warren G'] },
+  { artists: ['The Police'] },
+  { artists: ['The Isley Brothers'] },
   { artists: ['Childish Gambino'], name: 'Gambino' },
   { artists: ['Kodak Black'], name: 'Kodak' },
   { artists: ['Playboi Carti'], name: 'Carti' },
@@ -83,6 +90,15 @@ const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Outkast', 'André 3000', 'Big Boi'], name: 'Outkast' },
   { artists: ['A Tribe Called Quest', 'Q-Tip'], name: 'A Tribe Called Quest' },
   { artists: ['Bob Marley & The Wailers', 'The Wailers'], name: 'Bob Marley' },
+  {
+    artists: [
+      'Neil Young',
+      'Crazy Horse',
+      'The Stills-Young Band',
+      'Crosby, Stills, Nash & Young',
+    ],
+    name: 'Neil Young',
+  },
   {
     artists: ['Pink Floyd', 'David Gilmour', 'Roger Waters'],
     name: 'Pink Floyd',
@@ -135,4 +151,8 @@ const managedPlaylists: ManagedPlaylist[] = [
   },
 ]
 
+// login()
+
 await processManagedPlaylists(managedPlaylists)
+
+await processDanglingTracks()
