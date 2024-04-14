@@ -21,7 +21,7 @@ async function getItems(urls: string[], total: number, progressBar: SingleBar) {
 
   let items: any[] = []
 
-  progressBar.start(total, 0)
+  // progressBar.start(total, 0)
 
   await Promise.all(
     requests.map(async (request) => {
@@ -32,7 +32,7 @@ async function getItems(urls: string[], total: number, progressBar: SingleBar) {
     }),
   )
 
-  progressBar.stop()
+  // progressBar.stop()
   return items
 }
 
