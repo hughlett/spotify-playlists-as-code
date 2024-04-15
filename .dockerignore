@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# Allow files and directories
+!/public
+!/src
+!/data
+!/package*.json

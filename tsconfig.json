@@ -3,11 +3,9 @@
     "declaration": true,
     "module": "NodeNext",
     "outDir": "dist",
-    "rootDir": "src",
     "strict": true,
     "target": "ES2022",
     "moduleResolution": "NodeNext",
     "skipLibCheck": true
-  },
-  "include": ["src/*.ts"]
+  }
 }

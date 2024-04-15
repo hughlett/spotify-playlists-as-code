@@ -1,17 +1,11 @@
 /* eslint-disable camelcase */
 import { readFileSync, writeFileSync } from 'node:fs'
-import { dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
 
 import { login } from '../login/login.js'
 
-export const refreshTokenPath = `${dirname(
-  dirname(dirname(dirname(fileURLToPath(import.meta.url)))),
-)}/refresh_token`
+export const refreshTokenPath = `/tokens/refresh_token`
 
-export const accessTokenPath = `${dirname(
-  dirname(dirname(dirname(fileURLToPath(import.meta.url)))),
-)}/access_token`
+export const accessTokenPath = `/tokens/access_token`
 
 export function setRefreshToken(refreshToken: string) {
   writeFileSync(refreshTokenPath, refreshToken)
