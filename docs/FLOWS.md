@@ -18,3 +18,10 @@
 4. For each liked song...
 5. See if the liked song exists in the tracks from each of the user's playlists.
 6. If yes, remove the track from 'Dangling tracks'. If no, add the track to 'Dangling tracks' if it isn't there already.
+
+## CI workflow
+
+1. Build the Docker image
+2. Save the refresh token secret to the tokens folder
+3. Run the Docker image with the refresh_token, data folder and tokens folder
+4. Save the value of refresh_token as a secret
