@@ -17,8 +17,8 @@ jobs:
         shell: bash
         run: mkdir ./tokens && touch ./tokens/refresh_token && echo "$REFRESH_TOKEN" >> ./tokens/refresh_token
 
-      - name: Run SPAC
-        run: docker run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac
+      # - name: Run SPAC
+      #   run: docker run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac
 
       - name: Set refresh token secret
         run: gh secret set REFRESH_TOKEN < ./tokens/refresh_token
