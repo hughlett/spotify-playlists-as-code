@@ -1,1 +1,1 @@
-cd /tokens && ls -la
+cd /tokens && cat refresh_token
