@@ -12,9 +12,12 @@ jobs:
         run: docker build . --file Dockerfile --tag spac
 
       - name: Save refresh token to file
-        run: mkdir ./tokens && echo "$REFRESH_TOKEN" > ./tokens/refresh_token && echo "$GID" && echo "$UID"
+        run: mkdir ./tokens && echo "$REFRESH_TOKEN" > ./tokens/refresh_token && id -u runner
         env:
           refresh_token: ${{ secrets.REFRESH_TOKEN }}
+
+      - name: Echo
+        run: id -g runner
 
       - name: Run SPAC
         run: docker run -e UID=1001 -e GID=1001 -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw --rm spac
