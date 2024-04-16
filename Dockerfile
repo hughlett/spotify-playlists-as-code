@@ -1,6 +1,5 @@
 FROM node:20-slim
-ENV UID = 1000
-ENV GID = 1000
+
 WORKDIR /spac
 
 COPY package*.json .
