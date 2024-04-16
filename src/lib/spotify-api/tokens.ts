@@ -30,6 +30,7 @@ export function generateRefreshToken() {
 export async function generateAccessToken() {
   const CLIENT_ID = '813f058151b749cf9400a586ab0c3c54'
   const refreshToken = getRefreshToken()
+  console.log(`Refresh token: ${refreshToken}`)
 
   const response = await fetch('https://accounts.spotify.com/api/token', {
     body: new URLSearchParams({
