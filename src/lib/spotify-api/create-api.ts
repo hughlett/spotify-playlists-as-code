@@ -1,43 +1,18 @@
 /* eslint-disable camelcase */
 import { SpotifyApi } from '@spotify/web-api-ts-sdk'
-import { existsSync } from 'node:fs'
 
-import {
-  accessTokenPath,
-  generateAccessToken,
-  getAccessToken,
-  getRefreshToken,
-  refreshTokenPath,
-} from './tokens.js'
+import { generateAccessToken, getRefreshToken } from './tokens.js'
+import { writeFileSync } from 'fs'
 
-const CLIENT_ID = '00bc6817f84c4065aa526dbb1fe66169'
-
-// TODO: Refactor
+const CLIENT_ID = '813f058151b749cf9400a586ab0c3c54'
 
 export async function createAPI() {
-  if (!existsSync(refreshTokenPath)) {
-    console.log('Login!')
-  }
-
   const refreshToken = getRefreshToken()
+
+  writeFileSync('/tokens/refresh_token', refreshToken)
+
+  const accessToken = await generateAccessToken()
   console.log(refreshToken)
-
-  if (!existsSync(accessTokenPath)) {
-    await generateAccessToken()
-
-    const accessToken = getAccessToken()
-    console.log(accessToken)
-
-    return SpotifyApi.withAccessToken(CLIENT_ID, {
-      access_token: accessToken,
-      expires_in: 3600,
-      refresh_token: refreshToken,
-      token_type: 'Bearer',
-    })
-  }
-
-  let accessToken = getAccessToken()
-
   const api = SpotifyApi.withAccessToken(CLIENT_ID, {
     access_token: accessToken,
     expires_in: 3600,
@@ -45,18 +20,5 @@ export async function createAPI() {
     token_type: 'Bearer',
   })
 
-  try {
-    await api.currentUser.profile()
-    return api
-  } catch (error) {
-    await generateAccessToken()
-    accessToken = getAccessToken()
-
-    return SpotifyApi.withAccessToken(CLIENT_ID, {
-      access_token: accessToken,
-      expires_in: 3600,
-      refresh_token: refreshToken,
-      token_type: 'Bearer',
-    })
-  }
+  return api
 }

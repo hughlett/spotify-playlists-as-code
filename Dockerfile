@@ -1,14 +1,14 @@
 FROM node:20-slim
 
-ARG USERNAME=node
-ARG USER_UID
-ARG USER_GID=$USER_UID
+# ARG USERNAME=node
+# ARG USER_UID
+# ARG USER_GID=$USER_UID
 
-RUN groupmod --gid $USER_GID $USERNAME \
-    && usermod --uid $USER_UID --gid $USER_GID $USERNAME \
-    && chown -R $USER_UID:$USER_GID /home/$USERNAME
+# RUN groupmod --gid $USER_GID $USERNAME \
+#     && usermod --uid $USER_UID --gid $USER_GID $USERNAME \
+#     && chown -R $USER_UID:$USER_GID /home/$USERNAME
 
-USER node
+# USER node
 
 WORKDIR /spac
 
@@ -20,5 +20,5 @@ COPY ./ .
 
 EXPOSE 5173
 
-# ENTRYPOINT ["/bin/sh", "-c" , "npx tsx src/index.ts"]
-ENTRYPOINT ["/bin/sh", "./scripts/test.sh"]
+ENTRYPOINT ["/bin/sh", "-c" , "npx tsx src/index.ts"]
+# ENTRYPOINT ["/bin/sh", "./scripts/test.sh"]

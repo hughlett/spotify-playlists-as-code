@@ -8,15 +8,16 @@ export const refreshTokenPath = `/tokens/refresh_token`
 export const accessTokenPath = `/tokens/access_token`
 
 export function setRefreshToken(refreshToken: string) {
-  writeFileSync(refreshTokenPath, refreshToken)
+  // writeFileSync(refreshTokenPath, refreshToken)
+  return
 }
 
 export function setAccessToken(accessToken: string) {
   writeFileSync(accessTokenPath, accessToken)
 }
 
-export function getRefreshToken() {
-  return readFileSync(refreshTokenPath).toString('utf8')
+export function getRefreshToken(): string {
+  return process.env.REFRESH_TOKEN
 }
 
 export function getAccessToken() {
@@ -49,6 +50,5 @@ export async function generateAccessToken() {
 
   const accessToken = body.access_token
   const newRefreshToken = body.refresh_token
-  setAccessToken(accessToken)
-  setRefreshToken(newRefreshToken)
+  return accessToken
 }

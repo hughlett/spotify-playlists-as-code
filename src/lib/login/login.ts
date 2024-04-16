@@ -56,8 +56,8 @@ app.get('/token', async (req, res) => {
   })
     .then(async (response) => {
       const body = await response.json()
+      console.log(body)
       setRefreshToken(body.refresh_token)
-      setAccessToken(body.access_token)
     })
     .catch(() => {
       console.log('Could not login')
@@ -82,6 +82,6 @@ export function login() {
       })
     console.log(URL)
 
-    open(URL)
+    // open(URL)
   })
 }
