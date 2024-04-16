@@ -17,6 +17,7 @@ jobs:
         shell: bash
         run: |
           mkdir ./tokens \
+          touch ./tokens/refresh_token \
           echo "$REFRESH_TOKEN" >> ./tokens/refresh_token \
 
       - name: Run SPAC
