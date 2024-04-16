@@ -44,6 +44,7 @@ export async function generateAccessToken() {
   })
 
   const body = await response.json()
+  console.log(body)
 
   const accessToken = body.access_token
   const newRefreshToken = body.refresh_token
