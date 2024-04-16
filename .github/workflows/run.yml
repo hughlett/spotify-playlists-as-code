@@ -12,7 +12,7 @@ jobs:
         run: docker build . --file Dockerfile --tag spac
 
       - name: Save refresh token to file
-        run: mkdir ./tokens && echo "$REFRESH_TOKEN" > ./tokens/refresh_token && cat ./tokens/refresh_token
+        run: mkdir ./tokens && echo "$REFRESH_TOKEN" > ./tokens/refresh_token && ls -la && echo "$UID $GID"
         env:
           refresh_token: ${{ secrets.REFRESH_TOKEN }}
 
