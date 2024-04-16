@@ -1,1 +1,1 @@
-cd /tokens && cat refresh_token
+wc -c /tokens/refresh_token
