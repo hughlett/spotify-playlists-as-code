@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . -t spac --build-arg USER_UID=$(id -u) --build-arg GROUP_GID=$(id -g)
+        run: docker build . -t spac --build-arg USER_UID=1001 --build-arg GROUP_GID=127
 
       - name: Save refresh token to file
         run: mkdir ./tokens && echo "$REFRESH_TOKEN" > ./tokens/refresh_token

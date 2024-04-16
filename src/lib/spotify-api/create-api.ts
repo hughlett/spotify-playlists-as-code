@@ -20,11 +20,13 @@ export async function createAPI() {
   }
 
   const refreshToken = getRefreshToken()
+  console.log(refreshToken)
 
   if (!existsSync(accessTokenPath)) {
     await generateAccessToken()
 
     const accessToken = getAccessToken()
+    console.log(accessToken)
 
     return SpotifyApi.withAccessToken(CLIENT_ID, {
       access_token: accessToken,
