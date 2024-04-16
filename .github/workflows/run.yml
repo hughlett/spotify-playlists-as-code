@@ -13,7 +13,7 @@ jobs:
 
       - name: Save refresh token to file
         env:
-          super_secret: ${{ secrets.REFRESH_TOKEN }}
+          refresh_token: ${{ secrets.REFRESH_TOKEN }}
         shell: bash
         run: mkdir ./tokens && touch ./tokens/refresh_token && echo "$REFRESH_TOKEN" >> ./tokens/refresh_token
 
