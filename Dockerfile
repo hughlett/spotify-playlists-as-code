@@ -20,4 +20,5 @@ COPY ./ .
 
 EXPOSE 5173
 
-ENTRYPOINT ["/bin/sh", "-c" , "npx tsx src/index.ts"]
+# ENTRYPOINT ["/bin/sh", "-c" , "npx tsx src/index.ts"]
+ENTRYPOINT ["/bin/sh", "./scripts/test.sh"]
