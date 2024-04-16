@@ -15,7 +15,9 @@ jobs:
         env:
           super_secret: ${{ secrets.REFRESH_TOKEN }}
         shell: bash
-        run: echo "$REFRESH_TOKEN" >> ./tokens/refresh_token
+        run: |
+          mkdir ./tokens \
+          echo "$REFRESH_TOKEN" >> ./tokens/refresh_token \
 
       - name: Run SPAC
         run: docker run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac
