@@ -15,7 +15,7 @@ jobs:
         env:
           refresh_token: ${{ secrets.REFRESH_TOKEN }}
         shell: bash
-        run: mkdir ./tokens && touch ./tokens/refresh_token && echo "$REFRESH_TOKEN" >> ./tokens/refresh_token
+        run: mkdir ./tokens && echo "$REFRESH_TOKEN" > ./tokens/refresh_token && cat ./tokens/refresh_token
 
       - name: Run SPAC
         run: docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw --rm spac
