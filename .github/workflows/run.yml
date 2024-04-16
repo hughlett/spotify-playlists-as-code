@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag spac
+        run: docker build . -t spac --build-arg USER_UID=$(id -u) --build-arg GROUP_GID=$(id -g)
 
       - name: Save refresh token to file
         run: mkdir ./tokens && echo "$REFRESH_TOKEN" > ./tokens/refresh_token
@@ -17,7 +17,7 @@ jobs:
           refresh_token: ${{ secrets.REFRESH_TOKEN }}
 
       - name: Run SPAC
-        run: docker run -e UID=1001 -e GID=127 -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw --rm spac
+        run: docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw --rm spac
 
       - name: Set refresh token secret
         run: gh secret set REFRESH_TOKEN < ./tokens/refresh_token
