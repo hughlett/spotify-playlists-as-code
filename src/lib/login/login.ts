@@ -11,7 +11,7 @@ import { setAccessToken, setRefreshToken } from '../spotify-api/tokens.js'
 import { base64encode, generateRandomString, sha256 } from './pkce.js'
 
 const PORT = 5173
-const client_id = `00bc6817f84c4065aa526dbb1fe66169`
+const client_id = `813f058151b749cf9400a586ab0c3c54`
 const scope =
   'user-library-read playlist-read-private playlist-modify-public playlist-modify-private'
 const redirect_uri = 'http://localhost:' + PORT + '/callback'
@@ -80,6 +80,7 @@ export function login() {
         scope,
         state,
       })
+    console.log(URL)
 
     open(URL)
   })

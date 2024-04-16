@@ -7,9 +7,9 @@ import { createAPI } from './lib/spotify-api/create-api.js'
 
 const spotify = await createAPI()
 
-const user = spotify.currentUser.profile.name
+const user = await spotify.currentUser.profile()
 
-console.log(user)
+console.log(user.display_name)
 
 // await processManagedPlaylists(managedPlaylists)
 // await processDanglingTracks()

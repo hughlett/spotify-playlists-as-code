@@ -28,7 +28,7 @@ export function generateRefreshToken() {
 }
 
 export async function generateAccessToken() {
-  const CLIENT_ID = '00bc6817f84c4065aa526dbb1fe66169'
+  const CLIENT_ID = '813f058151b749cf9400a586ab0c3c54'
   const refreshToken = getRefreshToken()
 
   const response = await fetch('https://accounts.spotify.com/api/token', {
