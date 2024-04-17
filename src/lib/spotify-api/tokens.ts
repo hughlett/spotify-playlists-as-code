@@ -3,20 +3,8 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 
 export const REFRESH_TOKEN_PATH = `/tokens/refresh_token`
 
-export function setRefreshToken(refreshToken: string) {
-  writeFileSync(REFRESH_TOKEN_PATH, refreshToken)
-}
-
-export function getRefreshToken(): string {
-  if (existsSync(REFRESH_TOKEN_PATH)) {
-    return readFileSync(REFRESH_TOKEN_PATH).toString('utf8')
-  }
-  return process.env.REFRESH_TOKEN
-}
-
-export async function generateAccessToken() {
+export async function generateAccessToken(refreshToken: string) {
   const CLIENT_ID = '813f058151b749cf9400a586ab0c3c54'
-  const refreshToken = getRefreshToken()
 
   const response = await fetch('https://accounts.spotify.com/api/token', {
     body: new URLSearchParams({
@@ -31,6 +19,6 @@ export async function generateAccessToken() {
   })
 
   const body = await response.json()
-  setRefreshToken(body.refresh_token)
+  writeFileSync(REFRESH_TOKEN_PATH, body.refresh_token)
   return body.access_token
 }
