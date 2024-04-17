@@ -7,16 +7,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Build the Docker image
-        run: docker build . -t spac
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        uses: docker/build-push-action@v5
+        with:
+          tags: spac
+          file: Dockerfile
+          context: .
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Run SPAC
-        run: mkdir tokens && docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw -e REFRESH_TOKEN=${REFRESH_TOKEN} --rm spac
+        run: docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw -e REFRESH_TOKEN=${REFRESH_TOKEN} --rm spac
         env:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
-      - name: Set refresh token secret
+      - name: Update refresh token secret
         run: gh secret set REFRESH_TOKEN < ./tokens/refresh_token
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
