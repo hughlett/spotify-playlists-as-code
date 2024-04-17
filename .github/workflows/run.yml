@@ -24,7 +24,7 @@ jobs:
           load: true
 
       - name: Run SPAC
-        run: docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw -e REFRESH_TOKEN=${REFRESH_TOKEN} --rm spac
+        run: mkdir tokens && docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw -e REFRESH_TOKEN=${REFRESH_TOKEN} --rm spac
         env:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
