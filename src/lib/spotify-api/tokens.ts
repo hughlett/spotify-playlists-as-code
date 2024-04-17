@@ -8,7 +8,7 @@ export function setRefreshToken(refreshToken: string) {
 }
 
 export function getRefreshToken(): string {
-  return process.env.REFRESH_TOKEN || ''
+  return process.env.REFRESH_TOKEN
 }
 
 export async function generateAccessToken() {
