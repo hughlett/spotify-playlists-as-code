@@ -8,8 +8,7 @@ export const refreshTokenPath = `/tokens/refresh_token`
 export const accessTokenPath = `/tokens/access_token`
 
 export function setRefreshToken(refreshToken: string) {
-  // writeFileSync(refreshTokenPath, refreshToken)
-  return
+  writeFileSync(refreshTokenPath, refreshToken)
 }
 
 export function setAccessToken(accessToken: string) {
@@ -31,7 +30,6 @@ export function generateRefreshToken() {
 export async function generateAccessToken() {
   const CLIENT_ID = '813f058151b749cf9400a586ab0c3c54'
   const refreshToken = getRefreshToken()
-  console.log(`Refresh token: ${refreshToken}`)
 
   const response = await fetch('https://accounts.spotify.com/api/token', {
     body: new URLSearchParams({
@@ -46,9 +44,7 @@ export async function generateAccessToken() {
   })
 
   const body = await response.json()
-  console.log(body)
-
   const accessToken = body.access_token
-  const newRefreshToken = body.refresh_token
+  setRefreshToken(body.refresh_token)
   return accessToken
 }

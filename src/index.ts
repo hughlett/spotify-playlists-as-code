@@ -13,4 +13,3 @@ console.log(user.display_name)
 
 // await processManagedPlaylists(managedPlaylists)
 // await processDanglingTracks()
-// login()
