@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { writeFileSync } from 'node:fs'
 
 export const REFRESH_TOKEN_PATH = `/tokens/refresh_token`
 
