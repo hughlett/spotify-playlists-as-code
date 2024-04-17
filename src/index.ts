@@ -3,4 +3,4 @@ import { processDanglingTracks } from './lib/playlists/process-dangling-tracks.j
 import { managedPlaylists } from '../data/managedPlaylists.js'
 
 await processManagedPlaylists(managedPlaylists)
-// await processDanglingTracks()
+await processDanglingTracks()
