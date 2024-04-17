@@ -7,6 +7,7 @@ import { readFileSync } from 'node:fs'
 const CLIENT_ID = '813f058151b749cf9400a586ab0c3c54'
 
 async function createAPI() {
+  // @ts-ignore
   const accessToken = await generateAccessToken(process.env.REFRESH_TOKEN)
 
   const api = SpotifyApi.withAccessToken(CLIENT_ID, {

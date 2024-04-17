@@ -1,6 +1,6 @@
 import { SingleBar } from 'cli-progress'
 
-import { SpotifyApiSingleton, createAPI } from '../spotify-api/create-api.js'
+import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 
 async function getItems(urls: string[], total: number, progressBar: SingleBar) {
   const spotify = await SpotifyApiSingleton.getInstance()

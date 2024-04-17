@@ -11,13 +11,14 @@ import getLikedTracks from '../tracks/get-user-liked-tracks.js'
 import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
 import chalk from 'chalk'
 
-const userLikedTracks = await getLikedTracks()
 const userPlaylists = await getAllPlaylists()
 const spotify = await SpotifyApiSingleton.getInstance()
 const user = await spotify.currentUser.profile()
 const PLAYLIST_NAME = 'Dangling Tracks'
 
 export async function processDanglingTracks() {
+  const userLikedTracks = await getLikedTracks()
+
   let playlist = playlistAlreadyExists(PLAYLIST_NAME)
 
   // Create the playlist if it doesn't exist yet
