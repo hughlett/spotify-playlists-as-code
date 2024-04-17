@@ -6,7 +6,7 @@ import {
   TrackItem,
 } from '@spotify/web-api-ts-sdk'
 import getAllPlaylists from './get-all-user-playlists.js'
-import { createAPI } from '../spotify-api/create-api.js'
+import { SpotifyApiSingleton, createAPI } from '../spotify-api/create-api.js'
 import getLikedTracks from '../tracks/get-user-liked-tracks.js'
 import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
 import chalk from 'chalk'
@@ -16,7 +16,7 @@ export type ManagedPlaylist = {
   name?: string
 }
 
-const spotify = await createAPI()
+const spotify = await SpotifyApiSingleton.getInstance()
 const user = await spotify.currentUser.profile()
 const userPlaylists = await getAllPlaylists()
 const userLikedTracks = await getLikedTracks()

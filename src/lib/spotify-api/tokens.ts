@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 
 export const REFRESH_TOKEN_PATH = `/tokens/refresh_token`
 
@@ -8,6 +8,9 @@ export function setRefreshToken(refreshToken: string) {
 }
 
 export function getRefreshToken(): string {
+  if (existsSync(REFRESH_TOKEN_PATH)) {
+    return readFileSync(REFRESH_TOKEN_PATH).toString('utf8')
+  }
   return process.env.REFRESH_TOKEN
 }
 

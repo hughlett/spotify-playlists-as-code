@@ -1,5 +1,5 @@
-import { createAPI } from '../spotify-api/create-api.js'
+import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 
-const spotify = await createAPI()
+const spotify = await SpotifyApiSingleton.getInstance()
 const result = await spotify.currentUser.profile()
 console.log(result.display_name)

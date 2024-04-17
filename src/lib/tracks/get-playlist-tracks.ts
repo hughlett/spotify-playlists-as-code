@@ -3,10 +3,10 @@ import chalk from 'chalk'
 import { SingleBar } from 'cli-progress'
 
 import getItems from '../items/get-items.js'
-import { createAPI } from '../spotify-api/create-api.js'
+import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 
 async function getPlaylistTracks(id: string): Promise<PlaylistedTrack[]> {
-  const spotify = await createAPI()
+  const spotify = await SpotifyApiSingleton.getInstance()
   const MAX_LIMIT = 50
 
   const page = await spotify.playlists.getPlaylist(id)

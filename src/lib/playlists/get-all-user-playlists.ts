@@ -3,14 +3,14 @@ import chalk from 'chalk'
 import { SingleBar } from 'cli-progress'
 
 import getItems from '../items/get-items.js'
-import { createAPI } from '../spotify-api/create-api.js'
+import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 
 /**
  * Retrieves all of the user's playlists.
  * @returns All of the users playlists.
  */
 async function getAllPlaylists(): Promise<SimplifiedPlaylist[]> {
-  const spotify = await createAPI()
+  const spotify = await SpotifyApiSingleton.getInstance()
   const MAX_LIMIT = 50
 
   const page = await spotify.currentUser.playlists.playlists(MAX_LIMIT)
