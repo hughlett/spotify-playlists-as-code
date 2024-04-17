@@ -22,12 +22,17 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      # - name: Run SPAC
+      #   run: docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw -e REFRESH_TOKEN=${REFRESH_TOKEN} --rm spac
+      #   env:
+      #     REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+
       - name: Run SPAC
-        run: docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw -e REFRESH_TOKEN=${REFRESH_TOKEN} --rm spac
+        run: docker images
         env:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
-      - name: Update refresh token secret
-        run: gh secret set REFRESH_TOKEN < ./tokens/refresh_token
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      # - name: Update refresh token secret
+      #   run: gh secret set REFRESH_TOKEN < ./tokens/refresh_token
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GH_TOKEN }}
