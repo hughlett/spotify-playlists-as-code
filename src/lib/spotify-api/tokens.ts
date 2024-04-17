@@ -1,30 +1,14 @@
 /* eslint-disable camelcase */
-import { readFileSync, writeFileSync } from 'node:fs'
+import { writeFileSync } from 'node:fs'
 
-import { login } from '../login/login.js'
-
-export const refreshTokenPath = `/tokens/refresh_token`
-
-export const accessTokenPath = `/tokens/access_token`
+export const REFRESH_TOKEN_PATH = `/tokens/refresh_token`
 
 export function setRefreshToken(refreshToken: string) {
-  writeFileSync(refreshTokenPath, refreshToken)
-}
-
-export function setAccessToken(accessToken: string) {
-  writeFileSync(accessTokenPath, accessToken)
+  writeFileSync(REFRESH_TOKEN_PATH, refreshToken)
 }
 
 export function getRefreshToken(): string {
-  return process.env.REFRESH_TOKEN
-}
-
-export function getAccessToken() {
-  return readFileSync(accessTokenPath).toString('utf8')
-}
-
-export function generateRefreshToken() {
-  login()
+  return process.env.REFRESH_TOKEN || ''
 }
 
 export async function generateAccessToken() {
@@ -44,7 +28,6 @@ export async function generateAccessToken() {
   })
 
   const body = await response.json()
-  const accessToken = body.access_token
   setRefreshToken(body.refresh_token)
-  return accessToken
+  return body.access_token
 }

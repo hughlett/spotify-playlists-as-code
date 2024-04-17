@@ -7,9 +7,7 @@ import { stringify } from 'node:querystring'
 import { fileURLToPath } from 'node:url'
 import open from 'open'
 
-import { setAccessToken, setRefreshToken } from '../spotify-api/tokens.js'
 import { base64encode, generateRandomString, sha256 } from './pkce.js'
-import { writeFileSync } from 'node:fs'
 
 const PORT = 5173
 const client_id = `813f058151b749cf9400a586ab0c3c54`
