@@ -103,12 +103,11 @@ async function addTracks(
     return track.track.uri
   })
 
-  const spotify = await SpotifyApiSingleton.getInstance()
-
   const URIsToAddArrays = [...Array(Math.ceil(URIsToAdd.length / 100))].map(
     (_) => URIsToAdd.splice(0, 100),
   )
 
+  const spotify = await SpotifyApiSingleton.getInstance()
   const promises = URIsToAddArrays.map(async (URIsToAddArray) => {
     URIsToAddArray.map((uri) => {
       console.log(chalk.red(`Added ${uri} to ${playlist.name}`))
@@ -140,12 +139,11 @@ async function removeTracks(
     ...Array(Math.ceil(URIsToRemove.length / 100)),
   ].map((_) => URIsToRemove.splice(0, 100))
 
+  const spotify = await SpotifyApiSingleton.getInstance()
   const promises = URIsToRemoveArrays.map(async (URIsToRemoveArray) => {
     URIsToRemoveArray.map((uri) => {
       console.log(chalk.red(`Removed ${uri.uri} from ${playlist.name}`))
     })
-
-    const spotify = await SpotifyApiSingleton.getInstance()
 
     await spotify.playlists.removeItemsFromPlaylist(playlist.id, {
       tracks: URIsToRemove,
@@ -178,6 +176,7 @@ async function fetchUserPlaylist(
   userPlaylists: SimplifiedPlaylist[],
   user: UserProfile,
 ) {
+  // TODO Refactor
   for (const userPlaylist of userPlaylists) {
     if (
       userPlaylist.owner.uri === user.uri &&
@@ -205,6 +204,7 @@ function playlistContainsTrack(
   playlist: PlaylistedTrack<TrackItem>[],
   trackID: string,
 ) {
+  // TODO Refactor
   for (const track of playlist) {
     if (track.track.id === trackID) {
       return true
@@ -217,6 +217,7 @@ function isLikedTrack(
   track: PlaylistedTrack<TrackItem>,
   userLikedTracks: SavedTrack[],
 ) {
+  // TODO Refactor
   for (const likedTrack of userLikedTracks) {
     if (likedTrack.track.uri === track.track.uri) {
       return true
@@ -229,6 +230,7 @@ function songMeetsCriteria(
   songArtists: SimplifiedArtist[],
   playlistArtists: string[],
 ) {
+  // TODO Refactor
   for (const artist of songArtists) {
     if (playlistArtists.includes(artist.name)) {
       return true
