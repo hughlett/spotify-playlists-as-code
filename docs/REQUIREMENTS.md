@@ -17,7 +17,6 @@
 - Best I can do is make the curated playlists stand out from the automated playlists. Preface each curated playlist with an emoji and use all lowercase (could use all uppercase instead). Use a custom playlist image cover.
 - Still have to scroll on smaller displays to find a certain playlist (I'm at 85 total playlists right now) but if I know the name of the playlist I'll just ask voice assistant to play it directly.
 - Emojis and custom playlist image cover adds some personality as well as look nice on displays (CarPlay, TV, watchOS).
-- Automated playlists should create/delete depending on the cut-off.
 - Automated playlists should maintain themselves and add/remove songs as the songs are added/removed from Liked Songs.
 - Edge case if artist changes name on Spotify then script will break.
 - Future could generate themed playlist cover art.
