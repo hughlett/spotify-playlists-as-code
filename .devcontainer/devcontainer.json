@@ -30,7 +30,8 @@
         "seatonjiang.gitmoji-vscode",
         "ms-vscode.vscode-typescript-next",
         "seatonjiang.gitmoji-vscode",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "github.vscode-github-actions"
       ]
     }
   }
