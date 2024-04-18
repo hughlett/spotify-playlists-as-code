@@ -1,2 +1,6 @@
 singleQuote: true
 semi: false
+plugins: ['@ianvs/prettier-plugin-sort-imports']
+importOrder: ['', '^[./]']
+importOrderParserPlugins: ['typescript']
+importOrderTypeScriptVersion: '5.0.0'
