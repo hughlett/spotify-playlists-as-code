@@ -8,8 +8,6 @@ RUN npm ci
 
 COPY ./ .
 
-RUN npx tsc
-
 EXPOSE 5173
 
-CMD [ "node", "dist/index.js" ] 
+ENTRYPOINT ["/bin/sh", "-c" , "npx tsx src/index.ts"]

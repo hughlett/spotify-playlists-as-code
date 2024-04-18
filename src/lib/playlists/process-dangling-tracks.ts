@@ -1,25 +1,20 @@
-import {
-  PlaylistedTrack,
-  SavedTrack,
-  SimplifiedArtist,
-  SimplifiedPlaylist,
-  TrackItem,
-} from '@spotify/web-api-ts-sdk'
+import { SimplifiedPlaylist, UserProfile } from '@spotify/web-api-ts-sdk'
 import getAllPlaylists from './get-all-user-playlists.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 import getLikedTracks from '../tracks/get-user-liked-tracks.js'
 import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
 import chalk from 'chalk'
 
-const userPlaylists = await getAllPlaylists()
-const spotify = await SpotifyApiSingleton.getInstance()
-const user = await spotify.currentUser.profile()
 const PLAYLIST_NAME = 'Dangling Tracks'
 
 export async function processDanglingTracks() {
+  const spotify = await SpotifyApiSingleton.getInstance()
+  const userPlaylists = await getAllPlaylists()
+  const user = await spotify.currentUser.profile()
+
   const userLikedTracks = await getLikedTracks()
 
-  let playlist = playlistAlreadyExists(PLAYLIST_NAME)
+  let playlist = playlistAlreadyExists(PLAYLIST_NAME, userPlaylists, user)
 
   // Create the playlist if it doesn't exist yet
 
@@ -94,7 +89,11 @@ export async function processDanglingTracks() {
   }
 }
 
-function playlistAlreadyExists(playlistName: string) {
+function playlistAlreadyExists(
+  playlistName: string,
+  userPlaylists: SimplifiedPlaylist[],
+  user: UserProfile,
+) {
   for (const userPlaylist of userPlaylists) {
     if (
       userPlaylist.owner.uri === user.uri &&

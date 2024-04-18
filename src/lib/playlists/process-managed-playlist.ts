@@ -4,6 +4,7 @@ import {
   SimplifiedArtist,
   SimplifiedPlaylist,
   TrackItem,
+  UserProfile,
 } from '@spotify/web-api-ts-sdk'
 import getAllPlaylists from './get-all-user-playlists.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
@@ -16,11 +17,6 @@ export type ManagedPlaylist = {
   name?: string
 }
 
-const spotify = await SpotifyApiSingleton.getInstance()
-const user = await spotify.currentUser.profile()
-const userPlaylists = await getAllPlaylists()
-const userLikedTracks = await getLikedTracks()
-
 /**
  * Process an array of managed playlists.
  * @param managedPlaylists Managed playlists to process.
@@ -28,6 +24,11 @@ const userLikedTracks = await getLikedTracks()
 export async function processManagedPlaylists(
   managedPlaylists: ManagedPlaylist[],
 ) {
+  const spotify = await SpotifyApiSingleton.getInstance()
+  const user = await spotify.currentUser.profile()
+  const userPlaylists = await getAllPlaylists()
+  const userLikedTracks = await getLikedTracks()
+
   // Divide the array into arrays of size BATCH_SIZE
   const BATCH_SIZE = 5
   const managedPlaylistsArrays = [
@@ -37,7 +38,12 @@ export async function processManagedPlaylists(
   // Process each batch of managed playlists
   for (const array of managedPlaylistsArrays) {
     const promises = array.map((managedPlaylist) => {
-      return processManagedPlaylist(managedPlaylist)
+      return processManagedPlaylist(
+        managedPlaylist,
+        userLikedTracks,
+        userPlaylists,
+        user,
+      )
     })
 
     await Promise.all(
@@ -52,21 +58,30 @@ export async function processManagedPlaylists(
  * Process a managed playlist.
  * @param managedPlaylist Managed playlist to process.
  */
-async function processManagedPlaylist(managedPlaylist: ManagedPlaylist) {
+async function processManagedPlaylist(
+  managedPlaylist: ManagedPlaylist,
+  userLikedTracks: SavedTrack[],
+  userPlaylists: SimplifiedPlaylist[],
+  user: UserProfile,
+) {
   // Get the name of the managed playlist
   const managedPlaylistName = getManagedPlaylistName(managedPlaylist)
 
   console.log(`Processing ${managedPlaylistName}`)
 
   // Get the managed playlist or create it
-  const playlist = await fetchUserPlaylist(managedPlaylistName)
+  const playlist = await fetchUserPlaylist(
+    managedPlaylistName,
+    userPlaylists,
+    user,
+  )
 
   // Get the managed playlist's tracks.
   const tracks = await getPlaylistTracks(playlist.id)
 
   // Find any unliked songs that exist in the managed playlist and remove them.
   const removedTracks: PlaylistedTrack<TrackItem>[] = tracks.filter((track) => {
-    return !track.is_local && !isLikedTrack(track)
+    return !track.is_local && !isLikedTrack(track, userLikedTracks)
   })
   await removeTracks(removedTracks, playlist)
 
@@ -87,6 +102,8 @@ async function addTracks(
   const URIsToAdd: string[] = addedTracks.map((track) => {
     return track.track.uri
   })
+
+  const spotify = await SpotifyApiSingleton.getInstance()
 
   const URIsToAddArrays = [...Array(Math.ceil(URIsToAdd.length / 100))].map(
     (_) => URIsToAdd.splice(0, 100),
@@ -128,6 +145,8 @@ async function removeTracks(
       console.log(chalk.red(`Removed ${uri.uri} from ${playlist.name}`))
     })
 
+    const spotify = await SpotifyApiSingleton.getInstance()
+
     await spotify.playlists.removeItemsFromPlaylist(playlist.id, {
       tracks: URIsToRemove,
     })
@@ -154,7 +173,11 @@ function getManagedPlaylistName(managedPlaylist: ManagedPlaylist) {
  * @param playlistName The name of the playlist to find. Assumes the name of the playlist is unique.
  * @returns The playlist.
  */
-async function fetchUserPlaylist(playlistName: string) {
+async function fetchUserPlaylist(
+  playlistName: string,
+  userPlaylists: SimplifiedPlaylist[],
+  user: UserProfile,
+) {
   for (const userPlaylist of userPlaylists) {
     if (
       userPlaylist.owner.uri === user.uri &&
@@ -163,6 +186,8 @@ async function fetchUserPlaylist(playlistName: string) {
       return userPlaylist
     }
   }
+
+  const spotify = await SpotifyApiSingleton.getInstance()
 
   const playlist = await spotify.playlists.createPlaylist(user.id, {
     name: playlistName,
@@ -188,7 +213,10 @@ function playlistContainsTrack(
   return false
 }
 
-function isLikedTrack(track: PlaylistedTrack<TrackItem>) {
+function isLikedTrack(
+  track: PlaylistedTrack<TrackItem>,
+  userLikedTracks: SavedTrack[],
+) {
   for (const likedTrack of userLikedTracks) {
     if (likedTrack.track.uri === track.track.uri) {
       return true
