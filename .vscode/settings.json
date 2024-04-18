@@ -3,5 +3,6 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
-  "files.autoSave": "onWindowChange"
+  "files.autoSave": "onWindowChange",
+  "eslint.enable": true
 }
