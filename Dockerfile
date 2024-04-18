@@ -1,4 +1,4 @@
-FROM node:20-slim
+FROM node:20-bookworm-slim
 
 WORKDIR /spac
 
@@ -8,6 +8,6 @@ RUN npm ci
 
 COPY ./ .
 
-EXPOSE 5173
+EXPOSE 5173 9229
 
-ENTRYPOINT ["/bin/sh", "-c" , "npx tsx src/index.ts"]
+ENTRYPOINT ["npm", "run"]
