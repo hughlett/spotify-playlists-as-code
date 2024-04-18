@@ -1,10 +1,6 @@
-/* eslint-disable camelcase */
-
 import { randomBytes } from 'node:crypto'
 import { Server } from 'node:http'
-import { dirname } from 'node:path'
 import { stringify } from 'node:querystring'
-import { fileURLToPath } from 'node:url'
 import express from 'express'
 import { CLIENT_ID as client_id } from '../spotify-api/create-api.js'
 import { base64encode, generateRandomString, sha256 } from './pkce.js'
@@ -24,9 +20,7 @@ const app = express()
 let server: Server
 
 app.get('/callback', (req, res) => {
-  const html =
-    dirname(dirname(dirname(dirname(fileURLToPath(import.meta.url))))) +
-    '/public/callback.html'
+  const html = process.cwd() + '/public/callback.html'
 
   res.sendFile(html)
   if (req.query.error) {

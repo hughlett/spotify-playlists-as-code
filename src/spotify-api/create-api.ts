@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { SpotifyApi } from '@spotify/web-api-ts-sdk'
 
 const REFRESH_TOKEN_PATH = '/tokens/refresh_token'
@@ -21,7 +21,13 @@ async function createAPI() {
     throw new Error('No refresh token provided')
   }
 
-  const accessToken = await generateAccessToken(process.env.REFRESH_TOKEN)
+  let refreshToken = process.env.REFRESH_TOKEN
+
+  if (existsSync(REFRESH_TOKEN_PATH)) {
+    refreshToken = readFileSync(REFRESH_TOKEN_PATH).toString('utf8')
+  }
+
+  const accessToken = await generateAccessToken(refreshToken)
 
   return SpotifyApi.withAccessToken(CLIENT_ID, {
     access_token: accessToken,
