@@ -2,7 +2,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { SpotifyApi } from '@spotify/web-api-ts-sdk'
 
 const REFRESH_TOKEN_PATH = '/tokens/refresh_token'
-export const CLIENT_ID = '813f058151b749cf9400a586ab0c3c54'
+export const CLIENT_ID = 'e27f8d0802d54214acfe4fc8d28b23a7'
 
 export class SpotifyApiSingleton {
   private static instance: SpotifyApi
