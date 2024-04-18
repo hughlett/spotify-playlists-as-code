@@ -29,6 +29,9 @@ jobs:
           cache-to: type=gha,mode=max
           load: true
 
+      - name: Formatting
+        run: docker run spac format:check
+
       - name: Lint
         run: docker run spac lint
 
