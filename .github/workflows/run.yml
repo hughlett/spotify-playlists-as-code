@@ -1,4 +1,4 @@
-name: Run SPAC
+name: Run SPaC
 
 on: workflow_dispatch
 
@@ -23,8 +23,8 @@ jobs:
           cache-to: type=gha,mode=max
           load: true
 
-      - name: Run SPAC
-        run: docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw -e REFRESH_TOKEN=${REFRESH_TOKEN} --rm spac
+      - name: Run SPaC
+        run: docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw -e REFRESH_TOKEN=${REFRESH_TOKEN} --rm spac start
         env:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
