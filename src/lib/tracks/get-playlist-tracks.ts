@@ -1,7 +1,6 @@
 import { PlaylistedTrack } from '@spotify/web-api-ts-sdk'
 import chalk from 'chalk'
 import { SingleBar } from 'cli-progress'
-
 import getItems from '../items/get-items.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 

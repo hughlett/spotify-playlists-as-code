@@ -6,11 +6,11 @@ import {
   TrackItem,
   UserProfile,
 } from '@spotify/web-api-ts-sdk'
-import getAllPlaylists from './get-all-user-playlists.js'
-import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
-import getLikedTracks from '../tracks/get-user-liked-tracks.js'
-import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
 import chalk from 'chalk'
+import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
+import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
+import getLikedTracks from '../tracks/get-user-liked-tracks.js'
+import getAllPlaylists from './get-all-user-playlists.js'
 
 export type ManagedPlaylist = {
   artists: string[]
@@ -33,7 +33,7 @@ export async function processManagedPlaylists(
   const BATCH_SIZE = 5
   const managedPlaylistsArrays = [
     ...Array(Math.ceil(managedPlaylists.length / BATCH_SIZE)),
-  ].map((_) => managedPlaylists.splice(0, BATCH_SIZE))
+  ].map(() => managedPlaylists.splice(0, BATCH_SIZE))
 
   // Process each batch of managed playlists
   for (const array of managedPlaylistsArrays) {
@@ -104,7 +104,7 @@ async function addTracks(
   })
 
   const URIsToAddArrays = [...Array(Math.ceil(URIsToAdd.length / 100))].map(
-    (_) => URIsToAdd.splice(0, 100),
+    () => URIsToAdd.splice(0, 100),
   )
 
   const spotify = await SpotifyApiSingleton.getInstance()
@@ -137,7 +137,7 @@ async function removeTracks(
 
   const URIsToRemoveArrays = [
     ...Array(Math.ceil(URIsToRemove.length / 100)),
-  ].map((_) => URIsToRemove.splice(0, 100))
+  ].map(() => URIsToRemove.splice(0, 100))
 
   const spotify = await SpotifyApiSingleton.getInstance()
   const promises = URIsToRemoveArrays.map(async (URIsToRemoveArray) => {

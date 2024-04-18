@@ -1,29 +1,11 @@
-/* eslint-disable camelcase */
+import { readFileSync, writeFileSync } from 'node:fs'
 import { SpotifyApi } from '@spotify/web-api-ts-sdk'
 
-import { REFRESH_TOKEN_PATH, generateAccessToken } from './tokens.js'
-import { readFileSync } from 'node:fs'
-
-const CLIENT_ID = '813f058151b749cf9400a586ab0c3c54'
-
-async function createAPI() {
-  // @ts-ignore
-  const accessToken = await generateAccessToken(process.env.REFRESH_TOKEN)
-
-  const api = SpotifyApi.withAccessToken(CLIENT_ID, {
-    access_token: accessToken,
-    expires_in: 3600,
-    refresh_token: readFileSync(REFRESH_TOKEN_PATH).toString('utf8'),
-    token_type: 'Bearer',
-  })
-
-  return api
-}
+const REFRESH_TOKEN_PATH = '/tokens/refresh_token'
+export const CLIENT_ID = '813f058151b749cf9400a586ab0c3c54'
 
 export class SpotifyApiSingleton {
   private static instance: SpotifyApi
-
-  private constructor() {}
 
   public static async getInstance(): Promise<SpotifyApi> {
     if (!SpotifyApiSingleton.instance) {
@@ -33,4 +15,36 @@ export class SpotifyApiSingleton {
 
     return SpotifyApiSingleton.instance
   }
+}
+async function createAPI() {
+  if (!process.env.REFRESH_TOKEN) {
+    throw new Error('No refresh token provided')
+  }
+
+  const accessToken = await generateAccessToken(process.env.REFRESH_TOKEN)
+
+  return SpotifyApi.withAccessToken(CLIENT_ID, {
+    access_token: accessToken,
+    expires_in: 3600,
+    refresh_token: readFileSync(REFRESH_TOKEN_PATH).toString('utf8'),
+    token_type: 'Bearer',
+  })
+}
+
+async function generateAccessToken(refreshToken: string) {
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    body: new URLSearchParams({
+      client_id: CLIENT_ID,
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    }),
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+    },
+    method: 'post',
+  })
+
+  const body = await response.json()
+  writeFileSync(REFRESH_TOKEN_PATH, body.refresh_token)
+  return body.access_token
 }

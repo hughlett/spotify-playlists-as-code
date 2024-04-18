@@ -1,5 +1,4 @@
 import { SingleBar } from 'cli-progress'
-
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 
 async function getItems(urls: string[], total: number, progressBar: SingleBar) {
@@ -19,6 +18,7 @@ async function getItems(urls: string[], total: number, progressBar: SingleBar) {
     }),
   )
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let items: any[] = []
 
   // progressBar.start(total, 0)

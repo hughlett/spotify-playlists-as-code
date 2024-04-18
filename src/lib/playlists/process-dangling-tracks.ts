@@ -1,9 +1,9 @@
 import { SimplifiedPlaylist, UserProfile } from '@spotify/web-api-ts-sdk'
-import getAllPlaylists from './get-all-user-playlists.js'
-import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
-import getLikedTracks from '../tracks/get-user-liked-tracks.js'
-import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
 import chalk from 'chalk'
+import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
+import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
+import getLikedTracks from '../tracks/get-user-liked-tracks.js'
+import getAllPlaylists from './get-all-user-playlists.js'
 
 const PLAYLIST_NAME = 'Dangling Tracks'
 
@@ -31,7 +31,7 @@ export async function processDanglingTracks() {
 
   // Remove playlist's that weren't created by the user
 
-  let ownedPlaylists: SimplifiedPlaylist[] = []
+  const ownedPlaylists: SimplifiedPlaylist[] = []
 
   for (const userPlaylist of userPlaylists) {
     if (userPlaylist.owner.id === user.id) {
@@ -41,7 +41,7 @@ export async function processDanglingTracks() {
 
   // Get every unique track from the user's playlists
 
-  let playlistedTracksURIs: string[] = []
+  const playlistedTracksURIs: string[] = []
 
   for (const playlist of ownedPlaylists) {
     const tracks = await getPlaylistTracks(playlist.id)
@@ -52,10 +52,10 @@ export async function processDanglingTracks() {
     }
   }
 
-  let tracksToAdd: string[] = []
-  let tracksToRemove: Array<{
+  const tracksToAdd: string[] = []
+  const tracksToRemove: Array<{
     uri: string
-  }> = ([] = [])
+  }> = []
   for (const likedTrack of userLikedTracks) {
     playlistedTracksURIs.includes(likedTrack.track.uri)
       ? tracksToRemove.push({ uri: likedTrack.track.uri })
@@ -63,7 +63,7 @@ export async function processDanglingTracks() {
   }
 
   const removeArrays = [...Array(Math.ceil(tracksToRemove.length / 100))].map(
-    (_) => tracksToRemove.splice(0, 100),
+    () => tracksToRemove.splice(0, 100),
   )
 
   for (const array of removeArrays) {
@@ -77,7 +77,7 @@ export async function processDanglingTracks() {
     })
   }
 
-  const arrays = [...Array(Math.ceil(tracksToAdd.length / 100))].map((_) =>
+  const arrays = [...Array(Math.ceil(tracksToAdd.length / 100))].map(() =>
     tracksToAdd.splice(0, 100),
   )
 

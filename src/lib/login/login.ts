@@ -1,21 +1,20 @@
 /* eslint-disable camelcase */
-import express from 'express'
+
 import { randomBytes } from 'node:crypto'
 import { Server } from 'node:http'
 import { dirname } from 'node:path'
 import { stringify } from 'node:querystring'
 import { fileURLToPath } from 'node:url'
-import open from 'open'
-
+import express from 'express'
+import { CLIENT_ID as client_id } from '../spotify-api/create-api.js'
 import { base64encode, generateRandomString, sha256 } from './pkce.js'
 
 const PORT = 5173
-const client_id = `813f058151b749cf9400a586ab0c3c54`
 const scope =
   'user-library-read playlist-read-private playlist-modify-public playlist-modify-private'
-const redirect_uri = 'http://localhost:' + PORT + '/callback'
-const state = randomBytes(16).toString('hex')
+const redirect_uri = `http://localhost:${PORT}/callback`
 
+const state = randomBytes(16).toString('hex')
 const code_verifier = generateRandomString(64)
 const hashed = await sha256(code_verifier)
 const code_challenge = base64encode(hashed)
@@ -79,7 +78,5 @@ export function login() {
         state,
       })
     console.log(URL)
-
-    // open(URL)
   })
 }
