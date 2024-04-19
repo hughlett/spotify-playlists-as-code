@@ -41,6 +41,10 @@ export async function processDanglingTracks() {
   const playlistedTracksURIs: string[] = []
 
   for (const playlist of ownedPlaylists) {
+    if (playlist.name === PLAYLIST_NAME) {
+      continue
+    }
+
     const tracks = await getPlaylistTracks(playlist.id)
     for (const track of tracks) {
       if (track.track && !playlistedTracksURIs.includes(track.track.uri)) {

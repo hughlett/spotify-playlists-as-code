@@ -32,6 +32,10 @@ async function getAllPlaylists(): Promise<SimplifiedPlaylist[]> {
     hideCursor: true,
   })
 
+  if (total === 0) {
+    return []
+  }
+
   const items = await getItems(urls, total, progressBar)
 
   return items
