@@ -10,6 +10,7 @@
     "managedPlaylists:debug": "tsx --inspect-brk=0.0.0.0 commands/process-managed-playlists",
     "danglingTracks": "tsx commands/process-dangling-tracks",
     "danglingTracks:debug": "tsx --inspect-brk=0.0.0.0 commands/process-dangling-tracks",
+    "whoami": "tsx commands/whoami",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
