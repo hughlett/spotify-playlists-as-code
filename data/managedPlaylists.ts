@@ -1,4 +1,6 @@
-export const managedPlaylists = [
+import { ManagedPlaylist } from '../src/playlists/process-managed-playlist.js'
+
+export const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Mac Miller'] },
   { artists: ['A$AP Rocky'] },
   { artists: ['Gorillaz'] },
@@ -82,6 +84,7 @@ export const managedPlaylists = [
   { artists: ['Outkast', 'André 3000', 'Big Boi'], name: 'Outkast' },
   { artists: ['A Tribe Called Quest', 'Q-Tip'], name: 'A Tribe Called Quest' },
   { artists: ['Bob Marley & The Wailers', 'The Wailers'], name: 'Bob Marley' },
+  { artists: ['Migos', 'Quavo', 'Takeoff', 'Offset'], name: 'Migos' },
   {
     artists: [
       'Neil Young',
