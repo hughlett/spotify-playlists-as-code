@@ -1,9 +1,12 @@
 name: Run SPaC
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 1 * * *' # Every day at 1:00am
 
 jobs:
-  build:
+  spac:
     runs-on: ubuntu-latest
 
     steps:
