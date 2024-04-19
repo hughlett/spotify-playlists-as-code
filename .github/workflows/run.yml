@@ -39,6 +39,7 @@ jobs:
           CLIENT_ID: ${{ vars.CLIENT_ID }}
 
       - name: Update refresh token secret
+        if: always()
         run: gh secret set REFRESH_TOKEN < ./tokens/refresh_token
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
