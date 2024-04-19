@@ -31,16 +31,13 @@ export async function processDanglingTracks() {
 
   // Remove playlist's that weren't created by the user
 
-  const ownedPlaylists: SimplifiedPlaylist[] = []
-
-  for (const userPlaylist of userPlaylists) {
-    if (userPlaylist.owner.id === user.id) {
-      ownedPlaylists.push(userPlaylist)
-    }
-  }
+  const ownedPlaylists: SimplifiedPlaylist[] = userPlaylists.filter(
+    (userPlaylist) => {
+      return userPlaylist.owner.id === user.id
+    },
+  )
 
   // Get every unique track from the user's playlists
-
   const playlistedTracksURIs: string[] = []
 
   for (const playlist of ownedPlaylists) {
@@ -52,14 +49,30 @@ export async function processDanglingTracks() {
     }
   }
 
+  const danglingTracks = await getPlaylistTracks(playlist.id)
+  const danglingTracksURIs = danglingTracks.map((track) => {
+    return track.track.uri
+  })
   const tracksToAdd: string[] = []
   const tracksToRemove: Array<{
     uri: string
   }> = []
   for (const likedTrack of userLikedTracks) {
-    playlistedTracksURIs.includes(likedTrack.track.uri)
-      ? tracksToRemove.push({ uri: likedTrack.track.uri })
-      : tracksToAdd.push(likedTrack.track.uri)
+    // Remove tracks that are part of a playlist and a part of dangling tracks
+    if (
+      danglingTracksURIs.includes(likedTrack.track.uri) &&
+      playlistedTracksURIs.includes(likedTrack.track.uri)
+    ) {
+      tracksToRemove.push({ uri: likedTrack.track.uri })
+    }
+
+    // Add tracks that are not part of a playlist and not a part of dangling tracks
+    if (
+      !playlistedTracksURIs.includes(likedTrack.track.uri) &&
+      !danglingTracksURIs.includes(likedTrack.track.uri)
+    ) {
+      tracksToAdd.push(likedTrack.track.uri)
+    }
   }
 
   const removeArrays = [...Array(Math.ceil(tracksToRemove.length / 100))].map(
