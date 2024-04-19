@@ -34,7 +34,9 @@ async function createAPI() {
   }
 
   if (existsSync(REFRESH_TOKEN_PATH)) {
-    refreshToken = readFileSync(REFRESH_TOKEN_PATH).toString('utf8')
+    refreshToken = readFileSync(REFRESH_TOKEN_PATH)
+      .toString('utf8')
+      .replace(/\r?\n|\r/g, '')
   }
 
   if (!refreshToken) {
