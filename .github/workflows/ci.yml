@@ -34,6 +34,3 @@ jobs:
 
       - name: Lint
         run: docker run spac lint
-
-      - name: Compile
-        run: docker run -v $(pwd)/data:/spac/data --rm spac compile
