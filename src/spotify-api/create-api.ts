@@ -2,13 +2,16 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { SpotifyApi } from '@spotify/web-api-ts-sdk'
 
 const REFRESH_TOKEN_PATH = '/tokens/refresh_token'
-export const CLIENT_ID = 'e27f8d0802d54214acfe4fc8d28b23a7'
+export const CLIENT_ID = process.env.CLIENT_ID || ''
 
 export class SpotifyApiSingleton {
   private static instance: SpotifyApi
 
   public static async getInstance(): Promise<SpotifyApi> {
     if (!SpotifyApiSingleton.instance) {
+      if (!CLIENT_ID) {
+        throw new Error('No client ID!')
+      }
       const api = await createAPI()
       SpotifyApiSingleton.instance = api
     }

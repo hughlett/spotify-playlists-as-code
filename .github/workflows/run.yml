@@ -23,13 +23,20 @@ jobs:
           cache-to: type=gha,mode=max
           load: true
 
-      - name: Process managed playlists
-        run: docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw -e REFRESH_TOKEN=${REFRESH_TOKEN} --rm spac managedPlaylists
+      - name: Create refresh token
+        run: mkdir ./tokens && echo ${REFRESH_TOKEN} > ./tokens/refresh_token
         env:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
       - name: Process managed playlists
-        run: docker run -v $(pwd)/tokens:/tokens:rw -v $(pwd)/data:/spac/data:rw --rm spac danglingTracks
+        run: docker compose run --rm spac managedPlaylists
+        env:
+          CLIENT_ID: ${{ vars.CLIENT_ID }}
+
+      - name: Process dangling tracks
+        run: docker compose run --rm spac danglingTracks
+        env:
+          CLIENT_ID: ${{ vars.CLIENT_ID }}
 
       - name: Update refresh token secret
         run: gh secret set REFRESH_TOKEN < ./tokens/refresh_token
