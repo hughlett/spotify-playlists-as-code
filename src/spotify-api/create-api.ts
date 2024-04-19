@@ -17,14 +17,18 @@ export class SpotifyApiSingleton {
   }
 }
 async function createAPI() {
-  if (!process.env.REFRESH_TOKEN) {
+  let refreshToken = process.env.REFRESH_TOKEN
+
+  if (!refreshToken && !existsSync(REFRESH_TOKEN_PATH)) {
     throw new Error('No refresh token provided')
   }
 
-  let refreshToken = process.env.REFRESH_TOKEN
-
   if (existsSync(REFRESH_TOKEN_PATH)) {
     refreshToken = readFileSync(REFRESH_TOKEN_PATH).toString('utf8')
+  }
+
+  if (!refreshToken) {
+    throw new Error('No refresh token provided')
   }
 
   const accessToken = await generateAccessToken(refreshToken)
