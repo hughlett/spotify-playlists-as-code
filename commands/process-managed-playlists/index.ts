@@ -1,4 +1,11 @@
-import { managedPlaylists } from '../../data/managedPlaylists.js'
-import { processManagedPlaylists } from '../../src/playlists/process-managed-playlist.js'
+import { existsSync } from 'fs'
+import run from './run.js'
 
-await processManagedPlaylists(managedPlaylists)
+if (
+  !existsSync('/data/managedPlaylists.ts') ||
+  !existsSync('../../data/managedPlaylists.ts')
+) {
+  throw new Error('No managed playlists!')
+}
+
+run()
