@@ -2,13 +2,6 @@ services:
   spac:
     build: .
     image: spac
-    ports:
-      - 9229:9229
-      - 5173:5173
-    volumes:
-      - ./tokens:/tokens
-      - ./data:/spac/data
     environment:
-      - REFRESH_TOKEN=${REFRESH_TOKEN}
       - CLIENT_ID=${CLIENT_ID}
     container_name: SPaC
