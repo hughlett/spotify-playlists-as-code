@@ -40,17 +40,33 @@ export async function processDanglingTracks() {
   // Get every unique track from the user's playlists
   const playlistedTracksURIs: string[] = []
 
-  for (const playlist of ownedPlaylists) {
-    if (playlist.name === PLAYLIST_NAME) {
-      continue
-    }
+  // Divide the array into arrays of size BATCH_SIZE
+  const BATCH_SIZE = 3
+  const ownedPlaylistsArrays = [
+    ...Array(Math.ceil(ownedPlaylists.length / BATCH_SIZE)),
+  ].map(() => ownedPlaylists.splice(0, BATCH_SIZE))
 
-    const tracks = await getPlaylistTracks(playlist.id)
-    for (const track of tracks) {
-      if (track.track && !playlistedTracksURIs.includes(track.track.uri)) {
-        playlistedTracksURIs.push(track.track.uri)
+  for (const array of ownedPlaylistsArrays) {
+    const promises = array.map(async (ownedPlaylist) => {
+      if (ownedPlaylist.name === PLAYLIST_NAME) {
+        return
       }
-    }
+
+      console.log(`Processing ${ownedPlaylist.name}`)
+
+      const tracks = await getPlaylistTracks(ownedPlaylist.id)
+      for (const track of tracks) {
+        if (track.track && !playlistedTracksURIs.includes(track.track.uri)) {
+          playlistedTracksURIs.push(track.track.uri)
+        }
+      }
+    })
+
+    await Promise.all(
+      promises.map(async (promise) => {
+        await promise
+      }),
+    )
   }
 
   const danglingTracks = await getPlaylistTracks(playlist.id)
@@ -83,26 +99,45 @@ export async function processDanglingTracks() {
     () => tracksToRemove.splice(0, 100),
   )
 
-  for (const array of removeArrays) {
-    for (const removedTrack of array) {
-      console.log(
-        chalk.red(`Removed ${removedTrack.uri} from ${playlist.name}`),
-      )
-    }
-    await spotify.playlists.removeItemsFromPlaylist(playlist.id, {
-      tracks: array,
+  // Divide the array into arrays of size BATCH_SIZE
+  const removeArraysArrays = [
+    ...Array(Math.ceil(removeArrays.length / BATCH_SIZE)),
+  ].map(() => removeArrays.splice(0, BATCH_SIZE))
+
+  for (const array of removeArraysArrays) {
+    const promises = array.map((tracks) => {
+      return spotify.playlists.removeItemsFromPlaylist(playlist.id, {
+        tracks: tracks,
+      })
     })
+
+    await Promise.all(
+      promises.map(async (promise) => {
+        await promise
+      }),
+    )
   }
 
   const arrays = [...Array(Math.ceil(tracksToAdd.length / 100))].map(() =>
     tracksToAdd.splice(0, 100),
   )
 
-  for (const array of arrays) {
-    for (const addedTrack of array) {
-      console.log(chalk.green(`Added ${addedTrack} to ${playlist.name}`))
-    }
-    await spotify.playlists.addItemsToPlaylist(playlist.id, array)
+  // Divide the array into arrays of size BATCH_SIZE
+  const addArrayArrays = [...Array(Math.ceil(arrays.length / BATCH_SIZE))].map(
+    () => arrays.splice(0, BATCH_SIZE),
+  )
+
+  // Process each batch of managed playlists
+  for (const array of addArrayArrays) {
+    const promises = array.map((tracks) => {
+      return spotify.playlists.addItemsToPlaylist(playlist.id, tracks)
+    })
+
+    await Promise.all(
+      promises.map(async (promise) => {
+        await promise
+      }),
+    )
   }
 }
 
