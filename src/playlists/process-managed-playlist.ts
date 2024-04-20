@@ -30,7 +30,7 @@ export async function processManagedPlaylists(
   const userLikedTracks = await getLikedTracks()
 
   // Divide the array into arrays of size BATCH_SIZE
-  const BATCH_SIZE = 1
+  const BATCH_SIZE = 3
   const managedPlaylistsArrays = [
     ...Array(Math.ceil(managedPlaylists.length / BATCH_SIZE)),
   ].map(() => managedPlaylists.splice(0, BATCH_SIZE))
@@ -110,7 +110,7 @@ async function addTracks(
   const spotify = await SpotifyApiSingleton.getInstance()
   const promises = URIsToAddArrays.map(async (URIsToAddArray) => {
     URIsToAddArray.map((uri) => {
-      console.log(chalk.red(`Added ${uri} to ${playlist.name}`))
+      console.log(chalk.green(`Added ${uri} to ${playlist.name}`))
     })
 
     await spotify.playlists.addItemsToPlaylist(playlist.id, URIsToAddArray)
