@@ -25,3 +25,5 @@ docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac 
 ```sh
 docker compose run -v $(pwd)/tokens:/tokens --rm spac danglingTracks
 ```
+
+## [Resources](./docs/RESOURCES.md)
