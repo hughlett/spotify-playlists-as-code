@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { SpotifyApi } from '@spotify/web-api-ts-sdk'
 
-const REFRESH_TOKEN_PATH = '/tokens/refresh_token'
+export const REFRESH_TOKEN_PATH = '/tokens/refresh_token'
 export const CLIENT_ID = process.env.CLIENT_ID || ''
 
 export class SpotifyApiSingleton {
@@ -20,30 +20,22 @@ export class SpotifyApiSingleton {
   }
 }
 async function createAPI() {
-  let refreshToken = process.env.REFRESH_TOKEN
-
-  if (
-    (!refreshToken || refreshToken === '') &&
-    !existsSync(REFRESH_TOKEN_PATH)
-  ) {
-    throw new Error('No refresh token provided')
-  }
-
   if (!existsSync(REFRESH_TOKEN_PATH)) {
     throw new Error('No refresh token provided')
   }
 
-  if (existsSync(REFRESH_TOKEN_PATH)) {
-    refreshToken = readFileSync(REFRESH_TOKEN_PATH)
-      .toString('utf8')
-      .replace(/\r?\n|\r/g, '')
-  }
+  const refreshToken = readFileSync(REFRESH_TOKEN_PATH)
+    .toString('utf8')
+    .replace(/\r?\n|\r/g, '')
 
   if (!refreshToken) {
     throw new Error('No refresh token provided')
   }
 
-  const accessToken = await generateAccessToken(refreshToken)
+  const { accessToken, newRefreshToken } =
+    await generateAccessToken(refreshToken)
+
+  writeFileSync(REFRESH_TOKEN_PATH, newRefreshToken)
 
   return SpotifyApi.withAccessToken(CLIENT_ID, {
     access_token: accessToken,
@@ -67,6 +59,5 @@ async function generateAccessToken(refreshToken: string) {
   })
 
   const body = await response.json()
-  writeFileSync(REFRESH_TOKEN_PATH, body.refresh_token)
-  return body.access_token
+  return { accessToken: body.access_token, newRefreshToken: body.refresh_token }
 }

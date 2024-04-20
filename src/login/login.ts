@@ -1,13 +1,17 @@
 import { randomBytes } from 'node:crypto'
+import { writeFileSync } from 'node:fs'
 import { Server } from 'node:http'
 import { stringify } from 'node:querystring'
 import express from 'express'
-import { CLIENT_ID as client_id } from '../spotify-api/create-api.js'
+import {
+  CLIENT_ID as client_id,
+  REFRESH_TOKEN_PATH,
+} from '../spotify-api/create-api.js'
 import { base64encode, generateRandomString, sha256 } from './pkce.js'
 
 const PORT = 5173
 const scope =
-  'user-library-read playlist-read-private playlist-modify-public playlist-modify-private'
+  'user-library-read playlist-read-private playlist-modify-public playlist-modify-private ugc-image-upload'
 const redirect_uri = `http://localhost:${PORT}/callback`
 
 const state = randomBytes(16).toString('hex')
@@ -48,7 +52,7 @@ app.get('/token', async (req, res) => {
   })
     .then(async (response) => {
       const body = await response.json()
-      console.log(body.refresh_token)
+      writeFileSync(REFRESH_TOKEN_PATH, body.refresh_token)
     })
     .catch(() => {
       console.log('Could not login')
