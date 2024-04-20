@@ -11,7 +11,7 @@ export const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Drake'] },
   { artists: ['454'] },
   { artists: ['Snoop Dogg'] },
-  { artists: ['Anderson .Paak', 'NxWorries'], name: 'Anderson .Paak' },
+  { artists: ['Anderson .Paak', 'NxWorries'] },
   { artists: ['Westside Gunn'] },
   { artists: ['Future'] },
   { artists: ['Slum Village'] },
@@ -52,7 +52,7 @@ export const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['MED'] },
   { artists: ['Led Zeppelin'] },
   { artists: ['Joey Bada$$'] },
-  { artists: ['Funkadelic', 'Eddie Hazel'], name: 'Funkadelic' },
+  { artists: ['Funkadelic', 'Eddie Hazel'] },
   { artists: ['Electric Light Orchestra'] },
   { artists: ['Dr. Dre'] },
   { artists: ['Dorothy Ashby'] },
@@ -79,26 +79,28 @@ export const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Warren G'] },
   { artists: ['The Police'] },
   { artists: ['The Isley Brothers'] },
-  { artists: ['Childish Gambino'], name: 'Gambino' },
-  { artists: ['Kodak Black'], name: 'Kodak' },
-  { artists: ['Playboi Carti'], name: 'Carti' },
-  { artists: ['Lil Uzi Vert'], name: 'Uzi' },
-  { artists: ['Creedence Clearwater Revival'], name: 'Creedence' },
-  { artists: ['Tyler, The Creator'], name: 'Tyler' },
-  { artists: ['Kanye West'], name: 'Kanye' },
-  { artists: ['Madlib', 'Quasimoto'], name: 'Madlib' },
-  { artists: ['J Dilla', 'Jay Dee'], name: 'J Dilla' },
-  { artists: ['Ms. Lauryn Hill', 'Fugees'], name: 'Fugees' },
-  { artists: ['Chance the Rapper'], name: 'Chance' },
-  { artists: ['MF DOOM', 'King Geedorah', 'Doom'], name: 'DOOM' },
-  { artists: ['Simon & Garfunkel', 'Paul Simon'], name: 'Simon & Garfunkel' },
-  { artists: ['UGK', 'Pimp C', 'Bun B'], name: 'UGK' },
-  { artists: ['A Tribe Called Quest', 'Q-Tip'], name: 'A Tribe Called Quest' },
-  { artists: ['Bob Marley & The Wailers', 'The Wailers'], name: 'Bob Marley' },
-  { artists: ['Migos', 'Quavo', 'Takeoff', 'Offset'], name: 'Migos' },
+  { artists: ['Childish Gambino'] },
+  { artists: ['Kodak Black'] },
+  { artists: ['Playboi Carti'] },
+  { artists: ['Lil Uzi Vert'] },
+  { artists: ['Creedence Clearwater Revival'] },
+  { artists: ['Tyler, The Creator'] },
+  { artists: ['Kanye West'] },
+  { artists: ['Madlib', 'Quasimoto'] },
+  { artists: ['J Dilla', 'Jay Dee'] },
+  { artists: ['Fugees', 'Ms. Lauryn Hill'] },
+  { artists: ['Chance the Rapper'] },
+  { artists: ['MF DOOM', 'King Geedorah', 'Doom'] },
+  { artists: ['Simon & Garfunkel', 'Paul Simon'] },
+  { artists: ['UGK', 'Pimp C', 'Bun B'] },
+  { artists: ['A Tribe Called Quest', 'Q-Tip'] },
+  {
+    artists: ['Bob Marley & The Wailers', 'The Wailers'],
+    name: 'Bob Marley & The Wailers',
+  },
+  { artists: ['Migos', 'Quavo', 'Takeoff', 'Offset'] },
   {
     artists: ['Outkast', 'André 3000', 'Big Boi', 'Big Grams'],
-    name: 'Outkast',
   },
   {
     artists: [
@@ -107,11 +109,9 @@ export const managedPlaylists: ManagedPlaylist[] = [
       'The Stills-Young Band',
       'Crosby, Stills, Nash & Young',
     ],
-    name: 'Neil Young',
   },
   {
     artists: ['Pink Floyd', 'David Gilmour', 'Roger Waters'],
-    name: 'Pink Floyd',
   },
   {
     artists: [
@@ -121,7 +121,6 @@ export const managedPlaylists: ManagedPlaylist[] = [
       'DJ Paul',
       'Lord Infamous',
     ],
-    name: 'Three 6 Mafia',
   },
   {
     artists: [
@@ -131,7 +130,6 @@ export const managedPlaylists: ManagedPlaylist[] = [
       'John Lennon',
       // https://www.youtube.com/watch?v=YfBVNpiTKJ8
     ],
-    name: 'The Beatles',
   },
   {
     artists: [
@@ -146,7 +144,6 @@ export const managedPlaylists: ManagedPlaylist[] = [
       `Ol' Dirty Bastard`,
       'Masta Killa',
     ],
-    name: 'Wu-Tang Clan',
   },
   {
     artists: [
@@ -157,6 +154,5 @@ export const managedPlaylists: ManagedPlaylist[] = [
       'A$AP NAST',
       'A$AP ANT',
     ],
-    name: 'A$AP Mob',
   },
 ]
