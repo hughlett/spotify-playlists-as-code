@@ -6,7 +6,7 @@ import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import { ManagedPlaylist } from '../playlists/process-managed-playlist.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 
-export default async function teardown() {
+export default async function unfollow() {
   const spotify = await SpotifyApiSingleton.getInstance()
 
   // Get user's playlists

@@ -1,0 +1,41 @@
+name: Unfollow SPaC playlists
+
+on:
+  workflow_dispatch:
+
+jobs:
+  unfollow-spac-playlists:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        uses: docker/build-push-action@v5
+        with:
+          tags: spac
+          file: Dockerfile
+          context: .
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          load: true
+
+      - name: Create refresh token
+        run: mkdir ./tokens && echo ${REFRESH_TOKEN} > ./tokens/refresh_token
+        env:
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+
+      - name: Unfollow SPaC playlists
+        run: docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac unfollow
+        env:
+          CLIENT_ID: ${{ vars.CLIENT_ID }}
+
+      - name: Update refresh token secret
+        if: always()
+        run: gh secret set REFRESH_TOKEN < ./tokens/refresh_token
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}

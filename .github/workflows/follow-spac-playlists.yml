@@ -1,4 +1,4 @@
-name: Run SPaC
+name: Follow SPaC playlists
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     - cron: '0 1 * * *' # Every day at 1:00am
 
 jobs:
-  spac:
+  follow-spac-playlists:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,8 +31,8 @@ jobs:
         env:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
-      - name: Process managed playlists and dangling tracks
-        run: docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac spac
+      - name: Follow SPaC playlists
+        run: docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac follow
         env:
           CLIENT_ID: ${{ vars.CLIENT_ID }}
 
