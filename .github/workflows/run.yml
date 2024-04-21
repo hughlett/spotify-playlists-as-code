@@ -31,13 +31,8 @@ jobs:
         env:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
-      - name: Process managed playlists
-        run: docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac managedPlaylists
-        env:
-          CLIENT_ID: ${{ vars.CLIENT_ID }}
-
-      - name: Process dangling tracks
-        run: docker compose run -v $(pwd)/tokens:/tokens --rm spac danglingTracks
+      - name: Process managed playlists and dangling tracks
+        run: docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac spac
         env:
           CLIENT_ID: ${{ vars.CLIENT_ID }}
 

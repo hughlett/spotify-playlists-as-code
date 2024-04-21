@@ -14,16 +14,16 @@ docker compose run -v $(pwd)/tokens:/tokens -p 5173:5173 --rm spac login
 docker compose run -v $(pwd)/tokens:/tokens --rm spac whoami
 ```
 
-### Process managed playlists
+### Follow all SPaC playlists
 
 ```sh
-docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac managedPlaylists
+docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac spac
 ```
 
-### Process dangling tracks
+### Unfollow all SPaC playlists
 
 ```sh
-docker compose run -v $(pwd)/tokens:/tokens --rm spac danglingTracks
+docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac teardown
 ```
 
 ## [Resources](./docs/RESOURCES.md)
