@@ -14,13 +14,13 @@ docker compose run -v $(pwd)/tokens:/tokens -p 5173:5173 --rm spac login
 docker compose run -v $(pwd)/tokens:/tokens --rm spac whoami
 ```
 
-### Follow all SPaC playlists
+### Follow SPaC playlists
 
 ```sh
 docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac spac
 ```
 
-### Unfollow all SPaC playlists
+### Unfollow SPaC playlists
 
 ```sh
 docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac teardown
