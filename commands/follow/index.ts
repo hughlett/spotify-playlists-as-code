@@ -1,6 +1,9 @@
 import { existsSync } from 'fs'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { managedPlaylists } from '../../data/managedPlaylists.js'
 import { processDanglingTracks } from '../../src/playlists/process-dangling-tracks.js'
-import run from '../process-managed-playlists/run.js'
+import { processManagedPlaylists } from '../../src/playlists/process-managed-playlist.js'
 
 if (
   !existsSync('/spac/data/managedPlaylists.ts') &&
@@ -9,5 +12,5 @@ if (
   throw new Error('No managed playlists!')
 }
 
-await run()
+await processManagedPlaylists(managedPlaylists)
 await processDanglingTracks()
