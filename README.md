@@ -27,25 +27,25 @@ gh workflow run "Unfollow SPaC playlists"
 #### Login
 
 ```sh
-docker compose run -v $(pwd)/tokens:/tokens -p 5173:5173 --rm spac login
+docker compose run spac login
 ```
 
 #### Healthcheck
 
 ```sh
-docker compose run -v $(pwd)/tokens:/tokens --rm spac healthcheck
+docker compose run spac healthcheck
 ```
 
 #### Follow SPaC playlists
 
 ```sh
-docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac follow
+docker compose run spac follow
 ```
 
 #### Unfollow SPaC playlists
 
 ```sh
-docker compose run -v $(pwd)/tokens:/tokens -v $(pwd)/data:/spac/data --rm spac unfollow
+docker compose run spac unfollow
 ```
 
 ## [Resources](./docs/RESOURCES.md)
