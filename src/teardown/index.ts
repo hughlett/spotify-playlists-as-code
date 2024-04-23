@@ -2,8 +2,8 @@ import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { managedPlaylists } from '../../data/managedPlaylists.js'
+import { ManagedPlaylist } from '../playlists/follow-spac-playlists.js'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
-import { ManagedPlaylist } from '../playlists/process-managed-playlist.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 
 export default async function unfollow() {

@@ -48,7 +48,10 @@ export async function processDanglingTracks() {
 
   for (const array of ownedPlaylistsArrays) {
     const promises = array.map(async (ownedPlaylist) => {
-      if (ownedPlaylist.name === PLAYLIST_NAME) {
+      if (
+        ownedPlaylist.name === PLAYLIST_NAME ||
+        ownedPlaylist.name === 'Dangling Tracks'
+      ) {
         return
       }
 
