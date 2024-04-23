@@ -22,7 +22,10 @@ export default async function unfollow() {
 
   // Filter out non-SPaC playlists
   const spacPlaylists = ownedPlaylists.filter((ownedPlaylist) => {
-    if (ownedPlaylist.name === 'Dangling Tracks') {
+    if (
+      ownedPlaylist.name === 'Dangling Tracks' ||
+      ownedPlaylist.name === 'Dangling SPaC Tracks'
+    ) {
       return true
     }
     return managedPlaylists.some((playlist: ManagedPlaylist) => {
