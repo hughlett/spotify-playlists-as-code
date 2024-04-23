@@ -27,8 +27,10 @@ async function getItems(urls: string[], total: number, progressBar: SingleBar) {
     requests.map(async (request) => {
       const response = await request
       const body = await response.json()
-      items = [...items, ...body.items]
-      progressBar.increment(body.items.length)
+      if (body.items) {
+        items = [...items, ...body.items]
+        progressBar.increment(body.items.length)
+      }
     }),
   )
 
