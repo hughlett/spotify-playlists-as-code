@@ -37,6 +37,12 @@ export async function followDanglingPlaylists() {
   )
 
   ownedPlaylists = userPlaylists.filter((userPlaylist) => {
+    if (
+      userPlaylist.name === 'Dangling Tracks' ||
+      userPlaylist.name === 'Dangling SPaC Tracks'
+    ) {
+      return
+    }
     return managedPlaylists.some(
       (managedPlaylist: ManagedPlaylist) =>
         managedPlaylist.artists[0] === userPlaylist.name ||
