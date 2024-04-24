@@ -82,7 +82,7 @@ async function followDanglingPlaylist(
   const playlistedTracksURIs: string[] = []
 
   // Divide the array into arrays of size BATCH_SIZE
-  const BATCH_SIZE = 3
+  const BATCH_SIZE = 1
   const ownedPlaylistsArrays = [
     ...Array(Math.ceil(ownedPlaylists.length / BATCH_SIZE)),
   ].map(() => ownedPlaylists.splice(0, BATCH_SIZE))
