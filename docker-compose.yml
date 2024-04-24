@@ -1,7 +1,7 @@
 services:
   spac:
     build: .
-    image: ghcr.io/hughlett/spotify-playlists-as-code:1.0.0
+    # image: ghcr.io/hughlett/spotify-playlists-as-code:1.0.0
     environment:
       - CLIENT_ID=${CLIENT_ID}
     volumes:

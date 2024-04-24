@@ -21,9 +21,7 @@ export type ManagedPlaylist = {
  * Process an array of managed playlists.
  * @param managedPlaylists Managed playlists to process.
  */
-export async function processManagedPlaylists(
-  managedPlaylists: ManagedPlaylist[],
-) {
+export async function followSPaCPlaylists(managedPlaylists: ManagedPlaylist[]) {
   const spotify = await SpotifyApiSingleton.getInstance()
   const user = await spotify.currentUser.profile()
   const userPlaylists = await getAllPlaylists()

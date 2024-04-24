@@ -1,4 +1,9 @@
-import { SimplifiedPlaylist, UserProfile } from '@spotify/web-api-ts-sdk'
+import {
+  SavedTrack,
+  SimplifiedPlaylist,
+  SpotifyApi,
+  UserProfile,
+} from '@spotify/web-api-ts-sdk'
 import chalk from 'chalk'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -9,41 +14,69 @@ import getLikedTracks from '../tracks/get-user-liked-tracks.js'
 import { ManagedPlaylist } from './follow-spac-playlists.js'
 import getAllPlaylists from './get-all-user-playlists.js'
 
-const PLAYLIST_NAME = 'Dangling SPaC Tracks'
-
-export async function followDanglingSPaCTracks() {
+export async function followDanglingPlaylists() {
   const spotify = await SpotifyApiSingleton.getInstance()
   const userPlaylists = await getAllPlaylists()
   const user = await spotify.currentUser.profile()
 
   const userLikedTracks = await getLikedTracks()
 
-  let playlist = playlistAlreadyExists(PLAYLIST_NAME, userPlaylists, user)
+  let ownedPlaylists: SimplifiedPlaylist[] = userPlaylists.filter(
+    (userPlaylist) => {
+      return userPlaylist.owner.id === user.id
+    },
+  )
+
+  await followDanglingPlaylist(
+    userPlaylists,
+    user,
+    spotify,
+    userLikedTracks,
+    ownedPlaylists,
+    'Dangling Tracks',
+  )
+
+  ownedPlaylists = userPlaylists.filter((userPlaylist) => {
+    return managedPlaylists.some(
+      (managedPlaylist: ManagedPlaylist) =>
+        managedPlaylist.artists[0] === userPlaylist.name ||
+        managedPlaylist.name === userPlaylist.name,
+    )
+  })
+
+  await followDanglingPlaylist(
+    userPlaylists,
+    user,
+    spotify,
+    userLikedTracks,
+    ownedPlaylists,
+    'Dangling SPaC Tracks',
+  )
+}
+
+async function followDanglingPlaylist(
+  userPlaylists: SimplifiedPlaylist[],
+  user: UserProfile,
+  spotify: SpotifyApi,
+  userLikedTracks: SavedTrack[],
+  ownedPlaylists: SimplifiedPlaylist[],
+  playlistName: string,
+) {
+  let playlist = playlistAlreadyExists(playlistName, userPlaylists, user)
 
   // Create the playlist if it doesn't exist yet
-
   if (playlist === false) {
     playlist = await spotify.playlists.createPlaylist(user.id, {
-      name: PLAYLIST_NAME,
+      name: playlistName,
       collaborative: false,
       public: true,
       description: '',
     })
 
-    console.log(chalk.green(`Created playist ${PLAYLIST_NAME}`))
+    console.log(chalk.green(`Created playist ${playlistName}`))
   }
 
   // Remove playlist's that weren't created by the user
-
-  const ownedPlaylists: SimplifiedPlaylist[] = userPlaylists.filter(
-    (userPlaylist) => {
-      return managedPlaylists.some(
-        (managedPlaylist: ManagedPlaylist) =>
-          managedPlaylist.artists[0] === userPlaylist.name ||
-          managedPlaylist.name === userPlaylist.name,
-      )
-    },
-  )
 
   // Get every unique track from the user's playlists
   const playlistedTracksURIs: string[] = []
@@ -57,8 +90,8 @@ export async function followDanglingSPaCTracks() {
   for (const array of ownedPlaylistsArrays) {
     const promises = array.map(async (ownedPlaylist) => {
       if (
-        ownedPlaylist.name === PLAYLIST_NAME ||
-        ownedPlaylist.name === 'Dangling Tracks'
+        ownedPlaylist.name === 'Dangling Tracks' ||
+        ownedPlaylist.name === 'Dangling SPaC Tracks'
       ) {
         return
       }
