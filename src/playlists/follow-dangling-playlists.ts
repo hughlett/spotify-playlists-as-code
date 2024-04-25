@@ -21,7 +21,7 @@ export async function followDanglingPlaylists() {
 
   const userLikedTracks = await getLikedTracks()
 
-  let ownedPlaylists: SimplifiedPlaylist[] = userPlaylists.filter(
+  const ownedPlaylists: SimplifiedPlaylist[] = userPlaylists.filter(
     (userPlaylist) => {
       if (
         userPlaylist.name === 'Dangling Tracks' ||
@@ -42,13 +42,7 @@ export async function followDanglingPlaylists() {
     'Dangling Tracks',
   )
 
-  ownedPlaylists = userPlaylists.filter((userPlaylist) => {
-    if (
-      userPlaylist.name === 'Dangling Tracks' ||
-      userPlaylist.name === 'Dangling SPaC Tracks'
-    ) {
-      return false
-    }
+  const a = ownedPlaylists.filter((userPlaylist) => {
     return managedPlaylists.some(
       (managedPlaylist: ManagedPlaylist) =>
         managedPlaylist.artists[0] === userPlaylist.name ||
@@ -61,7 +55,7 @@ export async function followDanglingPlaylists() {
     user,
     spotify,
     userLikedTracks,
-    ownedPlaylists,
+    a,
     'Dangling SPaC Tracks',
   )
 }
