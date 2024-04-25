@@ -23,6 +23,12 @@ export async function followDanglingPlaylists() {
 
   let ownedPlaylists: SimplifiedPlaylist[] = userPlaylists.filter(
     (userPlaylist) => {
+      if (
+        userPlaylist.name === 'Dangling Tracks' ||
+        userPlaylist.name === 'Dangling SPaC Tracks'
+      ) {
+        return false
+      }
       return userPlaylist.owner.id === user.id
     },
   )
@@ -41,7 +47,7 @@ export async function followDanglingPlaylists() {
       userPlaylist.name === 'Dangling Tracks' ||
       userPlaylist.name === 'Dangling SPaC Tracks'
     ) {
-      return
+      return false
     }
     return managedPlaylists.some(
       (managedPlaylist: ManagedPlaylist) =>
@@ -95,13 +101,6 @@ async function followDanglingPlaylist(
 
   for (const array of ownedPlaylistsArrays) {
     const promises = array.map(async (ownedPlaylist) => {
-      if (
-        ownedPlaylist.name === 'Dangling Tracks' ||
-        ownedPlaylist.name === 'Dangling SPaC Tracks'
-      ) {
-        return
-      }
-
       console.log(`Processing ${ownedPlaylist.name}`)
 
       const tracks = await getPlaylistTracks(ownedPlaylist.id)
