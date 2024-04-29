@@ -46,6 +46,8 @@ export async function followCuratedPlaylists() {
 
       if (managedPlaylist.name && managedPlaylist.name == ownedPlaylist.name)
         return true
+
+      return false
     })
   })
 
