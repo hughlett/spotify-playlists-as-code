@@ -1,8 +1,4 @@
-import {
-  PlaylistedTrack,
-  SimplifiedPlaylist,
-  TrackItem,
-} from '@spotify/web-api-ts-sdk'
+import { SimplifiedPlaylist, TrackItem } from '@spotify/web-api-ts-sdk'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { managedPlaylists } from '../../data/managedPlaylists.js'
