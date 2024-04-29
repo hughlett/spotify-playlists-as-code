@@ -33,7 +33,9 @@ async function getPlaylistTracks(id: string): Promise<PlaylistedTrack[]> {
 
   const items = await getItems(urls, total, progressBar)
 
-  return items
+  return items.filter((trackItem) => {
+    return trackItem.track.type === 'track'
+  })
 }
 
 export default getPlaylistTracks

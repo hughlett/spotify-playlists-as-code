@@ -1,4 +1,4 @@
-import { ManagedPlaylist } from '../src/playlists/follow-spac-playlists.js'
+import { ManagedPlaylist } from '../src/follow/follow-managed-playlists.js'
 
 export const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Mac Miller'] },

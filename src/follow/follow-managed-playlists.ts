@@ -1,16 +1,15 @@
 import {
   PlaylistedTrack,
-  SavedTrack,
   SimplifiedArtist,
   SimplifiedPlaylist,
   TrackItem,
   UserProfile,
 } from '@spotify/web-api-ts-sdk'
 import chalk from 'chalk'
+import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
 import getLikedTracks from '../tracks/get-user-liked-tracks.js'
-import getAllPlaylists from './get-all-user-playlists.js'
 
 export type ManagedPlaylist = {
   artists: string[]
@@ -21,7 +20,9 @@ export type ManagedPlaylist = {
  * Process an array of managed playlists.
  * @param managedPlaylists Managed playlists to process.
  */
-export async function followSPaCPlaylists(managedPlaylists: ManagedPlaylist[]) {
+export async function followManagedPlaylists(
+  managedPlaylists: ManagedPlaylist[],
+) {
   const spotify = await SpotifyApiSingleton.getInstance()
   const user = await spotify.currentUser.profile()
   const userPlaylists = await getAllPlaylists()
@@ -58,7 +59,7 @@ export async function followSPaCPlaylists(managedPlaylists: ManagedPlaylist[]) {
  */
 async function processManagedPlaylist(
   managedPlaylist: ManagedPlaylist,
-  userLikedTracks: SavedTrack[],
+  userLikedTracks: PlaylistedTrack<TrackItem>[],
   userPlaylists: SimplifiedPlaylist[],
   user: UserProfile,
 ) {
@@ -78,23 +79,27 @@ async function processManagedPlaylist(
   const tracks = await getPlaylistTracks(playlist.id)
 
   // Find any unliked songs that exist in the managed playlist and remove them.
-  const removedTracks: PlaylistedTrack<TrackItem>[] = tracks.filter((track) => {
-    return !track.is_local && !isLikedTrack(track, userLikedTracks)
+  const removedTracks = tracks.filter((track) => {
+    return !track.is_local && !isLikedTrack(track.track, userLikedTracks)
   })
   await removeTracks(removedTracks, playlist)
 
   // Search for and add any liked songs that match the playlist criteria that aren't already present.
-  const addedTracks: SavedTrack[] = userLikedTracks.filter((userLikedTrack) => {
-    return (
-      !playlistContainsTrack(tracks, userLikedTrack.track.id) &&
-      songMeetsCriteria(userLikedTrack.track.artists, managedPlaylist.artists)
-    )
-  })
+  const addedTracks: PlaylistedTrack<TrackItem>[] = userLikedTracks.filter(
+    (userLikedTrack) => {
+      return (
+        !playlistContainsTrack(tracks, userLikedTrack.track.id) &&
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        songMeetsCriteria(userLikedTrack.track.artists, managedPlaylist.artists)
+      )
+    },
+  )
   addTracks(addedTracks, playlist)
 }
 
 async function addTracks(
-  addedTracks: SavedTrack[],
+  addedTracks: PlaylistedTrack<TrackItem>[],
   playlist: SimplifiedPlaylist,
 ) {
   const URIsToAdd: string[] = addedTracks.map((track) => {
@@ -212,12 +217,12 @@ function playlistContainsTrack(
 }
 
 function isLikedTrack(
-  track: PlaylistedTrack<TrackItem>,
-  userLikedTracks: SavedTrack[],
+  track: TrackItem,
+  userLikedTracks: PlaylistedTrack<TrackItem>[],
 ) {
   // TODO Refactor
   for (const likedTrack of userLikedTracks) {
-    if (likedTrack.track.uri === track.track.uri) {
+    if (likedTrack.track.uri === track.uri) {
       return true
     }
   }

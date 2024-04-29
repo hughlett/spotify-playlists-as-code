@@ -1,3 +1,3 @@
-import unfollow from '../../src/teardown/index.js'
+import unfollow from '../../src/unfollow/index.js'
 
 await unfollow()

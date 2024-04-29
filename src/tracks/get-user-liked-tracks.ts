@@ -1,10 +1,10 @@
-import { SavedTrack } from '@spotify/web-api-ts-sdk'
+import { PlaylistedTrack } from '@spotify/web-api-ts-sdk'
 import chalk from 'chalk'
 import { SingleBar } from 'cli-progress'
 import getItems from '../items/get-items.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 
-async function getLikedTracks(): Promise<SavedTrack[]> {
+async function getLikedTracks(): Promise<PlaylistedTrack[]> {
   const spotify = await SpotifyApiSingleton.getInstance()
   const MAX_LIMIT = 50
 

@@ -2,7 +2,7 @@ import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { managedPlaylists } from '../../data/managedPlaylists.js'
-import { ManagedPlaylist } from '../playlists/follow-spac-playlists.js'
+import { ManagedPlaylist } from '../follow/follow-managed-playlists.js'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 
@@ -23,8 +23,8 @@ export default async function unfollow() {
   // Filter out non-SPaC playlists
   const spacPlaylists = ownedPlaylists.filter((ownedPlaylist) => {
     if (
-      ownedPlaylist.name === 'Dangling Tracks' ||
-      ownedPlaylist.name === 'Dangling SPaC Tracks'
+      ownedPlaylist.name === 'Curated Tracks' ||
+      ownedPlaylist.name === 'Niche Tracks'
     ) {
       return true
     }
