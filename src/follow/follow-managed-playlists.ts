@@ -8,7 +8,6 @@ import {
 import chalk from 'chalk'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
-import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
 import getLikedTracks from '../tracks/get-user-liked-tracks.js'
 
 export type ManagedPlaylist = {
@@ -75,27 +74,26 @@ async function processManagedPlaylist(
     user,
   )
 
-  // Get the managed playlist's tracks.
-  const tracks = await getPlaylistTracks(playlist.id)
-
-  // Find any unliked songs that exist in the managed playlist and remove them.
-  const removedTracks = tracks.filter((track) => {
-    return !track.is_local && !isLikedTrack(track.track, userLikedTracks)
+  const spotify = await SpotifyApiSingleton.getInstance()
+  await spotify.currentUser.playlists.unfollow(playlist.id)
+  const freshPlaylist = await spotify.playlists.createPlaylist(user.id, {
+    name: managedPlaylistName,
+    collaborative: false,
+    public: true,
+    description: '',
   })
-  await removeTracks(removedTracks, playlist)
 
-  // Search for and add any liked songs that match the playlist criteria that aren't already present.
   const addedTracks: PlaylistedTrack<TrackItem>[] = userLikedTracks.filter(
     (userLikedTrack) => {
-      return (
-        !playlistContainsTrack(tracks, userLikedTrack.track.id) &&
+      return songMeetsCriteria(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        songMeetsCriteria(userLikedTrack.track.artists, managedPlaylist.artists)
+        userLikedTrack.track.artists,
+        managedPlaylist.artists,
       )
     },
   )
-  addTracks(addedTracks, playlist)
+  addTracks(addedTracks, freshPlaylist)
 }
 
 async function addTracks(
@@ -117,40 +115,6 @@ async function addTracks(
     })
 
     await spotify.playlists.addItemsToPlaylist(playlist.id, URIsToAddArray)
-  })
-
-  await Promise.all(
-    promises.map(async (promise) => {
-      await promise
-    }),
-  )
-}
-
-async function removeTracks(
-  removedTracks: PlaylistedTrack<TrackItem>[],
-  playlist: SimplifiedPlaylist,
-) {
-  const URIsToRemove: Array<{
-    uri: string
-  }> = removedTracks.map((track) => {
-    return {
-      uri: track.track.uri,
-    }
-  })
-
-  const URIsToRemoveArrays = [
-    ...Array(Math.ceil(URIsToRemove.length / 100)),
-  ].map(() => URIsToRemove.splice(0, 100))
-
-  const spotify = await SpotifyApiSingleton.getInstance()
-  const promises = URIsToRemoveArrays.map(async (URIsToRemoveArray) => {
-    URIsToRemoveArray.map((uri) => {
-      console.log(chalk.red(`Removed ${uri.uri} from ${playlist.name}`))
-    })
-
-    await spotify.playlists.removeItemsFromPlaylist(playlist.id, {
-      tracks: URIsToRemove,
-    })
   })
 
   await Promise.all(
@@ -201,32 +165,6 @@ async function fetchUserPlaylist(
   console.log(chalk.green(`Created playist ${playlistName}`))
 
   return playlist
-}
-
-function playlistContainsTrack(
-  playlist: PlaylistedTrack<TrackItem>[],
-  trackID: string,
-) {
-  // TODO Refactor
-  for (const track of playlist) {
-    if (track.track.id === trackID) {
-      return true
-    }
-  }
-  return false
-}
-
-function isLikedTrack(
-  track: TrackItem,
-  userLikedTracks: PlaylistedTrack<TrackItem>[],
-) {
-  // TODO Refactor
-  for (const likedTrack of userLikedTracks) {
-    if (likedTrack.track.uri === track.uri) {
-      return true
-    }
-  }
-  return false
 }
 
 function songMeetsCriteria(
