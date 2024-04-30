@@ -73,26 +73,32 @@ export async function followCuratedPlaylists() {
   // Update playlists
 
   const nicheTracksPlaylist = await getUserPlaylist('Niche Tracks', [
-    ...userPlaylists,
+    ...userPlaylists.filter((userPlaylist) => {
+      return userPlaylist.owner.id == user.id
+    }),
   ])
   const curatedTracksPlaylist = await getUserPlaylist('Curated Tracks', [
-    ...userPlaylists,
+    ...userPlaylists.filter((userPlaylist) => {
+      return userPlaylist.owner.id == user.id
+    }),
   ])
 
-  await updatePlaylist(
+  await spotify.currentUser.playlists.unfollow(nicheTracksPlaylist.id)
+  await spotify.currentUser.playlists.unfollow(curatedTracksPlaylist.id)
+
+  await followPlaylist(
     nicheTracksPlaylist,
     nicheTracks.map((item) => item.track),
   )
-  await updatePlaylist(curatedTracksPlaylist, curatedTracks)
+  await followPlaylist(curatedTracksPlaylist, curatedTracks)
 }
 
-async function updatePlaylist(
+async function followPlaylist(
   playlist: SimplifiedPlaylist,
   newPlaylistTracks: TrackItem[],
 ) {
   const spotify = await SpotifyApiSingleton.getInstance()
   const user = await spotify.currentUser.profile()
-  await spotify.currentUser.playlists.unfollow(playlist.id)
 
   const freshPlaylist = await spotify.playlists.createPlaylist(user.id, {
     name: playlist.name,
@@ -122,7 +128,7 @@ async function getUniqueTracksFromPlaylists(
 
   for (const playlist of playlists) {
     const tracks = await getPlaylistTracks(playlist.id)
-    console.log(`Searching for unique tracks in ${playlist.name}`)
+    console.log(`Searching ${playlist.name} for unique tracks`)
     tracks
       .filter((track) => {
         return !uniqueTracksIDs.includes(track.track.id)
