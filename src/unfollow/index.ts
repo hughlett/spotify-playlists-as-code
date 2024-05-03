@@ -1,4 +1,5 @@
 import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk'
+import chalk from 'chalk'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { managedPlaylists } from '../../data/managedPlaylists.js'
@@ -38,7 +39,7 @@ export default async function unfollow() {
 
   // Delete the playlists
   for (const spacPlaylist of spacPlaylists) {
-    console.log(`Deleting ${spacPlaylist.name}`)
+    chalk.red(console.log(`Deleting ${spacPlaylist.name}`))
     await spotify.currentUser.playlists.unfollow(spacPlaylist.id)
   }
 }
