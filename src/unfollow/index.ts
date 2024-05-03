@@ -38,7 +38,7 @@ export default async function unfollow() {
 
   // Delete the playlists
   for (const spacPlaylist of spacPlaylists) {
+    console.log(`Deleting ${spacPlaylist.name}`)
     await spotify.currentUser.playlists.unfollow(spacPlaylist.id)
-    console.log(`Deleted ${spacPlaylist.name}`)
   }
 }
