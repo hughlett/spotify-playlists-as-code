@@ -5,7 +5,6 @@ import {
   TrackItem,
   UserProfile,
 } from '@spotify/web-api-ts-sdk'
-import chalk from 'chalk'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 import getLikedTracks from '../tracks/get-user-liked-tracks.js'
