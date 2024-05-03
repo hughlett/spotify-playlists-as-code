@@ -86,7 +86,8 @@ async function processManagedPlaylist(
       )
     })
     .map((track) => track.track)
-  followPlaylist(playlist, managedPlaylistTracks)
+
+  await followPlaylist(playlist, managedPlaylistTracks)
 }
 
 /**
