@@ -8,10 +8,8 @@ import {
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 import getLikedTracks from '../tracks/get-user-liked-tracks.js'
-import {
-  followPlaylist,
-  getUserPlaylist,
-} from './follow-personalised-playlists.js'
+import { getUserPlaylist } from './follow-personalised-playlists.js'
+import { followPlaylist } from './follow-playlist.js'
 
 export type ManagedPlaylist = {
   artists: string[]
@@ -104,10 +102,7 @@ function songMeetsCriteria(
   songArtists: SimplifiedArtist[],
   playlistArtists: string[],
 ) {
-  // TODO Refactor
-  for (const artist of songArtists) {
-    if (playlistArtists.includes(artist.name)) {
-      return true
-    }
-  }
+  return songArtists.some((songArtist) =>
+    playlistArtists.includes(songArtist.name),
+  )
 }
