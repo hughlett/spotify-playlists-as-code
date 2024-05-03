@@ -100,12 +100,18 @@ export async function followPlaylist(
     (track) => track.track,
   )
 
-  const tracksToRemove = existingTracks.filter(
-    (existingTrack) => !newPlaylistTracks.includes(existingTrack),
+  const tracksToRemove = [...existingTracks].filter(
+    (existingTrack) =>
+      !newPlaylistTracks.some(
+        (newPlaylistTrack) => newPlaylistTrack.id === existingTrack.id,
+      ),
   )
 
   const tracksToAdd = newPlaylistTracks.filter(
-    (newPlaylistTrack) => !existingTracks.includes(newPlaylistTrack),
+    (newPlaylistTrack) =>
+      !existingTracks.some(
+        (existingTrack) => existingTrack.id === newPlaylistTrack.id,
+      ),
   )
 
   const tracksToAddArrays = [...Array(Math.ceil(tracksToAdd.length / 100))].map(
