@@ -1,4 +1,5 @@
 import { SimplifiedPlaylist, TrackItem } from '@spotify/web-api-ts-sdk'
+import chalk from 'chalk'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { managedPlaylists } from '../../data/managedPlaylists.js'
@@ -83,9 +84,6 @@ export async function followCuratedPlaylists() {
     }),
   ])
 
-  await spotify.currentUser.playlists.unfollow(nicheTracksPlaylist.id)
-  await spotify.currentUser.playlists.unfollow(curatedTracksPlaylist.id)
-
   await followPlaylist(
     nicheTracksPlaylist,
     nicheTracks.map((item) => item.track),
@@ -93,30 +91,47 @@ export async function followCuratedPlaylists() {
   await followPlaylist(curatedTracksPlaylist, curatedTracks)
 }
 
-async function followPlaylist(
+export async function followPlaylist(
   playlist: SimplifiedPlaylist,
   newPlaylistTracks: TrackItem[],
 ) {
   const spotify = await SpotifyApiSingleton.getInstance()
-  const user = await spotify.currentUser.profile()
+  const existingTracks = (await getPlaylistTracks(playlist.id)).map(
+    (track) => track.track,
+  )
 
-  const freshPlaylist = await spotify.playlists.createPlaylist(user.id, {
-    name: playlist.name,
-    collaborative: false,
-    public: true,
-    description: playlist.description,
-  })
+  const tracksToRemove = existingTracks.filter(
+    (existingTrack) => !newPlaylistTracks.includes(existingTrack),
+  )
 
-  const tracksArrays = [
-    ...Array(Math.ceil(newPlaylistTracks.length / 100)),
-  ].map(() => newPlaylistTracks.splice(0, 100))
+  const tracksToAdd = newPlaylistTracks.filter(
+    (newPlaylistTrack) => !existingTracks.includes(newPlaylistTrack),
+  )
 
-  for (const tracksArray of tracksArrays) {
+  const tracksToAddArrays = [...Array(Math.ceil(tracksToAdd.length / 100))].map(
+    () => tracksToAdd.splice(0, 100),
+  )
+
+  for (const tracksArray of tracksToAddArrays) {
     const uris = tracksArray.map((track) => {
-      console.log(`Adding ${track.name} to ${playlist.name}`)
+      console.log(chalk.green(`Adding ${track.name} to ${playlist.name}`))
       return track.uri
     })
-    await spotify.playlists.addItemsToPlaylist(freshPlaylist.id, uris)
+    await spotify.playlists.addItemsToPlaylist(playlist.id, uris)
+  }
+
+  const tracksToRemoveArrays = [
+    ...Array(Math.ceil(tracksToRemove.length / 100)),
+  ].map(() => tracksToRemove.splice(0, 100))
+
+  for (const tracksArray of tracksToRemoveArrays) {
+    const uris = tracksArray.map((track) => {
+      console.log(chalk.red(`Removing ${track.name} from ${playlist.name}`))
+      return { uri: track.uri }
+    })
+    await spotify.playlists.removeItemsFromPlaylist(playlist.id, {
+      tracks: uris,
+    })
   }
 }
 
@@ -142,7 +157,7 @@ async function getUniqueTracksFromPlaylists(
   return uniqueTracks
 }
 
-async function getUserPlaylist(
+export async function getUserPlaylist(
   playlistName: string,
   userPlaylists: SimplifiedPlaylist[],
 ) {
@@ -157,6 +172,8 @@ async function getUserPlaylist(
       return userPlaylist
     }
   }
+
+  console.log(chalk.green(`Creating playist ${playlistName}`))
 
   return await spotify.playlists.createPlaylist(user.id, {
     name: playlistName,

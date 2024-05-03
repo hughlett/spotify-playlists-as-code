@@ -9,6 +9,10 @@ import chalk from 'chalk'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
 import getLikedTracks from '../tracks/get-user-liked-tracks.js'
+import {
+  followPlaylist,
+  getUserPlaylist,
+} from './follow-personalised-playlists.js'
 
 export type ManagedPlaylist = {
   artists: string[]
@@ -68,60 +72,24 @@ async function processManagedPlaylist(
   console.log(`Processing ${managedPlaylistName}`)
 
   // Get the managed playlist or create it
-  const playlist = await fetchUserPlaylist(
-    managedPlaylistName,
-    userPlaylists,
-    user,
-  )
 
-  const spotify = await SpotifyApiSingleton.getInstance()
-  await spotify.currentUser.playlists.unfollow(playlist.id)
-  const freshPlaylist = await spotify.playlists.createPlaylist(user.id, {
-    name: managedPlaylistName,
-    collaborative: false,
-    public: true,
-    description: '',
-  })
+  const playlist = await getUserPlaylist(managedPlaylistName, [
+    ...userPlaylists.filter((userPlaylist) => {
+      return userPlaylist.owner.id == user.id
+    }),
+  ])
 
-  const addedTracks: PlaylistedTrack<TrackItem>[] = userLikedTracks.filter(
-    (userLikedTrack) => {
+  const managedPlaylistTracks = userLikedTracks
+    .filter((userLikedTrack) => {
       return songMeetsCriteria(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         userLikedTrack.track.artists,
         managedPlaylist.artists,
       )
-    },
-  )
-  addTracks(addedTracks, freshPlaylist)
-}
-
-async function addTracks(
-  addedTracks: PlaylistedTrack<TrackItem>[],
-  playlist: SimplifiedPlaylist,
-) {
-  const URIsToAdd: string[] = addedTracks.map((track) => {
-    return track.track.uri
-  })
-
-  const URIsToAddArrays = [...Array(Math.ceil(URIsToAdd.length / 100))].map(
-    () => URIsToAdd.splice(0, 100),
-  )
-
-  const spotify = await SpotifyApiSingleton.getInstance()
-  const promises = URIsToAddArrays.map(async (URIsToAddArray) => {
-    URIsToAddArray.map((uri) => {
-      console.log(chalk.green(`Added ${uri} to ${playlist.name}`))
     })
-
-    await spotify.playlists.addItemsToPlaylist(playlist.id, URIsToAddArray)
-  })
-
-  await Promise.all(
-    promises.map(async (promise) => {
-      await promise
-    }),
-  )
+    .map((track) => track.track)
+  followPlaylist(playlist, managedPlaylistTracks)
 }
 
 /**
@@ -131,40 +99,6 @@ async function addTracks(
  */
 function getManagedPlaylistName(managedPlaylist: ManagedPlaylist) {
   return managedPlaylist.name || managedPlaylist.artists[0]
-}
-
-/**
- * Find a playlist based on name that is saved and owned by the user. Create the playlist if it doesn't exist.
- * @param playlistName The name of the playlist to find. Assumes the name of the playlist is unique.
- * @returns The playlist.
- */
-async function fetchUserPlaylist(
-  playlistName: string,
-  userPlaylists: SimplifiedPlaylist[],
-  user: UserProfile,
-) {
-  // TODO Refactor
-  for (const userPlaylist of userPlaylists) {
-    if (
-      userPlaylist.owner.uri === user.uri &&
-      userPlaylist.name === playlistName
-    ) {
-      return userPlaylist
-    }
-  }
-
-  const spotify = await SpotifyApiSingleton.getInstance()
-
-  const playlist = await spotify.playlists.createPlaylist(user.id, {
-    name: playlistName,
-    collaborative: false,
-    public: true,
-    description: '',
-  })
-
-  console.log(chalk.green(`Created playist ${playlistName}`))
-
-  return playlist
 }
 
 function songMeetsCriteria(
