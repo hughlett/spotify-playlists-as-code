@@ -29,7 +29,7 @@ export async function followManagedPlaylists(
   const userLikedTracks = await getLikedTracks()
 
   // Divide the array into arrays of size BATCH_SIZE
-  const BATCH_SIZE = 3
+  const BATCH_SIZE = 1
   const managedPlaylistsArrays = [
     ...Array(Math.ceil(managedPlaylists.length / BATCH_SIZE)),
   ].map(() => managedPlaylists.splice(0, BATCH_SIZE))
