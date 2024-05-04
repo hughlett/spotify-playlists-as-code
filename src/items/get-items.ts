@@ -22,7 +22,7 @@ async function getItems(urls: string[], total: number, progressBar: SingleBar) {
   let items: any[] = []
 
   // Divide the array into arrays of size BATCH_SIZE
-  const BATCH_SIZE = 1
+  const BATCH_SIZE = 5
   const itemsArrays = [...Array(Math.ceil(requests.length / BATCH_SIZE))].map(
     () => requests.splice(0, BATCH_SIZE),
   )
