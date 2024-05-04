@@ -4,14 +4,14 @@ import { SimplifiedPlaylist, TrackItem } from '@spotify/web-api-ts-sdk'
 import { managedPlaylists } from '../../data/managedPlaylists.js'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import getUserPlaylist from '../playlists/get-user-playlist.js'
-import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
+import SpotifyAPISingleton from '../spotify-api/index.js'
 import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
 import getLikedTracks from '../tracks/get-user-liked-tracks.js'
 import { ManagedPlaylist } from './follow-managed-playlists.js'
 import { followPlaylist } from './follow-playlist.js'
 
 export async function followCuratedPlaylists() {
-  const spotify = await SpotifyApiSingleton.getInstance()
+  const spotify = await SpotifyAPISingleton.getInstance()
   const userPlaylists = await getAllPlaylists()
   const user = await spotify.currentUser.profile()
 
@@ -61,28 +61,23 @@ export async function followCuratedPlaylists() {
 
   const likedTracks = await getLikedTracks()
 
-  const nicheTracks = likedTracks.filter((likedTrack) => {
-    return (
+  const nicheTracks = likedTracks.filter(
+    (likedTrack) =>
       !SPaCTracks.some((spacTrack) => {
         return likedTrack.track.uri == spacTrack.uri
       }) &&
       !curatedTracks.some((spacTrack) => {
         return likedTrack.track.uri == spacTrack.uri
-      })
-    )
-  })
+      }),
+  )
 
   // Update playlists
 
   const nicheTracksPlaylist = await getUserPlaylist('Niche Tracks', [
-    ...userPlaylists.filter((userPlaylist) => {
-      return userPlaylist.owner.id == user.id
-    }),
+    ...userPlaylists.filter((userPlaylist) => userPlaylist.owner.id == user.id),
   ])
   const curatedTracksPlaylist = await getUserPlaylist('Curated Tracks', [
-    ...userPlaylists.filter((userPlaylist) => {
-      return userPlaylist.owner.id == user.id
-    }),
+    ...userPlaylists.filter((userPlaylist) => userPlaylist.owner.id == user.id),
   ])
 
   await followPlaylist(
@@ -102,9 +97,7 @@ async function getUniqueTracksFromPlaylists(
     const tracks = await getPlaylistTracks(playlist.id)
     console.log(`Searching ${playlist.name} for unique tracks`)
     tracks
-      .filter((track) => {
-        return !uniqueTracksIDs.includes(track.track.id)
-      })
+      .filter((track) => !uniqueTracksIDs.includes(track.track.id))
       .map((track) => {
         uniqueTracks.push(track.track)
         uniqueTracksIDs.push(track.track.id)

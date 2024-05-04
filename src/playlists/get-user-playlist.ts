@@ -1,12 +1,12 @@
 import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk'
 import chalk from 'chalk'
-import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
+import SpotifyAPISingleton from '../spotify-api/index.js'
 
 export default async function getUserPlaylist(
   playlistName: string,
   userPlaylists: SimplifiedPlaylist[],
 ) {
-  const spotify = await SpotifyApiSingleton.getInstance()
+  const spotify = await SpotifyAPISingleton.getInstance()
   const user = await spotify.currentUser.profile()
 
   for (const userPlaylist of userPlaylists) {

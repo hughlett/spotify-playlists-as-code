@@ -1,13 +1,13 @@
 import { SimplifiedPlaylist, TrackItem } from '@spotify/web-api-ts-sdk'
 import chalk from 'chalk'
-import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
+import SpotifyAPISingleton from '../spotify-api/index.js'
 import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
 
 export async function followPlaylist(
   playlist: SimplifiedPlaylist,
   newPlaylistTracks: TrackItem[],
 ) {
-  const spotify = await SpotifyApiSingleton.getInstance()
+  const spotify = await SpotifyAPISingleton.getInstance()
   const existingTracks = (await getPlaylistTracks(playlist.id)).map(
     (track) => track.track,
   )

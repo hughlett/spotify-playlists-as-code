@@ -1,8 +1,7 @@
-import { SingleBar } from 'cli-progress'
-import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
+import SpotifyAPISingleton from '../spotify-api/index.js'
 
-async function getItems(urls: string[], total: number, progressBar: SingleBar) {
-  const spotify = await SpotifyApiSingleton.getInstance()
+async function getItems(urls: string[]) {
+  const spotify = await SpotifyAPISingleton.getInstance()
   const accessToken = await spotify.getAccessToken()
 
   if (!accessToken) {
@@ -22,12 +21,10 @@ async function getItems(urls: string[], total: number, progressBar: SingleBar) {
   let items: any[] = []
 
   // Divide the array into arrays of size BATCH_SIZE
-  const BATCH_SIZE = 3
+  const BATCH_SIZE = 5
   const itemsArrays = [...Array(Math.ceil(requests.length / BATCH_SIZE))].map(
     () => requests.splice(0, BATCH_SIZE),
   )
-
-  // progressBar.start(total, 0)
 
   for (const itemArray of itemsArrays) {
     await Promise.all(
@@ -36,13 +33,11 @@ async function getItems(urls: string[], total: number, progressBar: SingleBar) {
         const body = await response.json()
         if (body.items) {
           items = [...items, ...body.items]
-          progressBar.increment(body.items.length)
         }
       }),
     )
   }
 
-  // progressBar.stop()
   return items
 }
 

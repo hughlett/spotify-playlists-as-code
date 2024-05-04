@@ -4,21 +4,22 @@ import { SpotifyApi } from '@spotify/web-api-ts-sdk'
 export const REFRESH_TOKEN_PATH = '/tokens/refresh_token'
 export const CLIENT_ID = process.env.CLIENT_ID || ''
 
-export class SpotifyApiSingleton {
+export default class SpotifyAPISingleton {
   private static instance: SpotifyApi
 
   public static async getInstance(): Promise<SpotifyApi> {
-    if (!SpotifyApiSingleton.instance) {
+    if (!SpotifyAPISingleton.instance) {
       if (!CLIENT_ID) {
         throw new Error('No client ID!')
       }
       const api = await createAPI()
-      SpotifyApiSingleton.instance = api
+      SpotifyAPISingleton.instance = api
     }
 
-    return SpotifyApiSingleton.instance
+    return SpotifyAPISingleton.instance
   }
 }
+
 async function createAPI() {
   if (!existsSync(REFRESH_TOKEN_PATH)) {
     throw new Error('No refresh token provided')

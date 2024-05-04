@@ -1,6 +1,6 @@
-import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
+import SpotifyAPISingleton from '../spotify-api/index.js'
 
 export default async function healthcheck() {
-  const spotify = await SpotifyApiSingleton.getInstance()
+  const spotify = await SpotifyAPISingleton.getInstance()
   await spotify.currentUser.profile()
 }

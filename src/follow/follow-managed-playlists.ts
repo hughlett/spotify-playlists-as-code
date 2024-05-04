@@ -6,7 +6,7 @@ import {
   UserProfile,
 } from '@spotify/web-api-ts-sdk'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
-import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
+import SpotifyAPISingleton from '../spotify-api/index.js'
 import getLikedTracks from '../tracks/get-user-liked-tracks.js'
 import { getUserPlaylist } from './follow-personalised-playlists.js'
 import { followPlaylist } from './follow-playlist.js'
@@ -23,7 +23,7 @@ export type ManagedPlaylist = {
 export async function followManagedPlaylists(
   managedPlaylists: ManagedPlaylist[],
 ) {
-  const spotify = await SpotifyApiSingleton.getInstance()
+  const spotify = await SpotifyAPISingleton.getInstance()
   const user = await spotify.currentUser.profile()
   const userPlaylists = await getAllPlaylists()
   const userLikedTracks = await getLikedTracks()
@@ -36,19 +36,15 @@ export async function followManagedPlaylists(
 
   // Process each batch of managed playlists
   for (const array of managedPlaylistsArrays) {
-    const promises = array.map((managedPlaylist) => {
-      return processManagedPlaylist(
-        managedPlaylist,
-        userLikedTracks,
-        userPlaylists,
-        user,
-      )
-    })
-
     await Promise.all(
-      promises.map(async (promise) => {
-        await promise
-      }),
+      array.map((managedPlaylist) =>
+        processManagedPlaylist(
+          managedPlaylist,
+          userLikedTracks,
+          userPlaylists,
+          user,
+        ),
+      ),
     )
   }
 }
@@ -71,20 +67,18 @@ async function processManagedPlaylist(
   // Get the managed playlist or create it
 
   const playlist = await getUserPlaylist(managedPlaylistName, [
-    ...userPlaylists.filter((userPlaylist) => {
-      return userPlaylist.owner.id == user.id
-    }),
+    ...userPlaylists.filter((userPlaylist) => userPlaylist.owner.id == user.id),
   ])
 
   const managedPlaylistTracks = userLikedTracks
-    .filter((userLikedTrack) => {
-      return songMeetsCriteria(
+    .filter((userLikedTrack) =>
+      songMeetsCriteria(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         userLikedTrack.track.artists,
         managedPlaylist.artists,
-      )
-    })
+      ),
+    )
     .map((track) => track.track)
 
   await followPlaylist(playlist, managedPlaylistTracks)

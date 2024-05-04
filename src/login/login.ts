@@ -6,7 +6,7 @@ import express from 'express'
 import {
   CLIENT_ID as client_id,
   REFRESH_TOKEN_PATH,
-} from '../spotify-api/create-api.js'
+} from '../spotify-api/index.js'
 import { base64encode, generateRandomString, sha256 } from './pkce.js'
 
 const PORT = 5173

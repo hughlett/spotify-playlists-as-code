@@ -1,11 +1,9 @@
 import { PlaylistedTrack } from '@spotify/web-api-ts-sdk'
-import chalk from 'chalk'
-import { SingleBar } from 'cli-progress'
 import getItems from '../items/get-items.js'
-import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
+import SpotifyAPISingleton from '../spotify-api/index.js'
 
 async function getPlaylistTracks(id: string): Promise<PlaylistedTrack[]> {
-  const spotify = await SpotifyApiSingleton.getInstance()
+  const spotify = await SpotifyAPISingleton.getInstance()
   const MAX_LIMIT = 50
 
   const page = await spotify.playlists.getPlaylist(id)
@@ -20,22 +18,9 @@ async function getPlaylistTracks(id: string): Promise<PlaylistedTrack[]> {
       }&limit=50`,
   )
 
-  const progressBar = new SingleBar({
-    barCompleteChar: '\u2588',
-    barIncompleteChar: '\u2591',
-    format:
-      'CLI Progress |' +
-      chalk.green('{bar}') +
-      '| {percentage}% || {value}/{total} Songs || ' +
-      page.name,
-    hideCursor: true,
-  })
+  const items = await getItems(urls)
 
-  const items = await getItems(urls, total, progressBar)
-
-  return items.filter((trackItem) => {
-    return trackItem.track.type === 'track'
-  })
+  return items.filter((trackItem) => trackItem.track.type === 'track')
 }
 
 export default getPlaylistTracks

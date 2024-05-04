@@ -5,10 +5,10 @@ import chalk from 'chalk'
 import { managedPlaylists } from '../../data/managedPlaylists.js'
 import { ManagedPlaylist } from '../follow/follow-managed-playlists.js'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
-import { SpotifyApiSingleton } from '../spotify-api/create-api.js'
+import SpotifyAPISingleton from '../spotify-api/index.js'
 
 export default async function unfollow() {
-  const spotify = await SpotifyApiSingleton.getInstance()
+  const spotify = await SpotifyAPISingleton.getInstance()
 
   // Get user's playlists
   const userPlaylists = await getAllPlaylists()
@@ -16,9 +16,7 @@ export default async function unfollow() {
 
   // Remove playlist's that weren't created by the user
   const ownedPlaylists: SimplifiedPlaylist[] = userPlaylists.filter(
-    (userPlaylist) => {
-      return userPlaylist.owner.id === user.id
-    },
+    (userPlaylist) => userPlaylist.owner.id === user.id,
   )
 
   // Filter out non-SPaC playlists
