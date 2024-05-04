@@ -81,7 +81,36 @@ async function processManagedPlaylist(
     )
     .map((track) => track.track)
 
-  await followPlaylist(playlist, managedPlaylistTracks)
+  await followPlaylist(playlist, [...managedPlaylistTracks])
+
+  const b = managedPlaylistTracks.find((track) =>
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    track.artists.find((artist) => artist.name === playlist.name),
+  )
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const artist: string = b?.artists.find(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    (artist) => artist.name === playlist.name,
+  ).id
+
+  const spotify = await SpotifyAPISingleton.getInstance()
+
+  const images = (await spotify.artists.get(artist)).images
+
+  const image = await fetch(images[0].url)
+
+  const data = await image.arrayBuffer()
+
+  const a = Buffer.from(data).toString('base64')
+
+  await spotify.playlists.addCustomPlaylistCoverImageFromBase64String(
+    playlist.id,
+    a,
+  )
 }
 
 /**
