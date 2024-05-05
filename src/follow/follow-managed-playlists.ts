@@ -5,6 +5,8 @@ import {
   TrackItem,
   UserProfile,
 } from '@spotify/web-api-ts-sdk'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { ManagedPlaylist } from '../../data/managedPlaylists.js'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import SpotifyAPISingleton from '../spotify-api/index.js'

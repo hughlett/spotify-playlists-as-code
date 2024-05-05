@@ -1,10 +1,11 @@
 import { SimplifiedPlaylist, TrackItem } from '@spotify/web-api-ts-sdk'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import {
   ManagedPlaylist,
   managedPlaylists,
-} from '../../data/managedPlaylists.js'
+}
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+from '../../data/managedPlaylists.js'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import getUserPlaylist from '../playlists/get-user-playlist.js'
 import SpotifyAPISingleton from '../spotify-api/index.js'
