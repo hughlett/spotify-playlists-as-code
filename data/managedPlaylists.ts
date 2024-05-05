@@ -1,7 +1,4 @@
-export type ManagedPlaylist = {
-  artists: string[]
-  name?: string
-}
+import { ManagedPlaylist } from '../src/playlists/managed-playlist.js'
 
 export const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Marvin Gaye'] },
