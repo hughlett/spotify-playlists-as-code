@@ -101,24 +101,24 @@ async function processManagedPlaylist(
 
   const images = (await spotify.artists.get(artist)).images
 
-  const use = images.find(async (image) => {
-    const data = await (await fetch(image.url)).arrayBuffer()
-    return Buffer.from(data).toString('base64').length / 1e3 <= 256
-  })
+  let playlistCoverImage: ArrayBuffer | undefined
 
-  if (!use) {
+  for (const image of images) {
+    const data = await (await fetch(image.url)).arrayBuffer()
+    const size = Buffer.from(data).toString('base64').length / 1e3
+    if (size <= 256) {
+      playlistCoverImage = data
+      break
+    }
+  }
+
+  if (!playlistCoverImage) {
     return
   }
 
-  const image = await fetch(use.url)
-
-  const data = await image.arrayBuffer()
-
-  const a = Buffer.from(data).toString('base64')
-
   await spotify.playlists.addCustomPlaylistCoverImageFromBase64String(
     playlist.id,
-    a,
+    Buffer.from(playlistCoverImage).toString('base64'),
   )
 }
 
