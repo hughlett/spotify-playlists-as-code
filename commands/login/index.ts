@@ -1,3 +1,3 @@
-import { login } from '../../src/login/login.js'
+import login from '../../src/login/index.js'
 
 login()

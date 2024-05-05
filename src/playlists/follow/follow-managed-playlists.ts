@@ -7,12 +7,12 @@ import {
 } from '@spotify/web-api-ts-sdk'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { ManagedPlaylist } from '../../data/managedPlaylists.js'
-import getAllPlaylists from '../playlists/get-all-user-playlists.js'
-import SpotifyAPISingleton from '../spotify-api/index.js'
-import getLikedTracks from '../tracks/get-user-liked-tracks.js'
+import { ManagedPlaylist } from '../../../data/managedPlaylists.js'
+import SpotifyAPISingleton from '../../spotify-api/index.js'
+import getLikedTracks from '../../tracks/get-user-liked-tracks.js'
+import { followPlaylist } from '../follow/follow-playlist.js'
+import getAllPlaylists from '../get-user-playlists.js'
 import { getUserPlaylist } from './follow-personalised-playlists.js'
-import { followPlaylist } from './follow-playlist.js'
 
 /**
  * Process an array of managed playlists.

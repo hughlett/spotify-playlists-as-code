@@ -1,9 +1,9 @@
 import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk'
 import chalk from 'chalk'
-import getAllPlaylists from '../playlists/get-all-user-playlists.js'
-import { ManagedPlaylist } from '../playlists/managed-playlist.js'
-import getManagedPlaylists from '../playlists/managed-playlists.js'
-import SpotifyAPISingleton from '../spotify-api/index.js'
+import SpotifyAPISingleton from '../../spotify-api/index.js'
+import getManagedPlaylists from '../get-managed-playlists.js'
+import getAllPlaylists from '../get-user-playlists.js'
+import { ManagedPlaylist } from '../managed-playlist.js'
 
 export default async function unfollow() {
   const spotify = await SpotifyAPISingleton.getInstance()

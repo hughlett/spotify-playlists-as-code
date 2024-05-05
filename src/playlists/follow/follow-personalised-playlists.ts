@@ -1,11 +1,11 @@
 import { SimplifiedPlaylist, TrackItem } from '@spotify/web-api-ts-sdk'
-import getAllPlaylists from '../playlists/get-all-user-playlists.js'
-import getUserPlaylist from '../playlists/get-user-playlist.js'
-import { ManagedPlaylist } from '../playlists/managed-playlist.js'
-import getManagedPlaylists from '../playlists/managed-playlists.js'
-import SpotifyAPISingleton from '../spotify-api/index.js'
-import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
-import getLikedTracks from '../tracks/get-user-liked-tracks.js'
+import SpotifyAPISingleton from '../../spotify-api/index.js'
+import getPlaylistTracks from '../../tracks/get-playlist-tracks.js'
+import getLikedTracks from '../../tracks/get-user-liked-tracks.js'
+import getManagedPlaylists from '../get-managed-playlists.js'
+import getUserPlaylist from '../get-user-playlist.js'
+import getAllPlaylists from '../get-user-playlists.js'
+import { ManagedPlaylist } from '../managed-playlist.js'
 import { followPlaylist } from './follow-playlist.js'
 
 export async function followCuratedPlaylists() {

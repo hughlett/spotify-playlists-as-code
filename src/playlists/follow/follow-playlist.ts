@@ -1,7 +1,7 @@
 import { SimplifiedPlaylist, TrackItem } from '@spotify/web-api-ts-sdk'
 import chalk from 'chalk'
-import SpotifyAPISingleton from '../spotify-api/index.js'
-import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
+import SpotifyAPISingleton from '../../spotify-api/index.js'
+import getPlaylistTracks from '../../tracks/get-playlist-tracks.js'
 
 export async function followPlaylist(
   playlist: SimplifiedPlaylist,

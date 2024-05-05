@@ -62,7 +62,7 @@ app.get('/token', async (req, res) => {
     })
 })
 
-export function login() {
+export default function login() {
   server = app.listen(PORT, () => {
     const URL =
       'https://accounts.spotify.com/authorize?' +

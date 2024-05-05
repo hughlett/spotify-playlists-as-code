@@ -1,3 +1,3 @@
-import unfollow from '../../src/unfollow/index.js'
+import unfollow from '../../src/playlists/unfollow/unfollow-playlists.js'
 
 await unfollow()
