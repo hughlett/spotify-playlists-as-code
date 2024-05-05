@@ -1,10 +1,8 @@
 import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk'
 import chalk from 'chalk'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { managedPlaylists } from '../../data/managedPlaylists.js'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import { ManagedPlaylist } from '../playlists/managed-playlist.js'
+import getManagedPlaylists from '../playlists/managed-playlists.js'
 import SpotifyAPISingleton from '../spotify-api/index.js'
 
 export default async function unfollow() {
@@ -13,6 +11,7 @@ export default async function unfollow() {
   // Get user's playlists
   const userPlaylists = await getAllPlaylists()
   const user = await spotify.currentUser.profile()
+  const managedPlaylists = getManagedPlaylists()
 
   // Remove playlist's that weren't created by the user
   const ownedPlaylists: SimplifiedPlaylist[] = userPlaylists.filter(

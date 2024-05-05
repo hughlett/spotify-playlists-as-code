@@ -1,10 +1,8 @@
 import { SimplifiedPlaylist, TrackItem } from '@spotify/web-api-ts-sdk'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { managedPlaylists } from '../../data/managedPlaylists.js'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import getUserPlaylist from '../playlists/get-user-playlist.js'
 import { ManagedPlaylist } from '../playlists/managed-playlist.js'
+import getManagedPlaylists from '../playlists/managed-playlists.js'
 import SpotifyAPISingleton from '../spotify-api/index.js'
 import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
 import getLikedTracks from '../tracks/get-user-liked-tracks.js'
@@ -14,6 +12,7 @@ export async function followCuratedPlaylists() {
   const spotify = await SpotifyAPISingleton.getInstance()
   const userPlaylists = await getAllPlaylists()
   const user = await spotify.currentUser.profile()
+  const managedPlaylists = getManagedPlaylists()
 
   const ownedPlaylists: SimplifiedPlaylist[] = userPlaylists.filter(
     (userPlaylist) => {
