@@ -2,8 +2,10 @@ import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk'
 import chalk from 'chalk'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { managedPlaylists } from '../../data/managedPlaylists.js'
-import { ManagedPlaylist } from '../follow/follow-managed-playlists.js'
+import {
+  ManagedPlaylist,
+  managedPlaylists,
+} from '../../data/managedPlaylists.js'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import SpotifyAPISingleton from '../spotify-api/index.js'
 

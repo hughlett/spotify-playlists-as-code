@@ -1,13 +1,15 @@
 import { SimplifiedPlaylist, TrackItem } from '@spotify/web-api-ts-sdk'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { managedPlaylists } from '../../data/managedPlaylists.js'
+import {
+  ManagedPlaylist,
+  managedPlaylists,
+} from '../../data/managedPlaylists.js'
 import getAllPlaylists from '../playlists/get-all-user-playlists.js'
 import getUserPlaylist from '../playlists/get-user-playlist.js'
 import SpotifyAPISingleton from '../spotify-api/index.js'
 import getPlaylistTracks from '../tracks/get-playlist-tracks.js'
 import getLikedTracks from '../tracks/get-user-liked-tracks.js'
-import { ManagedPlaylist } from './follow-managed-playlists.js'
 import { followPlaylist } from './follow-playlist.js'
 
 export async function followCuratedPlaylists() {

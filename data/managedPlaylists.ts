@@ -1,6 +1,10 @@
-import { ManagedPlaylist } from '../src/follow/follow-managed-playlists.js'
+export type ManagedPlaylist = {
+  artists: string[]
+  name?: string
+}
 
 export const managedPlaylists: ManagedPlaylist[] = [
+  { artists: ['Marvin Gaye'] },
   { artists: ['Mac Miller'] },
   { artists: ['A$AP Rocky'] },
   { artists: ['Gorillaz'] },
@@ -30,7 +34,6 @@ export const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Joe Walsh'] },
   { artists: ['Lil Yachty'] },
   { artists: ['Little Brother'] },
-  { artists: ['Marvin Gaye'] },
   { artists: ['The Weeknd'] },
   { artists: ['Vince Guaraldi'] },
   { artists: ['Roy Ayers'] },
