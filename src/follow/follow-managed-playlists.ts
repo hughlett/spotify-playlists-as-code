@@ -101,7 +101,16 @@ async function processManagedPlaylist(
 
   const images = (await spotify.artists.get(artist)).images
 
-  const image = await fetch(images[0].url)
+  const use = images.find(async (image) => {
+    const data = await (await fetch(image.url)).arrayBuffer()
+    return Buffer.from(data).toString('base64').length / 1e3 <= 256
+  })
+
+  if (!use) {
+    return
+  }
+
+  const image = await fetch(use.url)
 
   const data = await image.arrayBuffer()
 
