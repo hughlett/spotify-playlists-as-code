@@ -2,6 +2,12 @@ import { PlaylistedTrack } from '@spotify/web-api-ts-sdk'
 import getItems from '../items/get-items.js'
 import SpotifyAPISingleton from '../spotify-api/index.js'
 
+/**
+ * Retrieves the tracks of a playlist from Spotify.
+ *
+ * @param id - The ID of the playlist.
+ * @returns A promise that resolves to an array of PlaylistedTrack objects.
+ */
 async function getPlaylistTracks(id: string): Promise<PlaylistedTrack[]> {
   const spotify = await SpotifyAPISingleton.getInstance()
   const MAX_LIMIT = 50

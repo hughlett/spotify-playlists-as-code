@@ -23,6 +23,12 @@ const app = express()
 
 let server: Server
 
+/**
+ * Handles the callback route and sends the callback.html file.
+ * If an error query parameter is present, logs an error message.
+ * @param req - The request object.
+ * @param res - The response object.
+ */
 app.get('/callback', (req, res) => {
   const html = process.cwd() + '/public/callback.html'
 
@@ -32,6 +38,12 @@ app.get('/callback', (req, res) => {
   }
 })
 
+/**
+ * Handles the token route and exchanges the authorization code for a refresh token.
+ * Sends a 200 status code as a response.
+ * @param req - The request object.
+ * @param res - The response object.
+ */
 app.get('/token', async (req, res) => {
   res.sendStatus(200)
 
@@ -62,6 +74,9 @@ app.get('/token', async (req, res) => {
     })
 })
 
+/**
+ * Starts the login process by listening on port 5173 and generating the Spotify login URL.
+ */
 export default function login() {
   server = app.listen(PORT, () => {
     const URL =

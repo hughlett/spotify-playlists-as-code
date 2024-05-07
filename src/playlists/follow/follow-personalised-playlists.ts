@@ -8,7 +8,13 @@ import getAllPlaylists from '../get-user-playlists.js'
 import { ManagedPlaylist } from '../managed-playlist.js'
 import { followPlaylist } from './follow-playlist.js'
 
-export async function followCuratedPlaylists() {
+/**
+ * Follows curated playlists based on the user's preferences.
+ * This function retrieves the user's playlists, filters them based on certain criteria,
+ * and then follows the curated playlists by adding the unique tracks to the corresponding playlists.
+ * @returns {Promise<void>} A promise that resolves when the operation is complete.
+ */
+export async function followCuratedPlaylists(): Promise<void> {
   const spotify = await SpotifyAPISingleton.getInstance()
   const userPlaylists = await getAllPlaylists()
   const user = await spotify.currentUser.profile()
@@ -86,6 +92,12 @@ export async function followCuratedPlaylists() {
   await followPlaylist(curatedTracksPlaylist, curatedTracks)
 }
 
+/**
+ * Retrieves unique tracks from an array of playlists.
+ *
+ * @param playlists - An array of SimplifiedPlaylist objects.
+ * @returns A Promise that resolves to an array of TrackItem objects representing the unique tracks.
+ */
 async function getUniqueTracksFromPlaylists(
   playlists: SimplifiedPlaylist[],
 ): Promise<TrackItem[]> {

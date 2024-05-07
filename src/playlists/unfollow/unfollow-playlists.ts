@@ -5,7 +5,12 @@ import getManagedPlaylists from '../get-managed-playlists.js'
 import getAllPlaylists from '../get-user-playlists.js'
 import { ManagedPlaylist } from '../managed-playlist.js'
 
-export default async function unfollow() {
+/**
+ * Unfollows playlists that meet certain criteria.
+ *
+ * @returns {Promise<void>} A promise that resolves when the playlists are unfollowed.
+ */
+export default async function unfollow(): Promise<void> {
   const spotify = await SpotifyAPISingleton.getInstance()
 
   // Get user's playlists

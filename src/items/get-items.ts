@@ -1,5 +1,12 @@
 import SpotifyAPISingleton from '../spotify-api/index.js'
 
+/**
+ * Retrieves items from the specified URLs using the Spotify API.
+ *
+ * @param urls - An array of URLs to fetch items from.
+ * @returns A promise that resolves to an array of items.
+ * @throws An error if the user is not logged in.
+ */
 async function getItems(urls: string[]) {
   const spotify = await SpotifyAPISingleton.getInstance()
   const accessToken = await spotify.getAccessToken()

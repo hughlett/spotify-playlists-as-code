@@ -1,22 +1,21 @@
 import {
-  PlaylistedTrack,
   SimplifiedArtist,
   SimplifiedPlaylist,
   TrackItem,
-  UserProfile,
 } from '@spotify/web-api-ts-sdk'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { ManagedPlaylist } from '../../../data/managedPlaylists.js'
 import SpotifyAPISingleton from '../../spotify-api/index.js'
 import getLikedTracks from '../../tracks/get-user-liked-tracks.js'
-import { followPlaylist } from '../follow/follow-playlist.js'
 import getAllPlaylists from '../get-user-playlists.js'
-import { getUserPlaylist } from './follow-personalised-playlists.js'
+import { followManagedPlaylist } from './follow-managed-playlist.js'
 
 /**
- * Process an array of managed playlists.
- * @param managedPlaylists Managed playlists to process.
+ * Follows the managed playlists.
+ *
+ * @param managedPlaylists - An array of managed playlists to follow.
+ * @returns A promise that resolves when all the managed playlists have been followed.
  */
 export async function followManagedPlaylists(
   managedPlaylists: ManagedPlaylist[],
@@ -36,7 +35,7 @@ export async function followManagedPlaylists(
   for (const array of managedPlaylistsArrays) {
     await Promise.all(
       array.map((managedPlaylist) =>
-        processManagedPlaylist(
+        followManagedPlaylist(
           managedPlaylist,
           userLikedTracks,
           userPlaylists,
@@ -48,52 +47,21 @@ export async function followManagedPlaylists(
 }
 
 /**
- * Process a managed playlist.
- * @param managedPlaylist Managed playlist to process.
- */
-async function processManagedPlaylist(
-  managedPlaylist: ManagedPlaylist,
-  userLikedTracks: PlaylistedTrack<TrackItem>[],
-  userPlaylists: SimplifiedPlaylist[],
-  user: UserProfile,
-) {
-  // Get the name of the managed playlist
-  const managedPlaylistName = getManagedPlaylistName(managedPlaylist)
-
-  console.log(`Processing ${managedPlaylistName}`)
-
-  // Get the managed playlist or create it
-
-  const playlist = await getUserPlaylist(managedPlaylistName, [
-    ...userPlaylists.filter((userPlaylist) => userPlaylist.owner.id == user.id),
-  ])
-
-  const managedPlaylistTracks = userLikedTracks
-    .filter((userLikedTrack) =>
-      songMeetsCriteria(
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        userLikedTrack.track.artists,
-        managedPlaylist.artists,
-      ),
-    )
-    .map((track) => track.track)
-
-  await followPlaylist(playlist, [...managedPlaylistTracks])
-
-  await updateCoverArt(managedPlaylistTracks, playlist, managedPlaylistName)
-}
-
-/**
  * Evaluates the name of the managed playlist.
  * @param managedPlaylist The playlist to calculate the name of.
  * @returns The name of the managed playlist.
  */
-function getManagedPlaylistName(managedPlaylist: ManagedPlaylist) {
+export function getManagedPlaylistName(managedPlaylist: ManagedPlaylist) {
   return managedPlaylist.name || managedPlaylist.artists[0]
 }
 
-function songMeetsCriteria(
+/**
+ * Checks if a song meets the criteria for inclusion in a playlist.
+ * @param songArtists The artists of the song.
+ * @param playlistArtists The artists of the playlist.
+ * @returns A boolean indicating whether the song meets the criteria.
+ */
+export function songMeetsCriteria(
   songArtists: SimplifiedArtist[],
   playlistArtists: string[],
 ) {
@@ -102,7 +70,13 @@ function songMeetsCriteria(
   )
 }
 
-async function updateCoverArt(
+/**
+ * Updates the cover art of a playlist.
+ * @param managedPlaylistTracks The tracks of the managed playlist.
+ * @param playlist The playlist to update the cover art for.
+ * @param managedPlaylistName The name of the managed playlist.
+ */
+export async function updateCoverArt(
   managedPlaylistTracks: TrackItem[],
   playlist: SimplifiedPlaylist,
   managedPlaylistName: string,

@@ -3,8 +3,8 @@ import getItems from '../items/get-items.js'
 import SpotifyAPISingleton from '../spotify-api/index.js'
 
 /**
- * Retrieves all of the user's playlists.
- * @returns All of the users playlists.
+ * Retrieves all playlists for the current user.
+ * @returns A promise that resolves to an array of SimplifiedPlaylist objects.
  */
 export default async function getAllPlaylists(): Promise<SimplifiedPlaylist[]> {
   const spotify = await SpotifyAPISingleton.getInstance()

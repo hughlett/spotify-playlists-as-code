@@ -2,6 +2,10 @@ import { PlaylistedTrack } from '@spotify/web-api-ts-sdk'
 import getItems from '../items/get-items.js'
 import SpotifyAPISingleton from '../spotify-api/index.js'
 
+/**
+ * Retrieves the liked tracks of the current user from Spotify.
+ * @returns A promise that resolves to an array of PlaylistedTrack objects representing the liked tracks.
+ */
 async function getLikedTracks(): Promise<PlaylistedTrack[]> {
   const spotify = await SpotifyAPISingleton.getInstance()
   const MAX_LIMIT = 50

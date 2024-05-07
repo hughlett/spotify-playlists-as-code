@@ -3,6 +3,13 @@ import chalk from 'chalk'
 import SpotifyAPISingleton from '../../spotify-api/index.js'
 import getPlaylistTracks from '../../tracks/get-playlist-tracks.js'
 
+/**
+ * Follows a playlist by adding new tracks and removing existing tracks.
+ *
+ * @param playlist - The playlist to follow.
+ * @param newPlaylistTracks - An array of new tracks to add to the playlist.
+ * @returns A Promise that resolves when the playlist has been updated.
+ */
 export async function followPlaylist(
   playlist: SimplifiedPlaylist,
   newPlaylistTracks: TrackItem[],

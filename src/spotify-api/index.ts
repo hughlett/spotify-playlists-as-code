@@ -4,9 +4,18 @@ import { SpotifyApi } from '@spotify/web-api-ts-sdk'
 export const REFRESH_TOKEN_PATH = '/tokens/refresh_token'
 export const CLIENT_ID = process.env.CLIENT_ID || ''
 
+/**
+ * Represents a singleton instance of the Spotify API.
+ */
 export default class SpotifyAPISingleton {
   private static instance: SpotifyApi
 
+  /**
+   * Returns the singleton instance of the Spotify API.
+   * If the instance does not exist, it creates a new instance and assigns it to the `instance` property.
+   * @returns A promise that resolves to the singleton instance of the Spotify API.
+   * @throws An error if the client ID is not provided.
+   */
   public static async getInstance(): Promise<SpotifyApi> {
     if (!SpotifyAPISingleton.instance) {
       if (!CLIENT_ID) {
@@ -20,7 +29,12 @@ export default class SpotifyAPISingleton {
   }
 }
 
-async function createAPI() {
+/**
+ * Creates a Spotify API instance with the provided refresh token.
+ * @throws {Error} If no refresh token is provided.
+ * @returns {Promise<SpotifyApi>} A promise that resolves to a SpotifyApi instance.
+ */
+async function createAPI(): Promise<SpotifyApi> {
   if (!existsSync(REFRESH_TOKEN_PATH)) {
     throw new Error('No refresh token provided')
   }
@@ -46,6 +60,11 @@ async function createAPI() {
   })
 }
 
+/**
+ * Generates a new access token using the provided refresh token.
+ * @param refreshToken - The refresh token used to generate the access token.
+ * @returns An object containing the new access token and the new refresh token.
+ */
 async function generateAccessToken(refreshToken: string) {
   const response = await fetch('https://accounts.spotify.com/api/token', {
     body: new URLSearchParams({
