@@ -3,7 +3,6 @@ import { ManagedPlaylist } from '../src/playlists/managed-playlist.js'
 export const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Marvin Gaye'] },
   { artists: ['Mac Miller'] },
-  { artists: ['A$AP Rocky'] },
   { artists: ['Gorillaz'] },
   { artists: ['21 Savage'] },
   { artists: ['Young Thug'] },
