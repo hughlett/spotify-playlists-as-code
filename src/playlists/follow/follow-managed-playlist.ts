@@ -8,7 +8,6 @@ import { ManagedPlaylist } from '../managed-playlist.js'
 import {
   getManagedPlaylistName,
   songMeetsCriteria,
-  updateCoverArt,
 } from './follow-managed-playlists.js'
 import { getUserPlaylist } from './follow-personalised-playlists.js'
 import { followPlaylist } from './follow-playlist.js'
@@ -54,5 +53,5 @@ export async function followManagedPlaylist(
 
   await followPlaylist(playlist, [...managedPlaylistTracks])
 
-  await updateCoverArt(managedPlaylistTracks, playlist, managedPlaylistName)
+  // await updateCoverArt(managedPlaylistTracks, playlist, managedPlaylistName)
 }
