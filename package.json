@@ -11,6 +11,8 @@
     "unfollow": "tsx src/commands/unfollow",
     "unfollow:debug": "tsx --inspect-brk=0.0.0.0 src/commands/unfollow",
     "healthcheck": "tsx src/commands/healthcheck",
+    "sandbox": "tsx src/commands/sandbox",
+    "sandbox:debug": "tsx --inspect-brk=0.0.0.0 src/commands/sandbox",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
