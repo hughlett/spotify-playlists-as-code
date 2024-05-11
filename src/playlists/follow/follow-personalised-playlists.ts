@@ -20,7 +20,7 @@ export async function followCuratedPlaylists(): Promise<void> {
   const user = await spotify.currentUser.profile()
   const managedPlaylists = getManagedPlaylists()
 
-  const ownedPlaylists: SimplifiedPlaylist[] = userPlaylists.filter(
+  const ownedPlaylists: SimplifiedPlaylist[] = [...userPlaylists].filter(
     (userPlaylist) => {
       if (
         userPlaylist.name == 'Niche Tracks' ||
