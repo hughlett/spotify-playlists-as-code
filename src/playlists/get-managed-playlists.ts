@@ -9,5 +9,5 @@ import { managedPlaylists } from '../../data/managedPlaylists.js'
  * @returns An array of managed playlists.
  */
 export default function getManagedPlaylists() {
-  return managedPlaylists
+  return [...managedPlaylists]
 }

@@ -40,16 +40,16 @@ export async function followManagedPlaylist(
     ...userPlaylists.filter((userPlaylist) => userPlaylist.owner.id == user.id),
   ])
 
-  const managedPlaylistTracks = userLikedTracks
-    .filter((userLikedTrack) =>
+  const managedPlaylistTracks = [
+    ...userLikedTracks.filter((userLikedTrack) =>
       songMeetsCriteria(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         userLikedTrack.track.artists,
         managedPlaylist.artists,
       ),
-    )
-    .map((track) => track.track)
+    ),
+  ].map((track) => track.track)
 
   await followPlaylist(playlist, [...managedPlaylistTracks])
 
