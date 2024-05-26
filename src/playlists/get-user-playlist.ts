@@ -15,7 +15,7 @@ export default async function getUserPlaylist(
   userPlaylists: SimplifiedPlaylist[],
 ): Promise<SimplifiedPlaylist> {
   const spotify = await SpotifyAPISingleton.getInstance()
-  const user = await spotify.currentUser.profile()
+  const user = await SpotifyAPISingleton.getUserProfile()
 
   for (const userPlaylist of userPlaylists) {
     if (

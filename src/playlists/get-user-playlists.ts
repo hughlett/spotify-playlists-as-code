@@ -13,7 +13,7 @@ export default async function getAllPlaylists(): Promise<SimplifiedPlaylist[]> {
   const page = await spotify.currentUser.playlists.playlists(MAX_LIMIT)
   const { total } = page
 
-  const profile = await spotify.currentUser.profile()
+  const profile = await SpotifyAPISingleton.getUserProfile()
 
   const urls = Array.from({ length: Math.floor(total / MAX_LIMIT) + 1 }).map(
     (_value, index) =>

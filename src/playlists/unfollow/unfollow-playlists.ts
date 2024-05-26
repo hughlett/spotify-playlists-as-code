@@ -15,7 +15,7 @@ export default async function unfollow(): Promise<void> {
 
   // Get user's playlists
   const userPlaylists = await getAllPlaylists()
-  const user = await spotify.currentUser.profile()
+  const user = await SpotifyAPISingleton.getUserProfile()
   const managedPlaylists = getManagedPlaylists()
 
   // Remove playlist's that weren't created by the user

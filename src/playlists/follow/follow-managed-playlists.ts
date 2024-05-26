@@ -16,8 +16,7 @@ import { followManagedPlaylist } from './follow-managed-playlist.js'
 export async function followManagedPlaylists(
   managedPlaylists: ManagedPlaylist[],
 ) {
-  const spotify = await SpotifyAPISingleton.getInstance()
-  const user = await spotify.currentUser.profile()
+  const user = await SpotifyAPISingleton.getUserProfile()
   const userPlaylists = await getAllPlaylists()
   const userLikedTracks = await getLikedTracks()
 

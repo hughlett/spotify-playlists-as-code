@@ -13,7 +13,7 @@ async function getLikedTracks(): Promise<PlaylistedTrack[]> {
   const page = await spotify.currentUser.tracks.savedTracks(MAX_LIMIT)
   const { total } = page
 
-  const profile = await spotify.currentUser.profile()
+  const profile = await SpotifyAPISingleton.getUserProfile()
 
   const urls = Array.from({ length: Math.floor(total / MAX_LIMIT) + 1 }).map(
     (_value, index) =>

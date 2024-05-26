@@ -15,9 +15,8 @@ import { followPlaylist } from './follow-playlist.js'
  * @returns {Promise<void>} A promise that resolves when the operation is complete.
  */
 export async function followCuratedPlaylists(): Promise<void> {
-  const spotify = await SpotifyAPISingleton.getInstance()
   const userPlaylists = await getAllPlaylists()
-  const user = await spotify.currentUser.profile()
+  const user = await SpotifyAPISingleton.getUserProfile()
   const managedPlaylists = getManagedPlaylists()
 
   const ownedPlaylists: SimplifiedPlaylist[] = [...userPlaylists].filter(

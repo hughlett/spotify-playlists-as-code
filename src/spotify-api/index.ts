@@ -1,14 +1,16 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { SpotifyApi } from '@spotify/web-api-ts-sdk'
+import { SpotifyApi, UserProfile } from '@spotify/web-api-ts-sdk'
 
 export const REFRESH_TOKEN_PATH = '/tokens/refresh_token'
 export const CLIENT_ID = process.env.CLIENT_ID || ''
 
 /**
- * Represents a singleton instance of the Spotify API.
+ * Represents a singleton instance of the Spotify API and the current user.
  */
 export default class SpotifyAPISingleton {
   private static instance: SpotifyApi
+
+  private static user: UserProfile
 
   /**
    * Returns the singleton instance of the Spotify API.
@@ -26,6 +28,20 @@ export default class SpotifyAPISingleton {
     }
 
     return SpotifyAPISingleton.instance
+  }
+
+  /**
+   * Returns the user profile of the authenticated user.
+   * If the user profile does not exist, it fetches the user profile using the Spotify API.
+   * @returns A promise that resolves to the user profile of the authenticated user.
+   */
+  public static async getUserProfile(): Promise<UserProfile> {
+    if (!SpotifyAPISingleton.user) {
+      const api = await SpotifyAPISingleton.getInstance()
+      SpotifyAPISingleton.user = await api.currentUser.profile()
+    }
+
+    return SpotifyAPISingleton.user
   }
 }
 

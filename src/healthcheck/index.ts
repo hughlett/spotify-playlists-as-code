@@ -5,6 +5,5 @@ import SpotifyAPISingleton from '../spotify-api/index.js'
  * @returns {Promise<void>} A promise that resolves when the health check is complete.
  */
 export default async function healthcheck(): Promise<void> {
-  const spotify = await SpotifyAPISingleton.getInstance()
-  await spotify.currentUser.profile()
+  await SpotifyAPISingleton.getInstance()
 }

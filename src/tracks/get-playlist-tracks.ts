@@ -15,7 +15,7 @@ async function getPlaylistTracks(id: string): Promise<PlaylistedTrack[]> {
   const page = await spotify.playlists.getPlaylist(id)
   const { total } = page.tracks
 
-  const profile = await spotify.currentUser.profile()
+  const profile = await SpotifyAPISingleton.getUserProfile()
 
   const urls = Array.from({ length: Math.floor(total / MAX_LIMIT) + 1 }).map(
     (_value, index) =>
