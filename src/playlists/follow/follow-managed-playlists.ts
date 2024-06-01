@@ -3,7 +3,6 @@ import { SimplifiedArtist } from '@spotify/web-api-ts-sdk'
 // @ts-ignore
 import { ManagedPlaylist } from '../../../data/managedPlaylists.js'
 import SpotifyAPISingleton from '../../spotify-api/index.js'
-import getLikedTracks from '../../tracks/get-user-liked-tracks.js'
 import getAllPlaylists from '../get-user-playlists.js'
 import { followManagedPlaylist } from './follow-managed-playlist.js'
 
@@ -18,7 +17,7 @@ export async function followManagedPlaylists(
 ) {
   const user = await SpotifyAPISingleton.getUserProfile()
   const userPlaylists = await getAllPlaylists()
-  const userLikedTracks = await getLikedTracks()
+  const userLikedTracks = await SpotifyAPISingleton.getUserLikedTracks()
 
   // Divide the array into arrays of size BATCH_SIZE
   const BATCH_SIZE = 1

@@ -1,7 +1,6 @@
 // import SpotifyAPISingleton from '../../spotify-api/index.js'
 
 import SpotifyAPISingleton from '../../spotify-api/index.js'
-import getLikedTracks from '../../tracks/get-user-liked-tracks.js'
 
 // const spotify = await SpotifyAPISingleton.getInstance()
 
@@ -14,7 +13,7 @@ import getLikedTracks from '../../tracks/get-user-liked-tracks.js'
 // const track = await spotify.tracks.get('')
 // const trackReleaseDate = track.album.release_date
 
-const likedTracks = await getLikedTracks()
+const likedTracks = await SpotifyAPISingleton.getUserLikedTracks()
 const spotify = await SpotifyAPISingleton.getInstance()
 
 const artistsIDs: string[] = likedTracks

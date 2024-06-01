@@ -1,7 +1,6 @@
 import { SimplifiedPlaylist, TrackItem } from '@spotify/web-api-ts-sdk'
 import SpotifyAPISingleton from '../../spotify-api/index.js'
 import getPlaylistTracks from '../../tracks/get-playlist-tracks.js'
-import getLikedTracks from '../../tracks/get-user-liked-tracks.js'
 import getManagedPlaylists from '../get-managed-playlists.js'
 import getUserPlaylist from '../get-user-playlist.js'
 import getAllPlaylists from '../get-user-playlists.js'
@@ -63,7 +62,7 @@ export async function followCuratedPlaylists(): Promise<void> {
 
   // Find song's not on any playlists
 
-  const likedTracks = await getLikedTracks()
+  const likedTracks = await SpotifyAPISingleton.getUserLikedTracks()
 
   const nicheTracks = likedTracks.filter(
     (likedTrack) =>

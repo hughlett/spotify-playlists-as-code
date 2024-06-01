@@ -1,5 +1,10 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { SpotifyApi, UserProfile } from '@spotify/web-api-ts-sdk'
+import {
+  PlaylistedTrack,
+  SpotifyApi,
+  UserProfile,
+} from '@spotify/web-api-ts-sdk'
+import getUserLikedTracks from '../tracks/get-user-liked-tracks.js'
 
 export const REFRESH_TOKEN_PATH = '/tokens/refresh_token'
 export const CLIENT_ID = process.env.CLIENT_ID || ''
@@ -11,6 +16,8 @@ export default class SpotifyAPISingleton {
   private static instance: SpotifyApi
 
   private static user: UserProfile
+
+  private static userLikedTracks: PlaylistedTrack[]
 
   /**
    * Returns the singleton instance of the Spotify API.
@@ -42,6 +49,14 @@ export default class SpotifyAPISingleton {
     }
 
     return SpotifyAPISingleton.user
+  }
+
+  public static async getUserLikedTracks(): Promise<PlaylistedTrack[]> {
+    if (!SpotifyAPISingleton.userLikedTracks) {
+      SpotifyAPISingleton.userLikedTracks = await getUserLikedTracks()
+    }
+
+    return SpotifyAPISingleton.userLikedTracks
   }
 }
 
