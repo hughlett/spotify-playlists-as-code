@@ -8,7 +8,6 @@ export const managedPlaylists: ManagedPlaylist[] = [
   { artists: ['Young Thug'] },
   { artists: ['Kendrick Lamar'] },
   { artists: ['Wiz Khalifa'] },
-  { artists: ['Drake'] },
   { artists: ['454'] },
   { artists: ['Snoop Dogg'] },
   { artists: ['Anderson .Paak', 'NxWorries'] },
