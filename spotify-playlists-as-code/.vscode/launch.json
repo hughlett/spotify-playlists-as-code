@@ -44,7 +44,7 @@
         "${workspaceFolder}/node_modules/**"
       ],
       "localRoot": "${workspaceFolder}",
-      "remoteRoot": "/spac"
+      "remoteRoot": "/spotify-playlists-as-code"
     }
   ]
 }

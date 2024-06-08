@@ -8,6 +8,6 @@ import { ManagedPlaylist } from './managed-playlist.js'
  * @returns An array of managed playlists.
  */
 export default function getManagedPlaylists(): ManagedPlaylist[] {
-  return parse(readFileSync('/spac/data/managed-playlists.yml', 'utf8'))
+  return parse(readFileSync('/spotify-playlists-as-code/data/managed-playlists.yml', 'utf8'))
     .playlists
 }

@@ -1,6 +1,6 @@
 FROM node:20-bookworm-slim
 
-WORKDIR /spac
+WORKDIR /spotify-playlists-as-code
 
 COPY package*.json .
 
