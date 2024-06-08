@@ -2,7 +2,7 @@ services:
   spotify-playlists-as-code:
     build:
       context: ./spotify-playlists-as-code
-      dockerfile: Dockerfile
+      dockerfile: ./spotify-playlists-as-code/Dockerfile
     environment:
       - CLIENT_ID=${CLIENT_ID}
     volumes:

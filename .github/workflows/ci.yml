@@ -27,7 +27,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           file: ./spotify-playlists-as-code/Dockerfile
-          context: .
+          context: ./spotify-playlists-as-code
           cache-from: type=gha
           cache-to: type=gha,mode=max
           load: true
