@@ -3,6 +3,9 @@ name: Unfollow SPaC playlists
 on:
   workflow_dispatch:
 
+concurrency:
+  group: spotify-api-token
+
 jobs:
   unfollow-spac-playlists:
     runs-on: ubuntu-latest

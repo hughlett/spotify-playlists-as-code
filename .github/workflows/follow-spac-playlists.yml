@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '0 0 1-31/2 * *' # At 00:00 on every 2nd day-of-month from 1 through 31. https://crontab.guru/#0_0_1-31/2_*_*
 
+concurrency:
+  group: spotify-api-token
+
 jobs:
   follow-spac-playlists:
     runs-on: ubuntu-latest
