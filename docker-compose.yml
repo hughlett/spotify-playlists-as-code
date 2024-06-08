@@ -5,8 +5,9 @@ services:
     environment:
       - CLIENT_ID=${CLIENT_ID}
     volumes:
-      - ./tokens:/tokens
-      - ./data:/spac/data
+      - ${PWD}/data:/spac/data
     ports:
       - 5173:5173
+      - 9229:9229
     container_name: SPaC
+    command: follow

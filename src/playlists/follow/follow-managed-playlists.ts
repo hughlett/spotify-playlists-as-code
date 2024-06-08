@@ -1,9 +1,8 @@
 import { SimplifiedArtist } from '@spotify/web-api-ts-sdk'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { ManagedPlaylist } from '../../../data/managedPlaylists.js'
 import SpotifyAPISingleton from '../../spotify-api/index.js'
+import getManagedPlaylists from '../get-managed-playlists.js'
 import getAllPlaylists from '../get-user-playlists.js'
+import { ManagedPlaylist } from '../managed-playlist.js'
 import { followManagedPlaylist } from './follow-managed-playlist.js'
 
 /**
@@ -12,12 +11,11 @@ import { followManagedPlaylist } from './follow-managed-playlist.js'
  * @param managedPlaylists - An array of managed playlists to follow.
  * @returns A promise that resolves when all the managed playlists have been followed.
  */
-export async function followManagedPlaylists(
-  managedPlaylists: ManagedPlaylist[],
-) {
+export async function followManagedPlaylists() {
   const user = await SpotifyAPISingleton.getUserProfile()
   const userPlaylists = await getAllPlaylists()
   const userLikedTracks = await SpotifyAPISingleton.getUserLikedTracks()
+  const managedPlaylists = getManagedPlaylists()
 
   // Divide the array into arrays of size BATCH_SIZE
   const BATCH_SIZE = 1

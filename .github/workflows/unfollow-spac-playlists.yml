@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create refresh token
-        run: mkdir ./tokens && echo ${REFRESH_TOKEN} > ./tokens/refresh_token
+        run: echo ${REFRESH_TOKEN} > ./data/tokens/refresh_token
         env:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
@@ -23,6 +23,6 @@ jobs:
 
       - name: Update refresh token secret
         if: always()
-        run: gh secret set REFRESH_TOKEN < ./tokens/refresh_token
+        run: gh secret set REFRESH_TOKEN < ./data/tokens/refresh_token
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
