@@ -26,6 +26,7 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v5
         with:
+          tags: spotify-playlists-as-code:latest
           file: ./spotify-playlists-as-code/Dockerfile
           context: ./spotify-playlists-as-code
           cache-from: type=gha
@@ -33,10 +34,10 @@ jobs:
           load: true
 
       - name: Check formatting
-        run: docker run spac format:check
+        run: docker run spotify-playlists-as-code format:check
 
       - name: Lint
-        run: docker run spac lint
+        run: docker run spotify-playlists-as-code lint
 
       - name: Create refresh token
         run: echo ${REFRESH_TOKEN} > ./spotify-playlists-as-code/data/tokens/refresh_token
@@ -44,7 +45,7 @@ jobs:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
       - name: Run healthcheck
-        run: docker compose run spac healthcheck
+        run: docker compose run spotify-playlists-as-code healthcheck
         env:
           CLIENT_ID: ${{ vars.CLIENT_ID }}
 
