@@ -45,7 +45,7 @@ jobs:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
       - name: Run healthcheck
-        run: docker compose run spotify-playlists-as-code healthcheck
+        run: docker compose -f ./docker-compose.healthcheck.yml up
         env:
           CLIENT_ID: ${{ vars.CLIENT_ID }}
 

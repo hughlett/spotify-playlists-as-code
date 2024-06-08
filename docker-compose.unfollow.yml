@@ -2,13 +2,12 @@ services:
   spotify-playlists-as-code:
     build:
       context: ./spotify-playlists-as-code
-      dockerfile: ./spotify-playlists-as-code/Dockerfile
+      dockerfile: Dockerfile
     environment:
       - CLIENT_ID=${CLIENT_ID}
     volumes:
-      - ${PWD}/spotify-playlists-as-code/data:/spotify-playlists-as-code/data
+      - ./spotify-playlists-as-code/data:/spotify-playlists-as-code/data
     ports:
-      - 5173:5173
       - 9229:9229
     container_name: spotify-playlists-as-code
-    command: follow
+    command: unfollow

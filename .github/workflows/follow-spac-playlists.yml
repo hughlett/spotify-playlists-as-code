@@ -22,7 +22,7 @@ jobs:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
       - name: Follow SPaC playlists
-        run: docker compose run spotify-playlists-as-code follow
+        run: docker compose -f ./docker-compose.follow.yml up
         env:
           CLIENT_ID: ${{ vars.CLIENT_ID }}
 

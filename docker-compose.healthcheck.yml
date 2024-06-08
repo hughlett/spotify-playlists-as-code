@@ -1,0 +1,13 @@
+services:
+  spotify-playlists-as-code:
+    build:
+      context: ./spotify-playlists-as-code
+      dockerfile: Dockerfile
+    environment:
+      - CLIENT_ID=${CLIENT_ID}
+    volumes:
+      - ./spotify-playlists-as-code/data:/spotify-playlists-as-code/data
+    ports:
+      - 9229:9229
+    container_name: spotify-playlists-as-code
+    command: healthcheck
