@@ -5,7 +5,7 @@ import tseslint from 'typescript-eslint'
 export default [
   { languageOptions: { globals: globals.node } },
   {
-    ignores: ['dist/', 'src/commands/sandbox/'],
+    ignores: ['dist/', 'src/api/sandbox/'],
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
