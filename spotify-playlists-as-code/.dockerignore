@@ -4,7 +4,6 @@
 # Allow files and directories
 !/public
 !/src
-!/commands
 !/package*.json
 !/tsconfig.json
 !/eslint*
