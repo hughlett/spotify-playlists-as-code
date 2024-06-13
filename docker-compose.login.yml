@@ -6,7 +6,7 @@ services:
     environment:
       - CLIENT_ID=${CLIENT_ID}
     volumes:
-      - ./data:/spotify-playlists-as-code/data
+      - ./data:/spotify-playlists-as-code/data:rw
     ports:
       - 9229:9229
       - 5173:5173
