@@ -1,9 +1,10 @@
 import { SimplifiedPlaylist } from '@spotify/web-api-ts-sdk'
 import chalk from 'chalk'
+import getManagedPlaylists, {
+  ManagedPlaylist,
+} from '../../data/get-managed-playlists.js'
 import SpotifyAPISingleton from '../../spotify-api/index.js'
-import getManagedPlaylists from '../get-managed-playlists.js'
 import getAllPlaylists from '../get-user-playlists.js'
-import { ManagedPlaylist } from '../managed-playlist.js'
 
 /**
  * Unfollows playlists that meet certain criteria.
@@ -41,7 +42,7 @@ export default async function unfollow(): Promise<void> {
 
   // Delete the playlists
   for (const spacPlaylist of spacPlaylists) {
-    chalk.red(console.log(`Deleting ${spacPlaylist.name}`))
+    chalk.red(console.log(`Unfollowing ${spacPlaylist.name}`))
     await spotify.currentUser.playlists.unfollow(spacPlaylist.id)
   }
 }

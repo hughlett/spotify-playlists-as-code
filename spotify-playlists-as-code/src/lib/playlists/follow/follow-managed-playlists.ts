@@ -1,8 +1,9 @@
 import { SimplifiedArtist } from '@spotify/web-api-ts-sdk'
+import getManagedPlaylists, {
+  ManagedPlaylist,
+} from '../../data/get-managed-playlists.js'
 import SpotifyAPISingleton from '../../spotify-api/index.js'
-import getManagedPlaylists from '../get-managed-playlists.js'
 import getAllPlaylists from '../get-user-playlists.js'
-import { ManagedPlaylist } from '../managed-playlist.js'
 import { followManagedPlaylist } from './follow-managed-playlist.js'
 
 /**

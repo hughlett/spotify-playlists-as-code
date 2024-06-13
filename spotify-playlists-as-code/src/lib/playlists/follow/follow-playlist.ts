@@ -13,6 +13,8 @@ import getPlaylistTracks from '../../tracks/get-playlist-tracks.js'
 export async function followPlaylist(
   playlist: SimplifiedPlaylist,
   newPlaylistTracks: TrackItem[],
+  name: string,
+  description: string,
 ) {
   const spotify = await SpotifyAPISingleton.getInstance()
   const existingTracks = (await getPlaylistTracks(playlist.id)).map(
@@ -58,4 +60,9 @@ export async function followPlaylist(
       tracks: uris,
     })
   }
+
+  await spotify.playlists.changePlaylistDetails(playlist.id, {
+    name,
+    description,
+  })
 }

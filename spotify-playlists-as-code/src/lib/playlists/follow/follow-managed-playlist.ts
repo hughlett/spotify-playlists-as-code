@@ -4,7 +4,7 @@ import {
   TrackItem,
   UserProfile,
 } from '@spotify/web-api-ts-sdk'
-import { ManagedPlaylist } from '../managed-playlist.js'
+import { ManagedPlaylist } from '../../data/get-managed-playlists.js'
 import {
   getManagedPlaylistName,
   songMeetsCriteria,
@@ -51,7 +51,23 @@ export async function followManagedPlaylist(
     ),
   ].map((track) => track.track)
 
-  await followPlaylist(playlist, [...managedPlaylistTracks])
+  await followPlaylist(
+    playlist,
+    [...managedPlaylistTracks],
+    managedPlaylistName,
+    `Liked songs by ${formatNames(managedPlaylist.artists)}.`,
+  )
 
   // await updateCoverArt(managedPlaylistTracks, playlist, managedPlaylistName)
+}
+
+function formatNames(names: string[]) {
+  if (names.length === 0) {
+    return ''
+  } else if (names.length === 1) {
+    return names[0]
+  } else {
+    const last = names.pop()
+    return `${names.join(', ')} and ${last}`
+  }
 }
