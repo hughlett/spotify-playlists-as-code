@@ -1,6 +1,6 @@
 // import SpotifyAPISingleton from '../../spotify-api/index.js'
 
-import SpotifyAPISingleton from '../../spotify-api/index.js'
+import SpotifyAPISingleton from '../../lib/spotify-api/index.js'
 
 // const spotify = await SpotifyAPISingleton.getInstance()
 
