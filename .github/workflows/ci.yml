@@ -40,7 +40,7 @@ jobs:
         run: docker run spotify-playlists-as-code lint
 
       - name: Create refresh token
-        run: echo ${REFRESH_TOKEN} > ./spotify-playlists-as-code/data/tokens/refresh_token
+        run: echo ${REFRESH_TOKEN} > ./data/tokens/refresh_token
         env:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
@@ -51,6 +51,6 @@ jobs:
 
       - name: Update refresh token secret
         if: always()
-        run: gh secret set REFRESH_TOKEN < ./spotify-playlists-as-code/data/tokens/refresh_token
+        run: gh secret set REFRESH_TOKEN < ./data/tokens/refresh_token
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
