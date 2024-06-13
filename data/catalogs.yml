@@ -1,0 +1,10 @@
+---
+dangling_tracks:
+  name: 'Dangling Tracks'
+  description: "Liked songs that don't belong to an automated playlist."
+  enable: true
+
+curated_tracks:
+  name: 'Curated Tracks'
+  description: 'Liked songs from all publicly available curated playlists.'
+  enable: true
