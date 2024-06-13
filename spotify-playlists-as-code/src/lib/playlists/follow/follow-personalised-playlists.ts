@@ -1,10 +1,15 @@
 import { SimplifiedPlaylist, TrackItem } from '@spotify/web-api-ts-sdk'
+import {
+  getCuratedTracksConfig,
+  getDanglingTracksConfig,
+} from '../../data/get-catalogs-config.js'
+import getManagedPlaylists, {
+  ManagedPlaylist,
+} from '../../data/get-managed-playlists.js'
 import SpotifyAPISingleton from '../../spotify-api/index.js'
 import getPlaylistTracks from '../../tracks/get-playlist-tracks.js'
-import getManagedPlaylists from '../get-managed-playlists.js'
 import getUserPlaylist from '../get-user-playlist.js'
 import getAllPlaylists from '../get-user-playlists.js'
-import { ManagedPlaylist } from '../managed-playlist.js'
 import { followPlaylist } from './follow-playlist.js'
 
 /**
@@ -14,6 +19,13 @@ import { followPlaylist } from './follow-playlist.js'
  * @returns {Promise<void>} A promise that resolves when the operation is complete.
  */
 export async function followCuratedPlaylists(): Promise<void> {
+  const curatedTracksConfig = getCuratedTracksConfig()
+  const danglingTracksConfig = getDanglingTracksConfig()
+
+  if (!curatedTracksConfig.enable && !danglingTracksConfig.enable) {
+    return
+  }
+
   const userPlaylists = await getAllPlaylists()
   const user = await SpotifyAPISingleton.getUserProfile()
   const managedPlaylists = getManagedPlaylists()
@@ -21,7 +33,7 @@ export async function followCuratedPlaylists(): Promise<void> {
   const ownedPlaylists: SimplifiedPlaylist[] = [...userPlaylists].filter(
     (userPlaylist) => {
       if (
-        userPlaylist.name == 'Niche Tracks' ||
+        userPlaylist.name == 'Dangling Tracks' ||
         userPlaylist.name == 'Curated Tracks'
       ) {
         return false
@@ -60,11 +72,25 @@ export async function followCuratedPlaylists(): Promise<void> {
     ...curatedPlaylists,
   ])
 
+  const curatedTracksPlaylist = await getUserPlaylist('Curated Tracks', [
+    ...userPlaylists.filter((userPlaylist) => userPlaylist.owner.id == user.id),
+  ])
+  await followPlaylist(
+    curatedTracksPlaylist,
+    curatedTracks,
+    curatedTracksConfig.name,
+    curatedTracksConfig.description,
+  )
+
+  if (!danglingTracksConfig.enable) {
+    return
+  }
+
   // Find song's not on any playlists
 
   const likedTracks = await SpotifyAPISingleton.getUserLikedTracks()
 
-  const nicheTracks = likedTracks.filter(
+  const danglingTracks = likedTracks.filter(
     (likedTrack) =>
       !SPaCTracks.some((spacTrack) => {
         return likedTrack.track.uri == spacTrack.uri
@@ -76,18 +102,16 @@ export async function followCuratedPlaylists(): Promise<void> {
 
   // Update playlists
 
-  const nicheTracksPlaylist = await getUserPlaylist('Niche Tracks', [
-    ...userPlaylists.filter((userPlaylist) => userPlaylist.owner.id == user.id),
-  ])
-  const curatedTracksPlaylist = await getUserPlaylist('Curated Tracks', [
+  const danglingTracksPlaylist = await getUserPlaylist('Dangling Tracks', [
     ...userPlaylists.filter((userPlaylist) => userPlaylist.owner.id == user.id),
   ])
 
   await followPlaylist(
-    nicheTracksPlaylist,
-    nicheTracks.map((item) => item.track),
+    danglingTracksPlaylist,
+    danglingTracks.map((item) => item.track),
+    danglingTracksConfig.name,
+    danglingTracksConfig.description,
   )
-  await followPlaylist(curatedTracksPlaylist, curatedTracks)
 }
 
 /**
