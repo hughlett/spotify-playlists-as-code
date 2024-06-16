@@ -6,8 +6,7 @@ import {
 } from '@spotify/web-api-ts-sdk'
 import getUserLikedTracks from '../tracks/get-user-liked-tracks.js'
 
-export const REFRESH_TOKEN_PATH =
-  '/spotify-playlists-as-code/data/tokens/refresh_token'
+export const REFRESH_TOKEN_PATH = '/token'
 export const CLIENT_ID = process.env.CLIENT_ID || ''
 
 /**
