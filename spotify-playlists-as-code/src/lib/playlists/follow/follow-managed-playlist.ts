@@ -55,7 +55,7 @@ export async function followManagedPlaylist(
     playlist,
     [...managedPlaylistTracks],
     managedPlaylistName,
-    `Liked songs by ${formatNames(managedPlaylist.artists)}.`,
+    `Liked songs featuring ${formatNames(managedPlaylist.artists)}.`,
   )
 
   // await updateCoverArt(managedPlaylistTracks, playlist, managedPlaylistName)
