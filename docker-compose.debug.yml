@@ -3,4 +3,7 @@ services:
     extends:
       file: docker-compose.common.yml
       service: spotify-playlists-as-code
-    command: follow
+    ports:
+      - 9229
+      - 5173
+    command: follow:debug

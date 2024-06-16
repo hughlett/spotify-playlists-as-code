@@ -1,0 +1,11 @@
+services:
+  spotify-playlists-as-code:
+    build:
+      context: ./spotify-playlists-as-code
+      dockerfile: Dockerfile
+    environment:
+      - CLIENT_ID=${CLIENT_ID}
+    volumes:
+      - ./data:/spotify-playlists-as-code/data
+      - ./data/refresh_token:/token
+    container_name: spotify-playlists-as-code
