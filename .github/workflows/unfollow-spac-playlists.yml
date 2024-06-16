@@ -20,7 +20,7 @@ jobs:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
       - name: Unfollow SPaC playlists
-        run: docker compose -f ./docker-compose.unfollow.yml up
+        run: docker compose -f ./docker-compose.unfollow.yml up --exit-code-from spotify-playlists-as-code
         env:
           CLIENT_ID: ${{ vars.CLIENT_ID }}
 
