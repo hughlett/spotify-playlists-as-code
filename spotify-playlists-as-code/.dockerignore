@@ -4,7 +4,9 @@
 # Allow files and directories
 !/public
 !/src
+
 !/package*.json
 !/tsconfig.json
+
 !/eslint*
 !/.prettier*
