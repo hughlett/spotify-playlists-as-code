@@ -28,7 +28,7 @@ export default async function unfollow(): Promise<void> {
   const spacPlaylists = ownedPlaylists.filter((ownedPlaylist) => {
     if (
       ownedPlaylist.name === 'Curated Tracks' ||
-      ownedPlaylist.name === 'Niche Tracks'
+      ownedPlaylist.name === 'Dangling Tracks'
     ) {
       return true
     }
