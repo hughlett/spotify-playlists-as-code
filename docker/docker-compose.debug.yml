@@ -4,6 +4,6 @@ services:
       file: docker-compose.common.yml
       service: spotify-playlists-as-code
     ports:
-      - 9229
-      - 5173
+      - 9229:9229
+      - 5173:5173
     command: follow:debug
