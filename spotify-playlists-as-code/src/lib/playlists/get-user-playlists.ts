@@ -17,7 +17,7 @@ export default async function getAllPlaylists(): Promise<SimplifiedPlaylist[]> {
 
   const urls = Array.from({ length: Math.floor(total / MAX_LIMIT) + 1 }).map(
     (_value, index) =>
-      `${profile.href}/playlists?offset=${index * MAX_LIMIT}&limit=50`,
+      `${profile.href}/playlists?offset=${index * MAX_LIMIT}&limit=${MAX_LIMIT}`,
   )
 
   if (total === 0) {
