@@ -17,7 +17,7 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "compile": "tsc",
-    "prepare": "husky"
+    "prepare": "cd .. && husky spotify-playlists-as-code/.husky"
   },
   "repository": {
     "type": "git",
