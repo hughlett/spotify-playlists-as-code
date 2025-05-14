@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       volumes:
-        - /data/refresh_token:/data/refresh_token
+        - /data:/data
 
     steps:
       - name: Checkout repo
