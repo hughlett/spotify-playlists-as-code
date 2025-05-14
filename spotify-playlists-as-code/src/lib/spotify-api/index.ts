@@ -7,7 +7,7 @@ import {
 import getUserLikedTracks from '../tracks/get-user-liked-tracks.js'
 
 export const REFRESH_TOKEN_PATH =
-  '/spotify-playlists-as-code/data/refresh_token'
+  '/spotify-playlists-as-code/data/refresh_token.txt'
 export const CLIENT_ID = process.env.CLIENT_ID || ''
 
 /**
