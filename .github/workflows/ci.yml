@@ -43,7 +43,7 @@ jobs:
         run: docker run spotify-playlists-as-code lint
 
       - name: Create refresh token
-        run: cp /data/refresh_token ./docker/data/refresh_token
+        run: cd /data && ls -la
 
       - name: Run healthcheck
         run: docker compose -f ./docker/docker-compose.healthcheck.yml up --exit-code-from spotify-playlists-as-code
