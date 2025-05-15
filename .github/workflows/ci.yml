@@ -17,9 +17,6 @@ concurrency:
 jobs:
   CI:
     runs-on: ubuntu-latest
-    container:
-      volumes:
-        - /data:/data
 
     steps:
       - name: Checkout repo
@@ -45,7 +42,9 @@ jobs:
         run: docker run spotify-playlists-as-code lint
 
       - name: Create refresh token
-        run: cp /data/refresh_token.txt ./docker/data/refresh_token.txt
+        run: echo ${REFRESH_TOKEN} > ./docker/data/refresh_token
+        env:
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
       - name: Run healthcheck
         run: docker compose -f ./docker/docker-compose.healthcheck.yml up --exit-code-from spotify-playlists-as-code
@@ -54,4 +53,6 @@ jobs:
 
       - name: Update refresh token secret
         if: always()
-        run: cp ./docker/data/refresh_token.txt /data/refresh_token.txt
+        run: gh secret set REFRESH_TOKEN < ./docker/data/refresh_token
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
